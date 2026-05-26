@@ -1,0 +1,129 @@
+---
+description: Standard layout pattern for every page in ld-insights — page header, KPI strip, main content grid
+globs: src/pages/**/*.jsx
+alwaysApply: false
+---
+
+# Page Layout Patterns
+
+Every page in `src/pages/` follows the same structural hierarchy.
+
+## Standard Page Structure
+```jsx
+export default function MyPage() {
+  return (
+    <div className="space-y-lg">           {/* 40px vertical gap between all sections */}
+
+      {/* 1. Page Header — always first */}
+      <div>
+        <h1 className="text-headline-lg font-headline-lg text-on-background">Page Title</h1>
+        <p className="text-body-md text-on-surface-variant mt-2">One-line description of this view.</p>
+      </div>
+
+      {/* 2. KPI Strip — 2-4 metric cards, always second */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
+        <KpiCard />
+      </div>
+
+      {/* 3. Main Content — cards, tables, forms */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-md">
+        <div className="lg:col-span-2">...</div>
+        <div>...</div>
+      </div>
+
+    </div>
+  )
+}
+```
+
+## KPI Card
+```jsx
+<div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col justify-between hover:shadow-sm transition-shadow">
+  <div className="flex justify-between items-start mb-4">
+    <span className="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">METRIC LABEL</span>
+    <div className="h-8 w-8 rounded-full bg-surface-container flex items-center justify-center">
+      <span className="material-symbols-outlined text-secondary" style={{ fontSize: 18 }}>icon_name</span>
+    </div>
+  </div>
+  <div>
+    <div className="text-display-lg font-display-lg text-on-background">42</div>
+    <div className="flex items-center gap-1 mt-2 text-body-sm text-on-surface-variant">
+      <span>Supporting context text</span>
+    </div>
+  </div>
+</div>
+```
+
+## Data Card (table/list container)
+```jsx
+<div className="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+  {/* Card Header */}
+  <div className="p-md border-b border-outline-variant flex items-center justify-between">
+    <h3 className="text-headline-sm font-headline-sm text-on-background">Section Title</h3>
+    <button className="text-body-sm text-secondary hover:underline">Action</button>
+  </div>
+  {/* Content */}
+  <div className="p-md">...</div>
+</div>
+```
+
+## Table Pattern
+```jsx
+<div className="overflow-x-auto">
+  <table className="w-full">
+    <thead>
+      <tr className="border-b border-outline-variant bg-surface-container-low">
+        {['Col A', 'Col B', 'Status', ''].map(h => (
+          <th key={h} className="text-left px-4 py-3 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">{h}</th>
+        ))}
+      </tr>
+    </thead>
+    <tbody className="divide-y divide-outline-variant">
+      {items.map(item => (
+        <tr key={item.id} className="hover:bg-surface-container-low transition-colors">
+          <td className="px-4 py-3 text-body-sm text-on-background">{item.name}</td>
+          <td className="px-4 py-3 text-data-tabular font-data-tabular text-on-surface">{item.value}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+```
+
+## Progress Bar
+```jsx
+<div className="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+  <div
+    className="h-full rounded-full bg-secondary transition-all duration-500"
+    style={{ width: `${pct}%` }}
+  />
+</div>
+```
+Color the fill semantically: `bg-emerald-600` (≥85%), `bg-amber-500` (75–84%), `bg-error` (<75%).
+
+## Page-Level Action Button (top-right of header)
+```jsx
+<div className="flex items-start justify-between">
+  <div>{/* title + description */}</div>
+  <button className="bg-secondary hover:bg-on-secondary-fixed-variant text-on-secondary py-2 px-4 rounded-lg text-body-sm font-bold flex items-center gap-2 transition-colors shrink-0">
+    <span className="material-symbols-outlined" style={{ fontSize: 16 }}>add</span>
+    Primary Action
+  </button>
+</div>
+```
+
+## Detail Panel (sticky right column)
+```jsx
+<div className="sticky top-20">
+  <div className="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+    <div className="p-md border-b border-outline-variant bg-surface-container-low">
+      <h3 className="text-headline-sm font-headline-sm text-on-background">Detail Title</h3>
+    </div>
+    <div className="p-md">...</div>
+    <div className="p-md border-t border-outline-variant flex gap-2">
+      <button className="flex-1 bg-secondary ...">Primary</button>
+      <button className="flex-1 border ...">Secondary</button>
+    </div>
+  </div>
+</div>
+```

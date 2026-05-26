@@ -1,0 +1,74 @@
+---
+description: How to fetch designs from the Google Stitch MCP and apply them to this app
+alwaysApply: true
+---
+
+# Stitch MCP Integration
+
+The UI design source of truth is Google Stitch. Always fetch the latest Stitch HTML before updating any page.
+
+## MCP Config
+```json
+// ~/.cursor/mcp.json
+{
+  "mcpServers": {
+    "stitch": {
+      "url": "https://stitch.googleapis.com/mcp",
+      "headers": { "X-Goog-Api-Key": "<key>" }
+    }
+  }
+}
+```
+
+## Project Reference
+| Field | Value |
+|---|---|
+| Project Name | Learning Progress & Intervention System |
+| Project ID | `11710553690432211807` |
+| Stitch path | `projects/11710553690432211807` |
+| Design System | Intervention Analytics System |
+
+## Screens (screenId → Route)
+| Screen Title | screenId | Route |
+|---|---|---|
+| L&D Executive Dashboard | `70411cbadd9d48a485a421516a6bdc25` | `/` |
+| At-Risk Learner Monitor | `84ed132be42d46a0aff0aa92360e22e3` | `/at-risk` |
+| Employee Learning Profile | `5c2d0d0afa6e405d87aae807310ca0e9` | `/at-risk/:id` |
+| Learner Intervention Portal | `eb258a970e254d9fa23e711bb2109945` | `/interventions` |
+| Risk Rule Configuration | `fa9f3a7932984102aaacb009155da55e` | `/rules` |
+| Trainer's Session Planner | `e1f68e21492b4dcfaaf8612f357134d0` | `/sessions` |
+
+## Fetching a Screen's HTML (PowerShell)
+```powershell
+# Step 1 — get the download URL
+$body = '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_screen","arguments":{"projectId":"11710553690432211807","screenId":"<SCREEN_ID>"}}}'
+$r = Invoke-WebRequest -Uri "https://stitch.googleapis.com/mcp" `
+  -Headers @{"X-Goog-Api-Key"="<KEY>";"Content-Type"="application/json"} `
+  -Method POST -Body $body -TimeoutSec 30
+$url = ($r.Content | ConvertFrom-Json).result.structuredContent.htmlCode.downloadUrl
+
+# Step 2 — download the HTML (use WebFetch tool if DNS fails)
+Invoke-WebRequest -Uri $url -TimeoutSec 30 | Select-Object -ExpandProperty Content
+```
+
+> **DNS note**: If `contribution.usercontent.google.com` fails to resolve, use the Cursor `WebFetch` tool with the download URL directly.
+
+## Listing Available Tools
+```powershell
+$body = '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+Invoke-WebRequest -Uri "https://stitch.googleapis.com/mcp" `
+  -Headers @{"X-Goog-Api-Key"="<KEY>";"Content-Type"="application/json"} `
+  -Method POST -Body $body -TimeoutSec 30
+```
+
+## Workflow: Update a Page from Stitch
+1. Fetch the screen HTML using `get_screen` + download URL
+2. Extract structure: navbar, section layout, component markup, Tailwind classes
+3. Map Stitch Tailwind color tokens → already present in `tailwind.config.js` (no changes needed)
+4. Rewrite the React page component to match exactly
+5. Run `node node_modules/vite/bin/vite.js build` to verify zero errors
+
+## Generating New Screens
+```powershell
+$body = '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"generate_screen_from_text","arguments":{"projectId":"11710553690432211807","prompt":"<describe the screen>"}}}'
+```

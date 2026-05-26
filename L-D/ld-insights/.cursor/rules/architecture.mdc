@@ -1,0 +1,58 @@
+---
+description: Project architecture, folder structure, and routing conventions for ld-insights
+alwaysApply: true
+---
+
+# ld-insights Architecture
+
+## Overview
+A React + Vite + Tailwind CSS v3 dashboard for Learning & Development analytics. Design tokens are sourced from Google Stitch MCP (`stitch.googleapis.com/mcp`). The Stitch project is `projects/11710553690432211807` (Learning Progress & Intervention System).
+
+## Folder Structure
+```
+src/
+  components/       # Shared layout shells only
+    Layout.jsx      # Outlet wrapper — TopNav + SideNav + <main>
+    TopNav.jsx      # Fixed header: logo, search, notifications, avatar
+    SideNav.jsx     # Fixed sidebar: nav links, company block, Add Intervention CTA
+  pages/            # One file per route; no nested folders
+    Dashboard.jsx
+    AtRisk.jsx
+    EmployeeProfile.jsx
+    Interventions.jsx
+    Rules.jsx
+    Reporting.jsx
+    SessionPlanner.jsx
+    Settings.jsx
+    Help.jsx
+  App.jsx           # BrowserRouter + all <Route> definitions
+  main.jsx          # ReactDOM.createRoot entry
+  index.css         # Tailwind directives only + .material-symbols-outlined base style
+```
+
+## Routing
+All routes are children of the `<Layout />` component in `App.jsx`.
+
+| Path | Component |
+|---|---|
+| `/` | Dashboard |
+| `/at-risk` | AtRisk |
+| `/at-risk/:id` | EmployeeProfile |
+| `/interventions` | Interventions |
+| `/rules` | Rules |
+| `/reporting` | Reporting |
+| `/sessions` | SessionPlanner |
+| `/settings` | Settings |
+| `/help` | Help |
+
+## Adding a New Page
+1. Create `src/pages/MyPage.jsx`
+2. Add `<Route path="my-path" element={<MyPage />} />` inside the Layout route in `App.jsx`
+3. Add a nav item to `SideNav.jsx` `navItems` array with `{ icon, label, to }`
+
+## Key Dependencies
+- `react-router-dom` — routing
+- `tailwindcss@3` — styling via design tokens
+- No component library — all UI is handcrafted with Tailwind classes
+- No charting library — SVG and CSS-based charts only
+- Material Symbols Outlined — icons loaded from Google Fonts in `index.html`

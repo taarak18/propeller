@@ -1,0 +1,105 @@
+---
+description: React component standards for ld-insights — functional components, props, state, and composition patterns
+globs: src/**/*.jsx
+alwaysApply: false
+---
+
+# React Component Standards
+
+## General Rules
+- All components are **functional** with hooks — no class components
+- No TypeScript — plain `.jsx` files only
+- No default export + named export mix — use `export default` only
+- No prop-types — rely on clear naming and JSDoc if needed
+
+## Component Template
+```jsx
+// ✅ GOOD — clean functional component
+import { useState } from 'react'
+
+export default function MyWidget({ title, items = [] }) {
+  const [active, setActive] = useState(null)
+  return (
+    <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-md">
+      <h3 className="text-headline-sm font-headline-sm text-on-background">{title}</h3>
+      {/* content */}
+    </div>
+  )
+}
+```
+
+## Data
+- **Static mock data** is defined as `const` arrays/objects at the top of the file, outside the component
+- No API calls — data is hardcoded for now
+- Config objects (colors per status, etc.) are defined as file-scope `const` maps
+
+```jsx
+// ✅ Define data at file scope
+const STATUS_CONFIG = {
+  'High Risk': { bg: 'bg-error-container', text: 'text-error' },
+  'On Track':  { bg: 'bg-emerald-600/10', text: 'text-emerald-600' },
+}
+
+export default function MyPage() { ... }
+```
+
+## State Patterns
+```jsx
+// ✅ Filter state
+const [filter, setFilter] = useState('All')
+const filtered = items.filter(i => filter === 'All' || i.status === filter)
+
+// ✅ Tab state
+const [tab, setTab] = useState('overview')
+
+// ✅ Toggle (e.g. rule on/off)
+const [rules, setRules] = useState(initialRules)
+const toggle = (id) => setRules(prev => prev.map(r => r.id === id ? { ...r, active: !r.active } : r))
+```
+
+## Navigation
+```jsx
+import { useNavigate, NavLink } from 'react-router-dom'
+
+// Imperative navigation (in event handlers)
+const navigate = useNavigate()
+navigate('/at-risk/1')
+
+// Declarative links (in nav items) — NavLink provides isActive
+<NavLink to="/at-risk" className={({ isActive }) => isActive ? 'text-secondary font-bold' : 'text-on-surface-variant'}>
+  At-Risk Monitor
+</NavLink>
+```
+
+## Do / Don't
+```jsx
+// ❌ BAD — inline styles for colors/spacing
+<div style={{ color: '#0058be', padding: '24px' }}>
+
+// ✅ GOOD — Tailwind tokens
+<div className="text-secondary p-md">
+
+// ❌ BAD — arbitrary Tailwind values when a token exists
+<div className="text-[#0058be] p-[24px]">
+
+// ✅ GOOD
+<div className="text-secondary p-md">
+
+// ❌ BAD — div soup without semantic structure
+<div><div><div>
+
+// ✅ GOOD — semantic elements
+<header>, <nav>, <main>, <aside>, <section>, <ul><li>
+```
+
+## Tables
+Always use `<table>` with sticky `<thead>`, not flex-based tables. Use `text-data-tabular font-data-tabular` for numeric cells.
+
+## Status Badges
+```jsx
+const cfg = STATUS_CONFIG[item.status]
+<span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-label-md font-label-md ${cfg.bg} ${cfg.text}`}>
+  <span className="h-1.5 w-1.5 rounded-full bg-current" />
+  {item.status}
+</span>
+```

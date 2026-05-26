@@ -1,0 +1,75 @@
+---
+description: How to add new routes, update the sidebar nav, and extend the app shell
+globs: src/{App.jsx,components/**/*.jsx}
+alwaysApply: false
+---
+
+# Sidebar & Routing
+
+## SideNav Structure
+`src/components/SideNav.jsx` has two nav arrays:
+
+```jsx
+// Primary nav — shown in the scrollable middle section
+const navItems = [
+  { icon: 'dashboard', label: 'Dashboard', to: '/', filled: true },
+  // icon: Material Symbols name
+  // filled: true = use FILL:1 on active state
+]
+
+// Bottom nav — shown above the footer divider
+const bottomItems = [
+  { icon: 'settings', label: 'Settings', to: '/settings' },
+]
+```
+
+## Adding a Nav Item
+```jsx
+// In navItems or bottomItems:
+{ icon: 'person', label: 'Team Roster', to: '/roster' }
+```
+Then add the route in `App.jsx`:
+```jsx
+import TeamRoster from './pages/TeamRoster'
+// Inside the Layout route:
+<Route path="roster" element={<TeamRoster />} />
+```
+
+## Active Link Styling
+`NavLink` handles active state automatically. The pattern is:
+```jsx
+className={({ isActive }) =>
+  `flex items-center gap-3 px-3 py-2 rounded-lg text-body-sm transition-all ${
+    isActive
+      ? 'text-secondary bg-secondary-fixed font-bold'
+      : 'text-on-surface-variant hover:bg-surface-container'
+  }`
+}
+```
+For `filled` icons, apply `fontVariationSettings: "'FILL' 1"` when `isActive`.
+
+## TopNav
+`src/components/TopNav.jsx` — fixed, `z-50`, `h-16`. Contains:
+- Brand name: `L&D Insights` (never change without design approval)
+- Search input: `rounded-full`, `hidden sm:block`
+- Notification bell with red dot badge
+- Avatar initials (not an image — uses `<span>` with `"A"`)
+
+## Layout Shell
+`src/components/Layout.jsx` manages sidebar open/close state for mobile:
+```jsx
+const [sideNavOpen, setSideNavOpen] = useState(false)
+```
+The `<Outlet />` renders the current page inside `<main className="flex-1 p-gutter overflow-y-auto">`.
+
+## Mobile Behavior
+- Sidebar: `translate-x-full` → `translate-x-0` via `open` prop
+- Overlay: `fixed inset-0 bg-black/30 z-30 md:hidden` — clicking closes sidebar
+- Menu button in TopNav calls `onMenuToggle` which toggles `sideNavOpen`
+
+## Route Guards
+No auth is implemented. All routes are publicly accessible. To add protection:
+```jsx
+// Wrap in a <RequireAuth> component that redirects if !isAuthenticated
+<Route path="admin" element={<RequireAuth><AdminPage /></RequireAuth>} />
+```

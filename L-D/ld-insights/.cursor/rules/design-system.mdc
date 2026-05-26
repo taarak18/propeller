@@ -1,0 +1,81 @@
+---
+description: Design system tokens — colors, typography, spacing — from the Stitch design system. Use these when writing Tailwind classes.
+globs: src/**/*.{jsx,css}
+alwaysApply: false
+---
+
+# Design System — Intervention Analytics System
+
+Sourced from Google Stitch project `projects/11710553690432211807`. All tokens are registered in `tailwind.config.js`.
+
+## Color Tokens (use as Tailwind classes)
+
+### Surfaces (backgrounds)
+| Token | Hex | Use |
+|---|---|---|
+| `bg-background` / `bg-surface` | `#f8f9ff` | Page background |
+| `bg-surface-container-lowest` | `#ffffff` | Cards, modals |
+| `bg-surface-container-low` | `#eff4ff` | Hover states |
+| `bg-surface-container` | `#e5eeff` | Input backgrounds |
+| `bg-surface-container-high` | `#dce9ff` | Table headers |
+| `bg-primary-container` | `#131b2e` | Dark backgrounds |
+
+### Semantic Status Colors
+| State | Background | Text |
+|---|---|---|
+| Success / Compliant | `bg-emerald-600/10` | `text-emerald-600` (#059669) |
+| Warning / At-Risk | `bg-amber-500/10` | `text-amber-500` (#f59e0b) |
+| Error / Non-Compliant | `bg-error-container` | `text-error` (#ba1a1a) |
+| Info / Action | `bg-secondary/10` | `text-secondary` (#0058be) |
+
+### Key Semantic Roles
+```
+primary = #000000        (black, headings/CTA bg)
+on-primary = #ffffff     (text on black)
+secondary = #0058be      (professional blue, links/buttons)
+on-secondary = #ffffff   (text on blue)
+error = #ba1a1a          (crimson red, alerts)
+on-surface = #0b1c30     (deep navy, body text)
+on-surface-variant = #45464d  (muted labels)
+outline-variant = #c6c6cd     (borders, dividers)
+```
+
+## Typography Scale
+```jsx
+// Headlines (Inter, weight 600-700)
+className="text-display-lg font-display-lg"   // 48px — KPI numbers
+className="text-headline-lg font-headline-lg" // 32px — Page titles
+className="text-headline-md font-headline-md" // 24px — Section titles
+className="text-headline-sm font-headline-sm" // 20px — Card titles
+
+// Body (Inter, weight 400)
+className="text-body-lg"  // 18px
+className="text-body-md"  // 16px — Default body
+className="text-body-sm"  // 14px — Table cells, nav links
+
+// Labels (Inter, weight 500-600)
+className="text-data-tabular font-data-tabular" // 14px — Table numbers (tabular)
+className="text-label-md font-label-md"          // 12px — Uppercase metadata
+```
+
+## Spacing
+```
+xs = 4px   sm = 12px   md = 24px   lg = 40px   xl = 64px
+gutter = 24px   base = 8px   container-max = 1440px
+```
+Use `p-md`, `gap-md`, `space-y-lg`, `px-gutter` etc.
+
+## Border Radius
+- `rounded-lg` → 4px (buttons, badges, inputs)
+- `rounded-xl` → 8px (cards, containers)  
+- `rounded-full` → pill (avatars, tags)
+
+## Icons (Material Symbols Outlined)
+```jsx
+<span className="material-symbols-outlined text-secondary">dashboard</span>
+// Filled variant:
+<span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>dashboard</span>
+// Size override:
+<span className="material-symbols-outlined" style={{ fontSize: 16 }}>search</span>
+```
+Never use emoji or SVG icons — always use Material Symbols.

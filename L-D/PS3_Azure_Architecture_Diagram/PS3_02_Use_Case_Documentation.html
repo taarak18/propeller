@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PS3 – Use Case Documentation (SaaS)</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',sans-serif;background:#f0f4f8;color:#2d3748;line-height:1.75}
+    header{background:linear-gradient(135deg,#276749,#38a169);color:white;padding:40px 60px}
+    header h1{font-size:2rem;margin-bottom:6px}
+    header p{opacity:.85;font-size:.95rem}
+    .badges{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .badge{display:inline-block;font-size:.72rem;font-weight:700;padding:3px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:1px}
+    .b-green{background:#9ae6b4;color:#276749}
+    .b-blue{background:#63b3ed;color:#1a365d}
+    .b-purple{background:#e9d8fd;color:#553c9a}
+    .container{max-width:1120px;margin:40px auto;padding:0 30px 60px}
+    .card{background:white;border-radius:12px;padding:30px 35px;margin-bottom:28px;box-shadow:0 2px 12px rgba(0,0,0,.07);border-left:5px solid #38a169}
+    .card.blue{border-left-color:#2b6cb0}
+    .card.orange{border-left-color:#dd6b20}
+    .card.purple{border-left-color:#805ad5}
+    .card.teal{border-left-color:#319795}
+    .card.red{border-left-color:#e53e3e}
+    .card.pink{border-left-color:#d53f8c}
+    .card.gold{border-left-color:#d69e2e}
+    h2{font-size:1.25rem;color:#1a365d;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    h3{font-size:1rem;color:#276749;margin:18px 0 8px;font-weight:700}
+    p{margin-bottom:10px;font-size:.93rem}
+    ul,ol{padding-left:22px;margin-bottom:10px}
+    li{margin-bottom:5px;font-size:.92rem}
+    table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.88rem}
+    th{background:#f0fff4;color:#276749;text-align:left;padding:10px 14px;font-weight:700;border-bottom:2px solid #9ae6b4}
+    td{padding:9px 14px;border-bottom:1px solid #e2e8f0;vertical-align:top}
+    tr:hover td{background:#f7fafc}
+    .tag{display:inline-block;padding:2px 9px;border-radius:12px;font-size:.73rem;font-weight:700;margin:2px}
+    .actor-badge{background:#bee3f8;color:#2b6cb0}
+    .saas-actor{background:#e9d8fd;color:#553c9a}
+    .perm-y{background:#c6f6d5;color:#276749}
+    .perm-n{background:#fed7d7;color:#c53030}
+    .perm-r{background:#fefcbf;color:#975a16}
+    .saas-pill{background:#faf5ff;border:1px solid #b794f4;color:#553c9a;padding:2px 10px;border-radius:20px;font-size:.75rem;font-weight:700}
+    pre{background:#1a202c;color:#a0aec0;padding:18px 22px;border-radius:8px;font-size:.79rem;overflow-x:auto;margin-top:10px;line-height:1.7;font-family:'Courier New',monospace;white-space:pre}
+    .uc-block{border:1px solid #e2e8f0;border-radius:10px;padding:18px 22px;margin-bottom:18px;background:#f7fafc}
+    .uc-block.saas{border-color:#b794f4;background:#faf5ff}
+    .uc-block h4{color:#1a365d;font-size:1rem;margin-bottom:10px;border-bottom:1px solid #e2e8f0;padding-bottom:6px}
+    .uc-row{display:flex;gap:10px;margin-bottom:6px;font-size:.91rem}
+    .uc-label{font-weight:700;color:#2b6cb0;min-width:170px}
+    .saas-highlight{background:#faf5ff;border-left:4px solid #805ad5;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.92rem}
+    footer{text-align:center;padding:28px;color:#718096;font-size:.83rem;background:white;border-top:1px solid #e2e8f0;margin-top:40px}
+  </style>
+</head>
+<body>
+<header>
+  <h1>📐 Use Case Documentation</h1>
+  <p>Corporate Learning Progress, Intervention &amp; Compliance Tracking System — Problem Statement 3</p>
+  <div class="badges">
+    <span class="badge b-green">SaaS Application</span>
+    <span class="badge b-blue">Multi-Tenant</span>
+    <span class="badge b-purple">Propeller Technothon</span>
+  </div>
+</header>
+<div class="container">
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SECTION 1: ACTORS                             -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="card blue">
+    <h2>👥 1. Actors</h2>
+    <div class="saas-highlight">
+      In a SaaS multi-tenant model, actors exist at two layers: <strong>Platform Layer</strong> (cross-tenant operations managed by the SaaS provider) and <strong>Tenant Layer</strong> (within a single subscribing organization).
+    </div>
+    <table>
+      <thead><tr><th>Actor</th><th>Layer</th><th>Type</th><th>Description</th><th>Primary Use Cases</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="tag saas-actor">Super Admin</span></td>
+          <td><span class="saas-pill">Platform</span></td>
+          <td>Primary</td>
+          <td>SaaS provider staff; manages all tenants, platform health, and SLAs</td>
+          <td>UC-01, UC-02, UC-03 (platform UCs)</td>
+        </tr>
+        <tr>
+          <td><span class="tag actor-badge">Tenant / L&amp;D Admin</span></td>
+          <td>Tenant</td>
+          <td>Primary</td>
+          <td>Manages org's instance: users, risk rules, integrations, compliance reports</td>
+          <td>UC-04, UC-05, UC-09, UC-10, UC-13</td>
+        </tr>
+        <tr>
+          <td><span class="tag actor-badge">Trainer / Coach</span></td>
+          <td>Tenant</td>
+          <td>Primary</td>
+          <td>Delivers training, views learner profiles, assigns interventions</td>
+          <td>UC-07, UC-08, UC-11, UC-12</td>
+        </tr>
+        <tr>
+          <td><span class="tag actor-badge">Manager</span></td>
+          <td>Tenant</td>
+          <td>Secondary</td>
+          <td>Monitors team-level learning compliance; approves interventions</td>
+          <td>UC-07, UC-11 (team scope)</td>
+        </tr>
+        <tr>
+          <td><span class="tag actor-badge">Employee</span></td>
+          <td>Tenant</td>
+          <td>Secondary</td>
+          <td>Participates in training; views own learning profile and interventions</td>
+          <td>UC-07 (own scope), UC-12</td>
+        </tr>
+        <tr>
+          <td><span class="tag actor-badge">Compliance Officer</span></td>
+          <td>Tenant</td>
+          <td>Secondary</td>
+          <td>Reviews and exports compliance reports for regulatory bodies</td>
+          <td>UC-13, UC-14</td>
+        </tr>
+        <tr>
+          <td><span class="tag actor-badge">IT Administrator</span></td>
+          <td>Tenant</td>
+          <td>Technical</td>
+          <td>Configures SSO, API integrations, and manages tenant users</td>
+          <td>UC-05, UC-06</td>
+        </tr>
+        <tr>
+          <td><span class="tag saas-actor">External Systems</span></td>
+          <td>Both</td>
+          <td>System</td>
+          <td>Attendance, Assessment, LMS APIs pushing data per tenant</td>
+          <td>UC-08</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SECTION 2: USER RIGHTS & RESTRICTIONS         -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="card red">
+    <h2>🔐 2. User Rights &amp; Restrictions (RBAC Matrix)</h2>
+    <div class="saas-highlight">
+      The SaaS platform enforces two levels of RBAC: <strong>Platform-level</strong> (Super Admin only) and
+      <strong>Tenant-level</strong> (scoped strictly within each tenant). No cross-tenant access is permitted under any role.
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature / Action</th>
+          <th>Super Admin</th>
+          <th>L&amp;D Admin</th>
+          <th>Trainer</th>
+          <th>Manager</th>
+          <th>Employee</th>
+          <th>Compliance Officer</th>
+          <th>IT Admin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Platform: Manage all tenants</strong></td><td><span class="tag perm-y">✓</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td></tr>
+        <tr><td><strong>Platform: View usage metrics</strong></td><td><span class="tag perm-y">✓</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td></tr>
+        <tr><td><strong>Platform: Suspend / activate tenant</strong></td><td><span class="tag perm-y">✓</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td></tr>
+        <tr><td>Tenant onboarding &amp; configuration</td><td><span class="tag perm-y">✓</span></td><td><span class="tag perm-y">✓ Own tenant</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-r">Assist</span></td></tr>
+        <tr><td>Manage tenant users &amp; roles</td><td><span class="tag perm-y">✓ All tenants</span></td><td><span class="tag perm-y">✓ Own tenant</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-y">✓ Own tenant</span></td></tr>
+        <tr><td>Configure SSO / API integrations</td><td><span class="tag perm-y">✓</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-y">✓ Own tenant</span></td></tr>
+        <tr><td>View all employee profiles</td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-y">✓ Own tenant</span></td><td><span class="tag perm-y">✓ Own tenant</span></td><td><span class="tag perm-r">Team only</span></td><td><span class="tag perm-r">Own only</span></td><td><span class="tag perm-y">✓ Own tenant</span></td><td><span class="tag perm-n">✗</span></td></tr>
+        <tr><td>Configure risk rules</td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-y">✓ Own tenant</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td></tr>
+        <tr><td>View risk alerts</td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-y">✓ Own tenant</span></td><td><span class="tag perm-y">✓ Own tenant</span></td><td><span class="tag perm-r">Team only</span></td><td><span class="tag perm-r">Own only</span></td><td><span class="tag perm-y">✓ Own tenant</span></td><td><span class="tag perm-n">✗</span></td></tr>
+        <tr><td>Assign interventions</td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-y">✓</span></td><td><span class="tag perm-y">✓</span></td><td><span class="tag perm-r">Recommend</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td></tr>
+        <tr><td>Approve interventions</td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-y">✓</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-y">✓</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td></tr>
+        <tr><td>Generate compliance reports</td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-y">✓</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-y">✓</span></td><td><span class="tag perm-n">✗</span></td></tr>
+        <tr><td>View audit trail</td><td><span class="tag perm-y">✓ Platform</span></td><td><span class="tag perm-y">✓ Own tenant</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-y">✓ Own tenant</span></td><td><span class="tag perm-y">✓ Own tenant</span></td></tr>
+        <tr><td>Manage subscription / tier</td><td><span class="tag perm-y">✓ All tenants</span></td><td><span class="tag perm-y">✓ Own tenant</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td></tr>
+        <tr><td>View dashboards</td><td><span class="tag perm-y">✓ Platform</span></td><td><span class="tag perm-y">✓ All org</span></td><td><span class="tag perm-r">Trainer view</span></td><td><span class="tag perm-r">Team view</span></td><td><span class="tag perm-r">Own view</span></td><td><span class="tag perm-r">Compliance</span></td><td><span class="tag perm-r">System view</span></td></tr>
+        <tr><td>Access another tenant's data</td><td><span class="tag perm-n">✗ (Audit only)</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td><td><span class="tag perm-n">✗</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SECTION 3: USE CASE SPECIFICATIONS            -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="card">
+    <h2>📋 3. Use Case Specifications</h2>
+
+    <!-- PLATFORM UCs -->
+    <h3>🟪 Platform-Level Use Cases (SaaS)</h3>
+
+    <div class="uc-block saas">
+      <h4>UC-01 | Tenant Self-Service Onboarding &nbsp;<span class="saas-pill">SaaS Platform</span></h4>
+      <div class="uc-row"><span class="uc-label">Actor:</span><span>L&amp;D Admin (new organization), Super Admin (oversight)</span></div>
+      <div class="uc-row"><span class="uc-label">Precondition:</span><span>Organization has a valid email domain; no existing tenant for this domain</span></div>
+      <div class="uc-row"><span class="uc-label">Main Flow:</span></div>
+      <ol>
+        <li>L&amp;D Admin visits the SaaS portal and clicks "Register Organization"</li>
+        <li>Admin enters: org name, domain, admin email, and selects subscription tier</li>
+        <li>Platform provisions isolated tenant environment (DB schema, API keys, config)</li>
+        <li>Admin receives verification email; confirms email address</li>
+        <li>Admin completes setup wizard: user import, SSO config, integration setup</li>
+        <li>Tenant is marked "Active"; Super Admin receives new tenant notification</li>
+      </ol>
+      <div class="uc-row" style="margin-top:8px"><span class="uc-label">Alternate Flow:</span><span>Domain already registered → show error "Organization already exists"</span></div>
+      <div class="uc-row"><span class="uc-label">Postcondition:</span><span>Tenant is fully provisioned and active with isolated environment</span></div>
+    </div>
+
+    <div class="uc-block saas">
+      <h4>UC-02 | Super Admin Manages Tenant &nbsp;<span class="saas-pill">SaaS Platform</span></h4>
+      <div class="uc-row"><span class="uc-label">Actor:</span><span>Super Admin</span></div>
+      <div class="uc-row"><span class="uc-label">Precondition:</span><span>Super Admin logged into platform admin portal</span></div>
+      <div class="uc-row"><span class="uc-label">Main Flow:</span></div>
+      <ol>
+        <li>Super Admin views tenant list with: status, tier, active users, last activity</li>
+        <li>Super Admin can: suspend tenant, upgrade/downgrade tier, reset admin password, impersonate for support (audit-logged)</li>
+        <li>All Super Admin actions are recorded in platform audit trail</li>
+        <li>Super Admin views platform-wide health metrics and usage dashboards</li>
+      </ol>
+      <div class="uc-row" style="margin-top:8px"><span class="uc-label">Restriction:</span><span>Super Admin cannot view employee-level data within tenant without explicit support request and consent</span></div>
+      <div class="uc-row"><span class="uc-label">Postcondition:</span><span>Tenant state updated; audit record created for every action</span></div>
+    </div>
+
+    <div class="uc-block saas">
+      <h4>UC-03 | Manage Subscription Tier &nbsp;<span class="saas-pill">SaaS Platform</span></h4>
+      <div class="uc-row"><span class="uc-label">Actor:</span><span>L&amp;D Admin (tenant), Super Admin</span></div>
+      <div class="uc-row"><span class="uc-label">Precondition:</span><span>Tenant is active; billing system integrated</span></div>
+      <div class="uc-row"><span class="uc-label">Main Flow:</span></div>
+      <ol>
+        <li>Admin navigates to Subscription settings within tenant portal</li>
+        <li>Admin views current plan, usage metrics (employees, API calls, storage)</li>
+        <li>Admin selects new tier (upgrade or downgrade)</li>
+        <li>Platform enforces new limits immediately on upgrade; on downgrade, current period continues</li>
+        <li>Billing system (Stripe/Chargebee) is notified via API; invoice generated</li>
+        <li>Confirmation email sent to tenant admin</li>
+      </ol>
+      <div class="uc-row" style="margin-top:8px"><span class="uc-label">Alternate Flow:</span><span>Usage exceeds tier limit → System warns admin; blocks feature access until upgraded</span></div>
+      <div class="uc-row"><span class="uc-label">Postcondition:</span><span>Tenant subscription updated; features enforced per new tier</span></div>
+    </div>
+
+    <div class="uc-block saas">
+      <h4>UC-04 | Configure Tenant SSO &nbsp;<span class="saas-pill">SaaS Platform</span></h4>
+      <div class="uc-row"><span class="uc-label">Actor:</span><span>IT Administrator (tenant)</span></div>
+      <div class="uc-row"><span class="uc-label">Precondition:</span><span>Tenant is on Professional or Enterprise tier; IT Admin has IdP metadata</span></div>
+      <div class="uc-row"><span class="uc-label">Main Flow:</span></div>
+      <ol>
+        <li>IT Admin navigates to Security → SSO Configuration within tenant settings</li>
+        <li>Admin selects protocol: SAML 2.0 or OIDC</li>
+        <li>Admin uploads IdP metadata / enters OIDC config (client ID, secret, discovery URL)</li>
+        <li>Platform validates SSO configuration via test authentication</li>
+        <li>SSO is activated; users are redirected to org's IdP on login</li>
+        <li>Fallback: local password login disabled for SSO-enabled tenants (configurable)</li>
+      </ol>
+      <div class="uc-row" style="margin-top:8px"><span class="uc-label">Postcondition:</span><span>All tenant users authenticated via org's Identity Provider</span></div>
+    </div>
+
+    <!-- TENANT UCs -->
+    <h3>🟦 Tenant-Level Use Cases (Functional)</h3>
+
+    <div class="uc-block">
+      <h4>UC-05 | Ingest Employee Training Data</h4>
+      <div class="uc-row"><span class="uc-label">Actor:</span><span>External System (per-tenant API), IT Admin</span></div>
+      <div class="uc-row"><span class="uc-label">Precondition:</span><span>Tenant API key configured; source systems available</span></div>
+      <div class="uc-row"><span class="uc-label">Main Flow:</span></div>
+      <ol>
+        <li>External system sends POST request with per-tenant API key in header</li>
+        <li>Platform validates: API key → resolves to tenant context</li>
+        <li>Rate limiter checks request count against tenant's tier quota</li>
+        <li>Payload validated (schema, completeness, data types)</li>
+        <li>Valid records stored with tenant_id tag (RLS enforced)</li>
+        <li>Profile aggregation job triggered for affected employees</li>
+      </ol>
+      <div class="uc-row" style="margin-top:8px"><span class="uc-label">Alternate Flow:</span><span>Rate limit exceeded → HTTP 429 Too Many Requests; tenant admin notified</span></div>
+      <div class="uc-row"><span class="uc-label">Postcondition:</span><span>Tenant's employee profiles updated with latest data</span></div>
+    </div>
+
+    <div class="uc-block">
+      <h4>UC-06 | View Employee Learning Profile</h4>
+      <div class="uc-row"><span class="uc-label">Actor:</span><span>L&amp;D Admin, Trainer, Manager (team only), Employee (own only)</span></div>
+      <div class="uc-row"><span class="uc-label">Precondition:</span><span>User authenticated in tenant context; employee data ingested</span></div>
+      <div class="uc-row"><span class="uc-label">Main Flow:</span></div>
+      <ol>
+        <li>User navigates to Employee Profiles within their tenant</li>
+        <li>RLS ensures only records with matching tenant_id are returned</li>
+        <li>System returns aggregated profile: attendance %, scores, milestone status, risk level</li>
+        <li>User drills down into individual records; trend charts rendered</li>
+        <li>Intervention history shown if role permits</li>
+      </ol>
+      <div class="uc-row" style="margin-top:8px"><span class="uc-label">Postcondition:</span><span>User views comprehensive, tenant-scoped learning profile</span></div>
+    </div>
+
+    <div class="uc-block">
+      <h4>UC-07 | Configure Risk Rule (Tenant-Scoped)</h4>
+      <div class="uc-row"><span class="uc-label">Actor:</span><span>L&amp;D Administrator</span></div>
+      <div class="uc-row"><span class="uc-label">Precondition:</span><span>Admin logged into tenant; rule count within tier limit</span></div>
+      <div class="uc-row"><span class="uc-label">Main Flow:</span></div>
+      <ol>
+        <li>Admin opens Risk Rules panel (tenant-scoped); sees existing rules and global templates</li>
+        <li>Admin can: create from scratch, or clone from global template library</li>
+        <li>Admin defines: rule ID, name, severity, conditions, actions, applicable roles</li>
+        <li>System validates rule syntax and checks tier limit (e.g., Basic = max 5 rules)</li>
+        <li>Rule saved with version number and tenant_id; audit record created</li>
+        <li>Admin activates rule; applied in next nightly risk evaluation cycle</li>
+      </ol>
+      <div class="uc-row" style="margin-top:8px"><span class="uc-label">Alternate Flow (Tier Limit):</span><span>Basic tier at 5 rules → "Upgrade to Professional for unlimited rules" prompt</span></div>
+      <div class="uc-row"><span class="uc-label">Postcondition:</span><span>Rule active for this tenant only; no effect on other tenants</span></div>
+    </div>
+
+    <div class="uc-block">
+      <h4>UC-08 | Identify At-Risk Learners (Automated)</h4>
+      <div class="uc-row"><span class="uc-label">Actor:</span><span>System (automated daily batch), L&amp;D Admin, Trainer</span></div>
+      <div class="uc-row"><span class="uc-label">Precondition:</span><span>Risk rules active per tenant; employee profiles available</span></div>
+      <div class="uc-row"><span class="uc-label">Main Flow:</span></div>
+      <ol>
+        <li>Nightly batch job runs per tenant (staggered to manage platform load)</li>
+        <li>For each employee, all active rules for that tenant are evaluated</li>
+        <li>Composite risk score calculated; risk level assigned (Critical/High/Medium/Low)</li>
+        <li>Risk record created with tenant_id; alerts dispatched to trainer and L&amp;D Admin</li>
+        <li>At-risk employees appear on Trainer and Admin dashboards</li>
+        <li>Notification channel per tenant tier: email (Basic); email+SMS+in-app (Pro/Enterprise)</li>
+      </ol>
+      <div class="uc-row" style="margin-top:8px"><span class="uc-label">Postcondition:</span><span>At-risk learners flagged; stakeholders notified within tenant context</span></div>
+    </div>
+
+    <div class="uc-block">
+      <h4>UC-09 | Assign Intervention</h4>
+      <div class="uc-row"><span class="uc-label">Actor:</span><span>Trainer, L&amp;D Admin</span></div>
+      <div class="uc-row"><span class="uc-label">Precondition:</span><span>Employee flagged at-risk; Trainer authenticated in tenant</span></div>
+      <div class="uc-row"><span class="uc-label">Main Flow:</span></div>
+      <ol>
+        <li>Trainer views at-risk profile and selects "Assign Intervention"</li>
+        <li>System recommends intervention types based on triggered rules</li>
+        <li>Trainer selects type (remedial / coaching / mentoring), sets schedule and resource</li>
+        <li>Intervention record saved with tenant_id; submitted for approval</li>
+        <li>L&amp;D Admin or Manager approves or rejects with reason</li>
+        <li>On approval: employee and manager notified; status = "Active"</li>
+      </ol>
+      <div class="uc-row" style="margin-top:8px"><span class="uc-label">Postcondition:</span><span>Intervention active and tracked within tenant context</span></div>
+    </div>
+
+    <div class="uc-block">
+      <h4>UC-10 | Track Intervention Effectiveness</h4>
+      <div class="uc-row"><span class="uc-label">Actor:</span><span>Trainer, L&amp;D Admin</span></div>
+      <div class="uc-row"><span class="uc-label">Main Flow:</span></div>
+      <ol>
+        <li>System captures pre-intervention baseline (attendance %, score, milestone status)</li>
+        <li>Trainer marks session attendance after each session</li>
+        <li>On completion, system fetches latest profile metrics as post-intervention data</li>
+        <li>Improvement % and statistical significance calculated and stored</li>
+        <li>Outcome visible in Intervention Effectiveness report and dashboard</li>
+        <li>If no improvement: risk flag remains active; escalation alert sent</li>
+      </ol>
+      <div class="uc-row" style="margin-top:8px"><span class="uc-label">Postcondition:</span><span>Intervention outcome recorded and available for reporting within tenant</span></div>
+    </div>
+
+    <div class="uc-block">
+      <h4>UC-11 | Generate Compliance Report</h4>
+      <div class="uc-row"><span class="uc-label">Actor:</span><span>L&amp;D Admin, Compliance Officer</span></div>
+      <div class="uc-row"><span class="uc-label">Main Flow:</span></div>
+      <ol>
+        <li>User selects report type from tenant's report module</li>
+        <li>Configures parameters: date range, department, format (PDF/Excel/CSV)</li>
+        <li>System aggregates only tenant-scoped data (RLS enforced)</li>
+        <li>Report generated; audit log entry created (tenant-scoped)</li>
+        <li>Report downloaded or scheduled for auto-distribution</li>
+      </ol>
+      <div class="uc-row" style="margin-top:8px"><span class="uc-label">Postcondition:</span><span>Compliance report generated, audit-logged, available for regulatory use</span></div>
+    </div>
+
+    <div class="uc-block">
+      <h4>UC-12 | View Role-Based Dashboard</h4>
+      <div class="uc-row"><span class="uc-label">Actor:</span><span>All authenticated tenant users</span></div>
+      <div class="uc-row"><span class="uc-label">Main Flow:</span></div>
+      <ol>
+        <li>User logs in (via SSO or local auth) to their tenant portal</li>
+        <li>System renders role-appropriate dashboard with tenant-scoped data only</li>
+        <li>Dashboard widgets vary by subscription tier (Basic shows limited widgets)</li>
+        <li>User applies filters and drills down into metrics</li>
+      </ol>
+      <div class="uc-row" style="margin-top:8px"><span class="uc-label">Postcondition:</span><span>User has real-time, role-filtered, tenant-scoped visibility</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SECTION 4: USER FLOWS                         -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="card teal">
+    <h2>🔄 4. User Flows</h2>
+
+    <h3>Flow 1: Tenant Onboarding (SaaS)</h3>
+    <pre>
+New Organization (L&D Admin)
+        │
+        ▼
+Visits SaaS Platform Portal → Clicks "Register Organization"
+        │
+        ▼
+Fills: Org name, domain, email, selects tier (Basic/Pro/Enterprise)
+        │
+        ▼
+Platform provisions isolated tenant environment
+(DB namespace, API keys, default config, RLS policies)
+        │
+        ▼
+Admin receives verification email → confirms
+        │
+        ▼
+Setup Wizard:
+  ├── Import employees (CSV or HR API)
+  ├── Configure SSO (optional, Pro/Enterprise)
+  ├── Configure data integrations (Attendance/Assessment/LMS APIs)
+  └── Configure initial risk rules (or use global templates)
+        │
+        ▼
+Tenant goes LIVE → Super Admin notified → Billing starts
+    </pre>
+
+    <h3>Flow 2: At-Risk Detection &amp; Intervention (Per Tenant)</h3>
+    <pre>
+External System (per-tenant API key)
+        │ POST /api/v1/{tenant_id}/attendance
+        ▼
+API Gateway → validates API key → resolves tenant context
+        │
+        ▼
+Rate limiter checks (tier quota) → Data validated → Stored with RLS
+        │
+        ▼
+Profile Aggregation Engine → recalculates employee profile
+        │
+        ▼
+Nightly Risk Engine Batch (per tenant, staggered)
+        │
+   ┌────┴────┐
+   ▼         ▼
+Rules      No rules
+triggered  triggered
+   │            │
+   ▼            ▼
+Risk flag    "On Track"
+created      status
+   │
+   ▼
+Alerts dispatched (tier-specific: email / SMS / in-app)
+→ Trainer + L&D Admin notified within tenant
+   │
+   ▼
+Trainer assigns intervention → Approval workflow
+   │
+   ▼
+Intervention active → Sessions tracked
+   │
+   ▼
+Completion → Pre/Post comparison → Effectiveness report
+    </pre>
+
+    <h3>Flow 3: Multi-Tenant Data Isolation (RLS)</h3>
+    <pre>
+User (Tenant A) requests employee list
+        │
+        ▼
+Authentication → JWT contains: user_id, tenant_id, role
+        │
+        ▼
+API resolves tenant_id from JWT
+        │
+        ▼
+Database query: SELECT * FROM employees WHERE tenant_id = 'TENANT_A'
+        │  (Row-Level Security enforced at DB level)
+        ▼
+Result: Only Tenant A employees returned
+        │
+        ▼
+Tenant B user making same request → receives ONLY Tenant B data
+(zero cross-tenant data leakage at any layer)
+    </pre>
+
+    <h3>Flow 4: Subscription Tier Enforcement</h3>
+    <pre>
+L&D Admin (Basic tier) tries to create 6th risk rule
+        │
+        ▼
+System checks: tenant tier = BASIC, rule_count = 5, limit = 5
+        │
+        ▼
+Request BLOCKED → UI shows:
+"Basic tier allows up to 5 rules.
+ Upgrade to Professional for unlimited rules."
+        │
+        ▼
+Admin clicks "Upgrade" → Subscription flow triggered
+→ Billing updated → New tier enforced immediately
+→ Rule creation now permitted
+    </pre>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SECTION 5: SEQUENCE DIAGRAMS                  -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="card purple">
+    <h2>📊 5. Sequence Diagrams</h2>
+
+    <h3>Sequence 1: SaaS Tenant Onboarding</h3>
+    <pre>
+L&D Admin         Platform Portal       Provisioning Svc     DB / Infra      Billing Svc      Super Admin
+    │                    │                     │                  │                │                │
+    │──Register org─────▶│                     │                  │                │                │
+    │                    │──validate domain──▶  │                  │                │                │
+    │                    │──provision tenant──▶ │                  │                │                │
+    │                    │                     │──create schema──▶ │                │                │
+    │                    │                     │──generate keys──▶ │                │                │
+    │                    │                     │──apply RLS──────▶ │                │                │
+    │                    │◀──tenant ready───── │                  │                │                │
+    │                    │──start billing─────────────────────────────────────────▶│                │
+    │◀──verify email──── │                     │                  │                │                │
+    │──verify link──────▶│                     │                  │                │                │
+    │◀──setup wizard──── │                     │                  │                │                │
+    │──complete setup───▶│                     │                  │                │                │
+    │                    │──notify super admin────────────────────────────────────────────────────▶ │
+    │◀──tenant active─── │                     │                  │                │                │
+    </pre>
+
+    <h3>Sequence 2: Multi-Tenant Data Ingestion with Rate Limiting</h3>
+    <pre>
+Ext. System          API Gateway         Rate Limiter      Ingestion Svc     Profile Engine
+    │                    │                    │                  │                 │
+    │──POST /attendance──▶│                   │                  │                 │
+    │   (API Key: TenantA)│                   │                  │                 │
+    │                    │──resolve tenant──▶ │                  │                 │
+    │                    │──check quota──────▶│                  │                 │
+    │                    │◀──within limit──── │                  │                 │
+    │                    │──forward + tenant_id────────────────▶ │                 │
+    │                    │                    │                  │──validate──▶    │
+    │                    │                    │                  │──store (RLS)──▶ │
+    │                    │                    │                  │──trigger────────▶│
+    │                    │                    │                  │                 │──recalculate
+    │◀──HTTP 201─────────│                    │                  │                 │
+    [If quota exceeded]
+    │◀──HTTP 429─────────│                    │                  │                 │
+    │   (Retry-After: 60s)│                   │                  │                 │
+    </pre>
+
+    <h3>Sequence 3: Risk Evaluation Batch (Per Tenant, Staggered)</h3>
+    <pre>
+Scheduler       Tenant Job Queue     Risk Engine        DB (RLS)       Notification Svc
+    │                 │                   │                 │                  │
+    │──trigger batch─▶│                   │                 │                  │
+    │                 │──dequeue TenantA─▶│                 │                 │
+    │                 │                   │──fetch rules────▶│                 │
+    │                 │                   │   (WHERE tenant_id = TenantA)      │
+    │                 │                   │──fetch profiles─▶│                 │
+    │                 │                   │──evaluate rules  │                 │
+    │                 │                   │──write risk recs─▶│                │
+    │                 │                   │──trigger alerts──────────────────▶ │──email/SMS──▶ Trainer
+    │                 │──dequeue TenantB─▶│                 │                  │
+    │                 │                   │  [same isolated flow for TenantB]  │
+    </pre>
+
+    <h3>Sequence 4: Intervention Approval Workflow</h3>
+    <pre>
+Trainer        System UI         Backend API        DB           Approver          Employee
+   │               │                  │              │               │                │
+   │──assign──────▶│                  │              │               │                │
+   │               │──POST /interventions──▶         │               │                │
+   │               │                  │──insert RLS─▶│               │                │
+   │               │                  │──notify approver────────────▶│                │
+   │               │◀──201 Created──  │              │               │                │
+   [Approver reviews]                                                 │                │
+   │               │                  │◀──PATCH /approve────────────│                │
+   │               │                  │──update status──▶            │                │
+   │               │                  │──notify employee──────────────────────────────▶│
+   │               │                  │──log audit (tenant_id)──▶    │                │
+    </pre>
+  </div>
+
+</div>
+<footer>
+  <p>PS3 Use Case Documentation | Corporate Learning SaaS Platform | Multi-Tenant Architecture</p>
+  <p style="margin-top:5px;">Propeller Technothon Challenge | Version 2.0 — SaaS Edition</p>
+</footer>
+</body>
+</html>

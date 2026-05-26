@@ -1,0 +1,89 @@
+---
+description: Tailwind CSS conventions — what's allowed, what's banned, and class ordering
+globs: src/**/*.{jsx,css}
+alwaysApply: false
+---
+
+# Tailwind Conventions
+
+## Version
+Tailwind CSS **v3** (not v4). Run via PostCSS. Config at `tailwind.config.js`.
+
+## Class Ordering (follow this sequence)
+```
+1. Layout:     flex, grid, hidden, block, relative, fixed
+2. Box model:  w-, h-, p-, m-, gap-, space-
+3. Typography: text-, font-, leading-, tracking-, uppercase
+4. Colors:     bg-, text-, border-
+5. Effects:    rounded-, shadow-, opacity-, transition-, hover:, focus:
+6. Responsive: sm:, md:, lg: (always last)
+```
+
+## ✅ Allowed
+```jsx
+// Named design tokens (preferred)
+className="bg-secondary text-on-secondary"
+className="border border-outline-variant rounded-xl"
+className="text-body-sm text-on-surface-variant"
+className="p-md gap-md space-y-lg"
+
+// Opacity modifier on tokens
+className="bg-secondary/10 bg-error/20"
+
+// State variants
+className="hover:bg-surface-container-low focus:border-secondary transition-colors"
+
+// Responsive variants for layout only
+className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+className="hidden md:flex"
+```
+
+## ❌ Banned
+```jsx
+// Arbitrary color values when a token exists
+className="text-[#0058be]"     // use text-secondary
+className="bg-[#ba1a1a]"       // use bg-error
+className="p-[24px]"           // use p-md
+
+// Inline styles for anything token-covered
+style={{ color: '#0058be' }}   // use className="text-secondary"
+style={{ padding: '24px' }}    // use className="p-md"
+
+// Inline styles for font-variation-settings ARE allowed (no Tailwind equivalent)
+style={{ fontVariationSettings: "'FILL' 1" }}  // ✅ OK for Material Symbols
+style={{ fontSize: 16 }}                        // ✅ OK for icon size overrides
+```
+
+## Common Patterns
+```jsx
+// Card
+"bg-surface-container-lowest border border-outline-variant rounded-xl p-md"
+
+// Button — primary
+"bg-secondary hover:bg-on-secondary-fixed-variant text-on-secondary py-2 px-4 rounded-lg text-body-sm font-bold transition-colors"
+
+// Button — secondary/ghost
+"border border-outline-variant hover:bg-surface-container text-on-surface py-2 px-4 rounded-lg text-body-sm font-semibold transition-colors"
+
+// Input
+"border border-outline-variant rounded-lg px-3 py-2 text-body-sm bg-surface-container-low focus:outline-none focus:border-secondary transition-colors"
+
+// Toggle switch (on)
+"bg-secondary"   // track
+"translate-x-6" // thumb
+
+// Toggle switch (off)
+"bg-outline-variant"  // track
+"translate-x-1"       // thumb
+```
+
+## Responsive Breakpoints
+```
+sm: 640px   (2-col grids)
+md: 768px   (show sidebar, hide mobile toggle)
+lg: 1024px  (3-col grids, detail panels)
+```
+The sidebar is `hidden md:flex` — always use `md:ml-64` on the main content spacer.
+
+## Dark Mode
+Dark mode is configured (`darkMode: 'class'`) but **not currently used**. Do not add `dark:` classes unless explicitly implementing a theme toggle.

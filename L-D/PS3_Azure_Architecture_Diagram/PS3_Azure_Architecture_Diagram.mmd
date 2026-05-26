@@ -1,0 +1,108 @@
+%%{init: {'theme': 'default', 'flowchart': {'curve': 'orthogonal', 'useMaxWidth': true}, 'themeVariables': {'primaryColor': '#deecf9', 'primaryTextColor': '#004578', 'primaryBorderColor': '#0078d4', 'lineColor': '#0078d4', 'secondaryColor': '#dff6dd', 'tertiaryColor': '#f4e9ff'}}}%%
+flowchart TD
+    subgraph CLIENTS["🖥️ Client Layer"]
+        B["React PWA\n(Browser)"]
+        M["Android PWA\n(Mobile)"]
+        ES["External Systems\nLMS / Attendance / Assessment APIs"]
+    end
+
+    subgraph EDGE["🌐 Global Edge Layer"]
+        AFD["☁️ Azure Front Door\nCDN · WAF · DDoS · SSL Termination"]
+        SWA["📦 Azure Static Web Apps\nReact SPA / PWA"]
+    end
+
+    subgraph GATEWAY["🔀 API Gateway"]
+        APIM["⚙️ Azure API Management\nRate Limiting · JWT Validation\nTenant Routing · API Keys"]
+    end
+
+    subgraph APP["☁️ Application Layer — Azure Container Apps"]
+        TS["🏢 Tenant Service\nUC-01 · UC-02 · UC-03"]
+        IS["🔐 Identity Service\nUC-04 SSO / SAML / OIDC"]
+        IG["📥 Ingestion Service\nUC-05 Data Ingest"]
+        PS["👤 Profile Service\nUC-06 Aggregation"]
+        RS["⚙️ Risk Rules Service\nUC-07 Rule Config"]
+        RE["🚨 Risk Engine\nUC-08 Batch Evaluation"]
+        IV["🛠️ Intervention Service\nUC-09 · UC-10"]
+        RP["📋 Report Service\nUC-11 PDF / Excel / CSV"]
+        DS["📊 Dashboard Service\nUC-12 Role Dashboards"]
+        NS["🔔 Notification Service\nEmail · SMS · In-App"]
+        AS["📝 Audit Service\nAudit Trail"]
+        BS["💰 Billing Service\nSubscription Mgmt"]
+    end
+
+    subgraph BATCH["⏱️ Batch and Event Layer"]
+        AF["⚡ Azure Functions\nNightly Risk Batch\nScheduled Reports"]
+        SB["📨 Azure Service Bus\nApproval Queues\nNotification Queue"]
+        EH["📡 Azure Event Hubs\nData Ingestion Stream\n1M+ events per day"]
+    end
+
+    subgraph DATA["🗄️ Data Layer"]
+        PG["🐘 Azure DB for PostgreSQL\nFlexible Server · RLS · HA"]
+        RD["⚡ Azure Cache for Redis\nSession · Dashboard · Rate Limit"]
+        BLOB["📁 Azure Blob Storage\nReports · Imports · Templates"]
+        COSMOS["🌍 Azure Cosmos DB\nAudit Trail · Append-Only"]
+    end
+
+    subgraph IDENTITY["🔒 Identity and Security"]
+        B2C["🆔 Azure AD B2C\nMulti-Tenant SSO\nSAML 2.0 / OIDC"]
+        KV["🔑 Azure Key Vault\nSecrets · API Keys · Certs"]
+        PE["🔗 Private Endpoints\nAll Data Services on VNet"]
+    end
+
+    subgraph OBS["📊 Observability"]
+        AI["🔍 Application Insights\nDistributed Tracing"]
+        LA["📋 Log Analytics\nCentralised Logs"]
+        MON["🚨 Azure Monitor\nAlerts · Dashboards"]
+    end
+
+    subgraph DEVOPS["🔄 DevOps"]
+        ADO["🔄 Azure DevOps\nCI/CD Pipelines"]
+        ACR["📦 Azure Container Registry\nDocker Images"]
+    end
+
+    B & M --> AFD
+    ES --> APIM
+    AFD --> SWA
+    AFD --> APIM
+    APIM --> TS & IS & IG & PS & RS & IV & RP & DS & AS & BS
+    IG --> EH
+    RE --> SB
+    IV --> SB
+    RP --> SB
+    SB --> NS
+    SB --> AF
+    TS & IS & IG & PS & RS & RE & IV & RP & DS & AS & BS --> PG
+    PS & DS & RS --> RD
+    RP --> BLOB
+    AS --> COSMOS
+    AF --> PG
+    AF --> BLOB
+    EH --> PS
+    IS --> B2C
+    KV -.-> TS & IS & IG & PS & RS & IV & RP & DS & AS & BS
+    DATA --> PE
+    APP --> AI
+    AI --> LA
+    LA --> MON
+    ADO --> ACR
+    ACR --> APP
+
+    classDef clientStyle fill:#1e293b,color:#94a3b8,stroke:#475569
+    classDef edgeStyle fill:#dbeafe,color:#1e40af,stroke:#3b82f6
+    classDef gatewayStyle fill:#fef9c3,color:#713f12,stroke:#eab308
+    classDef appStyle fill:#dcfce7,color:#14532d,stroke:#22c55e
+    classDef batchStyle fill:#f3e8ff,color:#4a1d96,stroke:#a855f7
+    classDef dataStyle fill:#e0f2fe,color:#0c4a6e,stroke:#0284c7
+    classDef identityStyle fill:#ffe4e6,color:#881337,stroke:#f43f5e
+    classDef obsStyle fill:#d1fae5,color:#064e3b,stroke:#10b981
+    classDef devopsStyle fill:#f1f5f9,color:#1e293b,stroke:#94a3b8
+
+    class B,M,ES clientStyle
+    class AFD,SWA edgeStyle
+    class APIM gatewayStyle
+    class TS,IS,IG,PS,RS,RE,IV,RP,DS,NS,AS,BS appStyle
+    class AF,SB,EH batchStyle
+    class PG,RD,BLOB,COSMOS dataStyle
+    class B2C,KV,PE identityStyle
+    class AI,LA,MON obsStyle
+    class ADO,ACR devopsStyle

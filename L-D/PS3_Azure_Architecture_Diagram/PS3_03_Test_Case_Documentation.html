@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PS3 – Test Case Documentation (SaaS)</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',sans-serif;background:#f0f4f8;color:#2d3748;line-height:1.75}
+    header{background:linear-gradient(135deg,#553c9a,#805ad5);color:white;padding:40px 60px}
+    header h1{font-size:2rem;margin-bottom:6px}
+    header p{opacity:.85;font-size:.95rem}
+    .badges{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .badge{display:inline-block;font-size:.72rem;font-weight:700;padding:3px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:1px}
+    .b-purple{background:#e9d8fd;color:#553c9a}
+    .b-blue{background:#63b3ed;color:#1a365d}
+    .b-green{background:#9ae6b4;color:#276749}
+    .container{max-width:1200px;margin:40px auto;padding:0 30px 60px}
+    .card{background:white;border-radius:12px;padding:30px 35px;margin-bottom:28px;box-shadow:0 2px 12px rgba(0,0,0,.07);border-left:5px solid #805ad5}
+    .card.blue{border-left-color:#2b6cb0}
+    .card.green{border-left-color:#38a169}
+    .card.orange{border-left-color:#dd6b20}
+    .card.teal{border-left-color:#319795}
+    .card.red{border-left-color:#e53e3e}
+    .card.pink{border-left-color:#d53f8c}
+    .card.gold{border-left-color:#d69e2e}
+    .card.gray{border-left-color:#718096}
+    h2{font-size:1.25rem;color:#1a365d;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    h3{font-size:1rem;color:#553c9a;margin:18px 0 8px;font-weight:700}
+    p{margin-bottom:10px;font-size:.93rem}
+    ul,ol{padding-left:22px;margin-bottom:10px}
+    li{margin-bottom:5px;font-size:.92rem}
+    table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.86rem}
+    th{background:#f3ebff;color:#553c9a;text-align:left;padding:10px 12px;font-weight:700;border-bottom:2px solid #e9d8fd}
+    td{padding:8px 12px;border-bottom:1px solid #e2e8f0;vertical-align:top}
+    tr:hover td{background:#faf5ff}
+    .tag{display:inline-block;padding:2px 9px;border-radius:12px;font-size:.73rem;font-weight:700;white-space:nowrap;margin:1px}
+    .th{background:#fed7d7;color:#c53030}
+    .tm{background:#fefcbf;color:#975a16}
+    .tl{background:#c6f6d5;color:#276749}
+    .func{background:#bee3f8;color:#2b6cb0}
+    .neg{background:#feebc8;color:#c05621}
+    .perf{background:#e9d8fd;color:#553c9a}
+    .sec{background:#fed7d7;color:#9b2c2c}
+    .intg{background:#c6f6d5;color:#276749}
+    .saas{background:#e9d8fd;color:#553c9a}
+    .saas-pill{background:#faf5ff;border:1px solid #b794f4;color:#553c9a;padding:2px 10px;border-radius:20px;font-size:.75rem;font-weight:700}
+    .section-title{background:#f3ebff;border-left:4px solid #805ad5;padding:10px 16px;border-radius:0 8px 8px 0;margin:20px 0 12px;font-weight:700;color:#553c9a;font-size:.95rem}
+    .saas-section-title{background:#faf5ff;border-left:4px solid #805ad5;padding:10px 16px;border-radius:0 8px 8px 0;margin:20px 0 12px;font-weight:700;color:#553c9a;font-size:.95rem}
+    .highlight{background:#ebf8ff;border-left:4px solid #3182ce;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.91rem}
+    .saas-highlight{background:#faf5ff;border-left:4px solid #805ad5;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.91rem}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:12px}
+    .box{background:#f7fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px 16px}
+    .box h4{color:#2b6cb0;margin-bottom:8px;font-size:.9rem}
+    footer{text-align:center;padding:28px;color:#718096;font-size:.83rem;background:white;border-top:1px solid #e2e8f0;margin-top:40px}
+  </style>
+</head>
+<body>
+<header>
+  <h1>🧪 Test Case Documentation</h1>
+  <p>Corporate Learning Progress, Intervention &amp; Compliance Tracking System — Problem Statement 3</p>
+  <div class="badges">
+    <span class="badge b-purple">Propeller Technothon</span>
+    <span class="badge b-blue">SaaS Application</span>
+    <span class="badge b-green">Multi-Tenant Platform</span>
+  </div>
+</header>
+<div class="container">
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SECTION 1: TEST PLAN                   -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="card blue">
+    <h2>📝 1. Test Plan</h2>
+    <div class="saas-highlight">
+      This test plan covers a <strong>multi-tenant SaaS application</strong>. In addition to standard functional testing,
+      it includes SaaS-specific test dimensions: <strong>tenant isolation, subscription tier enforcement,
+      per-tenant rate limiting, SSO integration, and cross-tenant security</strong>.
+    </div>
+
+    <h3>1.1 Objectives</h3>
+    <ul>
+      <li>Validate all functional requirements per use case</li>
+      <li>Verify <strong>tenant data isolation</strong> — no cross-tenant data leakage under any scenario</li>
+      <li>Confirm <strong>subscription tier limits</strong> are correctly enforced per tenant</li>
+      <li>Ensure risk rule engine fires correctly for all configured conditions per tenant</li>
+      <li>Validate intervention workflow, effectiveness calculation, and compliance reporting</li>
+      <li>Verify <strong>RBAC</strong> at both platform-level (Super Admin) and tenant-level roles</li>
+      <li>Assess system performance under multi-tenant concurrent load</li>
+      <li>Validate <strong>per-tenant rate limiting</strong> on all API endpoints</li>
+      <li>Verify <strong>SSO (SAML/OIDC)</strong> integration per tenant</li>
+    </ul>
+
+    <h3>1.2 Test Scope</h3>
+    <div class="two-col">
+      <div class="box">
+        <h4>✅ In Test Scope</h4>
+        <ul>
+          <li>Tenant onboarding &amp; provisioning</li>
+          <li>Tenant data isolation (RLS)</li>
+          <li>Subscription tier enforcement</li>
+          <li>Per-tenant API key &amp; rate limiting</li>
+          <li>SSO configuration (SAML/OIDC)</li>
+          <li>Super Admin portal functions</li>
+          <li>Data ingestion per tenant</li>
+          <li>Employee profile aggregation</li>
+          <li>Risk rule engine (all types)</li>
+          <li>At-risk classification &amp; alerts</li>
+          <li>Intervention workflow &amp; effectiveness</li>
+          <li>Compliance report generation</li>
+          <li>Role-based dashboards (all roles)</li>
+          <li>Multi-tenant performance &amp; load</li>
+          <li>Authentication &amp; RBAC security</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h4>🚫 Out of Test Scope</h4>
+        <ul>
+          <li>Source system internal logic</li>
+          <li>Third-party email/SMS infrastructure</li>
+          <li>External billing system (Stripe/Chargebee)</li>
+          <li>Native mobile apps (Phase 1)</li>
+          <li>ML/AI predictive models (Phase 2)</li>
+          <li>White-labelling (Phase 2)</li>
+          <li>Multi-region data residency (Phase 3)</li>
+          <li>Penetration testing (separate engagement)</li>
+          <li>Browser compatibility beyond Chrome/Edge/Firefox</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>1.3 Test Levels</h3>
+    <table>
+      <thead><tr><th>Level</th><th>Description</th><th>SaaS Focus</th><th>Responsibility</th></tr></thead>
+      <tbody>
+        <tr><td>Unit Testing</td><td>Individual functions: rule parser, profile calculator, score aggregator</td><td>Tenant context injection in all units</td><td>Dev Team</td></tr>
+        <tr><td>Integration Testing</td><td>API → Service → DB data flows end-to-end</td><td>Tenant_id propagation across all layers</td><td>QA Team</td></tr>
+        <tr><td>Functional Testing</td><td>All use cases against requirements</td><td>Tier enforcement, RLS, SSO flows</td><td>QA Team</td></tr>
+        <tr><td>Multi-Tenant Isolation Testing</td><td>Verify no cross-tenant data leakage</td><td>Core SaaS requirement</td><td>QA + Security</td></tr>
+        <tr><td>Performance Testing</td><td>Load, stress, and response time</td><td>Concurrent multi-tenant load scenarios</td><td>QA / DevOps</td></tr>
+        <tr><td>Security Testing</td><td>RBAC, auth, encryption, tenant isolation</td><td>Cross-tenant access attempts</td><td>Security Team</td></tr>
+        <tr><td>UAT</td><td>Business user validation</td><td>Trainer &amp; L&amp;D Admin acceptance per tenant</td><td>Business Users</td></tr>
+        <tr><td>Regression Testing</td><td>Re-run after every release</td><td>Isolation regression included every build</td><td>QA Team</td></tr>
+      </tbody>
+    </table>
+
+    <h3>1.4 Test Environments</h3>
+    <table>
+      <thead><tr><th>Environment</th><th>Purpose</th><th>Tenants</th><th>Data</th></tr></thead>
+      <tbody>
+        <tr><td>DEV</td><td>Developer testing during build</td><td>2 mock tenants</td><td>Synthetic mock data</td></tr>
+        <tr><td>QA / SIT</td><td>Functional &amp; integration testing</td><td>5 test tenants (Basic / Pro / Enterprise)</td><td>Anonymised sample (500 employees/tenant)</td></tr>
+        <tr><td>PERF</td><td>Multi-tenant performance &amp; load testing</td><td>50 simulated tenants</td><td>Synthetic load (10,000 employees/tenant)</td></tr>
+        <tr><td>UAT</td><td>Business user acceptance</td><td>3 pilot tenants</td><td>Production-like anonymised data</td></tr>
+        <tr><td>PROD</td><td>Live SaaS deployment</td><td>All active tenants</td><td>Real data</td></tr>
+      </tbody>
+    </table>
+
+    <h3>1.5 Entry &amp; Exit Criteria</h3>
+    <div class="two-col">
+      <div class="box">
+        <h4>🟢 Entry Criteria</h4>
+        <ul>
+          <li>Feature development complete</li>
+          <li>Unit tests pass (&gt;80% coverage)</li>
+          <li>Multi-tenant QA environment provisioned with 5 test tenants</li>
+          <li>Test data prepared per tenant</li>
+          <li>Test cases reviewed and approved</li>
+          <li>Tenant isolation test suite ready</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h4>🔴 Exit Criteria</h4>
+        <ul>
+          <li>All Critical/High test cases pass</li>
+          <li><strong>Zero cross-tenant data leakage</strong> in isolation tests</li>
+          <li>Tier enforcement validated for all 3 tiers</li>
+          <li>Performance SLAs met under multi-tenant load</li>
+          <li>No open Critical or High severity bugs</li>
+          <li>UAT sign-off from pilot tenants</li>
+          <li>Test summary report published</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SECTION 2: FUNCTIONAL REQ SPEC         -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="card teal">
+    <h2>📐 2. Functional Requirement Specification (FRS)</h2>
+    <table>
+      <thead><tr><th>FR ID</th><th>Layer</th><th>Module</th><th>Requirement</th><th>Priority</th></tr></thead>
+      <tbody>
+        <!-- SaaS Platform FRs -->
+        <tr><td>FR-S01</td><td><span class="saas-pill">SaaS</span></td><td>Onboarding</td><td>System shall support self-service tenant registration with org name, domain, admin email, and tier selection</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-S02</td><td><span class="saas-pill">SaaS</span></td><td>Onboarding</td><td>System shall provision an isolated tenant environment (DB namespace, API keys, config) within 60 seconds of registration</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-S03</td><td><span class="saas-pill">SaaS</span></td><td>Isolation</td><td>System shall enforce Row-Level Security (RLS) so all queries are automatically scoped by tenant_id</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-S04</td><td><span class="saas-pill">SaaS</span></td><td>Isolation</td><td>No API endpoint or query shall ever return data belonging to a different tenant_id under any condition</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-S05</td><td><span class="saas-pill">SaaS</span></td><td>Subscription</td><td>System shall enforce feature and usage limits per subscription tier (Basic / Professional / Enterprise)</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-S06</td><td><span class="saas-pill">SaaS</span></td><td>Subscription</td><td>System shall display an upgrade prompt when a tenant attempts to exceed their tier's feature limit</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-S07</td><td><span class="saas-pill">SaaS</span></td><td>API Keys</td><td>System shall generate unique per-tenant API keys for external system integrations</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-S08</td><td><span class="saas-pill">SaaS</span></td><td>Rate Limiting</td><td>System shall enforce per-tenant API rate limits based on subscription tier</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-S09</td><td><span class="saas-pill">SaaS</span></td><td>SSO</td><td>System shall support per-tenant SSO configuration via SAML 2.0 and OIDC protocols</td><td><span class="tag tm">Medium</span></td></tr>
+        <tr><td>FR-S10</td><td><span class="saas-pill">SaaS</span></td><td>Super Admin</td><td>Super Admin shall manage all tenants via a dedicated platform portal; actions shall be audit-logged</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-S11</td><td><span class="saas-pill">SaaS</span></td><td>Metering</td><td>System shall track and expose per-tenant usage: active employees, API calls, storage consumed</td><td><span class="tag th">High</span></td></tr>
+        <!-- Functional FRs -->
+        <tr><td>FR-F01</td><td>Functional</td><td>Ingestion</td><td>System shall ingest attendance, assessment scores, and milestones via REST API with per-tenant API key auth</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F02</td><td>Functional</td><td>Ingestion</td><td>System shall validate all incoming payloads and reject invalid records with descriptive errors</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F03</td><td>Functional</td><td>Ingestion</td><td>System shall support bulk CSV import per tenant with row-level error reporting</td><td><span class="tag tm">Medium</span></td></tr>
+        <tr><td>FR-F04</td><td>Functional</td><td>Profile</td><td>System shall aggregate attendance %, assessment scores, and milestone status per employee per tenant</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F05</td><td>Functional</td><td>Profile</td><td>System shall calculate and display performance trends (improving/declining/stable)</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F06</td><td>Functional</td><td>Risk</td><td>System shall allow L&amp;D Admins to define tenant-scoped risk rules in JSON/YAML format</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F07</td><td>Functional</td><td>Risk</td><td>System shall evaluate all active tenant rules nightly and classify employees by risk level</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F08</td><td>Functional</td><td>Risk</td><td>System shall send alerts to trainers and admins per tenant when risk is detected</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F09</td><td>Functional</td><td>Intervention</td><td>System shall support intervention assignment, approval workflow, and session tracking per tenant</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F10</td><td>Functional</td><td>Intervention</td><td>System shall calculate pre/post intervention improvement for each employee per tenant</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F11</td><td>Functional</td><td>Reporting</td><td>System shall generate tenant-scoped compliance reports in PDF, Excel, and CSV formats</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F12</td><td>Functional</td><td>Reporting</td><td>System shall maintain a complete, tenant-scoped audit trail of all data changes and user actions</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F13</td><td>Functional</td><td>Dashboard</td><td>System shall provide role-based dashboards scoped to the authenticated user's tenant</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F14</td><td>Functional</td><td>Security</td><td>System shall enforce RBAC at both platform and tenant levels</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F15</td><td>Functional</td><td>Security</td><td>System shall encrypt all data at rest (AES-256) and in transit (TLS 1.3)</td><td><span class="tag th">High</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SECTION 3: TEST CASES                  -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="card">
+    <h2>🧪 3. Test Cases</h2>
+
+    <!-- SaaS: TENANT ONBOARDING -->
+    <div class="saas-section-title">🟪 SaaS Module: Tenant Onboarding &amp; Provisioning</div>
+    <table>
+      <thead><tr><th>TC ID</th><th>Test Case</th><th>Type</th><th>Steps</th><th>Expected Result</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td>TC-TO-01</td><td>Register new tenant — valid data</td><td><span class="tag saas">SaaS</span></td><td>Submit registration form with valid org name, domain, admin email, select Professional tier</td><td>Tenant provisioned within 60s; admin receives verification email; environment isolated</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-TO-02</td><td>Register tenant with already-used domain</td><td><span class="tag neg">Negative</span></td><td>Submit registration with domain already registered to another tenant</td><td>HTTP 409; error "Organization with this domain already exists"</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-TO-03</td><td>Tenant provisioning creates isolated DB namespace</td><td><span class="tag saas">SaaS</span></td><td>Register new tenant; inspect DB</td><td>New schema/namespace created; RLS policies applied; tenant_id assigned uniquely</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-TO-04</td><td>Tenant setup wizard completes successfully</td><td><span class="tag saas">SaaS</span></td><td>Complete all 4 setup wizard steps: user import, SSO, integrations, risk rules</td><td>Wizard completes; tenant marked Active; all configurations saved</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-TO-05</td><td>Super Admin can view newly created tenant</td><td><span class="tag saas">SaaS</span></td><td>Register new tenant; log in as Super Admin and view tenant list</td><td>New tenant appears with correct status, tier, admin email, creation timestamp</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-TO-06</td><td>Super Admin suspends a tenant</td><td><span class="tag saas">SaaS</span></td><td>Super Admin suspends Tenant A; Tenant A user tries to log in</td><td>Tenant A users cannot log in; receive "Account suspended" message</td><td><span class="tag th">High</span></td></tr>
+      </tbody>
+    </table>
+
+    <!-- SaaS: TENANT ISOLATION -->
+    <div class="saas-section-title">🟪 SaaS Module: Tenant Data Isolation (Critical)</div>
+    <table>
+      <thead><tr><th>TC ID</th><th>Test Case</th><th>Type</th><th>Steps</th><th>Expected Result</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td>TC-TI-01</td><td>Tenant A cannot see Tenant B employees</td><td><span class="tag sec">Security</span></td><td>Tenant A L&amp;D Admin calls GET /employees; Tenant B has 100 employees</td><td>Response contains ONLY Tenant A employees; zero Tenant B records returned</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-TI-02</td><td>Tenant A cannot access Tenant B via ID manipulation</td><td><span class="tag sec">Security</span></td><td>Tenant A user requests GET /employees/{tenant_B_employee_id}</td><td>HTTP 404 or HTTP 403; Tenant B employee data not exposed</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-TI-03</td><td>Tenant A risk rules do not affect Tenant B</td><td><span class="tag saas">SaaS</span></td><td>Tenant A creates rule with threshold 75%; Tenant B has no such rule; evaluate both tenants</td><td>Rule only fires for Tenant A employees; Tenant B unaffected</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-TI-04</td><td>Tenant A interventions not visible to Tenant B</td><td><span class="tag sec">Security</span></td><td>Tenant A creates 5 interventions; Tenant B L&amp;D Admin views interventions list</td><td>Tenant B sees zero results from Tenant A</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-TI-05</td><td>Tenant A compliance report contains only Tenant A data</td><td><span class="tag saas">SaaS</span></td><td>Both Tenant A and B have employees; Tenant A generates compliance report</td><td>Report contains only Tenant A data; Tenant B data not present</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-TI-06</td><td>JWT token from Tenant A rejected by Tenant B endpoint</td><td><span class="tag sec">Security</span></td><td>Use valid Tenant A JWT to call Tenant B scoped API endpoint</td><td>HTTP 403 Forbidden; tenant_id mismatch detected</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-TI-07</td><td>Deleting Tenant A does not affect Tenant B data</td><td><span class="tag saas">SaaS</span></td><td>Super Admin deletes Tenant A; verify Tenant B data integrity</td><td>All Tenant B data intact; only Tenant A namespace purged</td><td><span class="tag th">High</span></td></tr>
+      </tbody>
+    </table>
+
+    <!-- SaaS: SUBSCRIPTION TIER -->
+    <div class="saas-section-title">🟪 SaaS Module: Subscription Tier Enforcement</div>
+    <table>
+      <thead><tr><th>TC ID</th><th>Test Case</th><th>Type</th><th>Steps</th><th>Expected Result</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td>TC-ST-01</td><td>Basic tier: blocked at 6th risk rule</td><td><span class="tag saas">SaaS</span></td><td>Basic tier tenant creates 5 rules (limit); attempts to create 6th</td><td>UI shows upgrade prompt; HTTP 402 on API call; 6th rule not created</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-ST-02</td><td>Basic tier: blocked from SMS notifications</td><td><span class="tag saas">SaaS</span></td><td>Basic tier tenant tries to configure SMS alert channel</td><td>Option greyed out with "Upgrade to Professional" label</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-ST-03</td><td>Basic tier: blocked at 501st employee</td><td><span class="tag saas">SaaS</span></td><td>Basic tier tenant imports 501 employees (limit: 500)</td><td>Import blocked at 500; warning shown; upgrade prompt displayed</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-ST-04</td><td>Professional tier: unlimited rules allowed</td><td><span class="tag saas">SaaS</span></td><td>Professional tier tenant creates 20 risk rules</td><td>All 20 rules created successfully; no limit warnings</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-ST-05</td><td>Upgrade from Basic to Professional unlocks features</td><td><span class="tag saas">SaaS</span></td><td>Upgrade tenant from Basic to Professional; attempt previously blocked actions</td><td>SMS alerts, additional rules, and API access now available immediately</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-ST-06</td><td>Downgrade enforces lower tier limits</td><td><span class="tag saas">SaaS</span></td><td>Downgrade Pro tenant (12 rules) to Basic (limit 5); billing period ends</td><td>Excess rules deactivated; admin notified; features restricted to Basic limits</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-ST-07</td><td>Enterprise tier: unlimited employees</td><td><span class="tag saas">SaaS</span></td><td>Enterprise tenant imports 50,000 employees</td><td>All employees imported successfully; no limit enforced</td><td><span class="tag tm">Medium</span></td></tr>
+      </tbody>
+    </table>
+
+    <!-- SaaS: API KEY & RATE LIMITING -->
+    <div class="saas-section-title">🟪 SaaS Module: API Keys &amp; Rate Limiting</div>
+    <table>
+      <thead><tr><th>TC ID</th><th>Test Case</th><th>Type</th><th>Steps</th><th>Expected Result</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td>TC-RL-01</td><td>Valid per-tenant API key accepted</td><td><span class="tag func">Functional</span></td><td>POST attendance with valid Tenant A API key</td><td>HTTP 201; request processed for Tenant A context</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-RL-02</td><td>Invalid API key rejected</td><td><span class="tag sec">Security</span></td><td>POST attendance with invalid/expired API key</td><td>HTTP 401 Unauthorized; no data stored</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-RL-03</td><td>Tenant A API key cannot be used for Tenant B</td><td><span class="tag sec">Security</span></td><td>POST attendance using Tenant A key to Tenant B endpoint</td><td>HTTP 403 Forbidden; tenant context mismatch</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-RL-04</td><td>Rate limit enforced: Basic tier (100 req/min)</td><td><span class="tag saas">SaaS</span></td><td>Basic tenant sends 101 API requests within 1 minute</td><td>First 100 succeed (HTTP 201); 101st returns HTTP 429 with Retry-After header</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-RL-05</td><td>Rate limit enforced: Professional tier (1000 req/min)</td><td><span class="tag saas">SaaS</span></td><td>Pro tenant sends 1001 API requests within 1 minute</td><td>First 1000 succeed; 1001st returns HTTP 429</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-RL-06</td><td>Rate limit resets after window expiry</td><td><span class="tag saas">SaaS</span></td><td>Hit Basic rate limit; wait 60 seconds; send new requests</td><td>Requests succeed after window reset</td><td><span class="tag tm">Medium</span></td></tr>
+        <tr><td>TC-RL-07</td><td>Tenant admin can rotate API key</td><td><span class="tag func">Functional</span></td><td>Tenant admin rotates API key from settings panel</td><td>New key generated; old key immediately invalidated; existing integration must update</td><td><span class="tag tm">Medium</span></td></tr>
+      </tbody>
+    </table>
+
+    <!-- SaaS: SSO -->
+    <div class="saas-section-title">🟪 SaaS Module: SSO per Tenant</div>
+    <table>
+      <thead><tr><th>TC ID</th><th>Test Case</th><th>Type</th><th>Steps</th><th>Expected Result</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td>TC-SS-01</td><td>Configure SAML SSO successfully</td><td><span class="tag saas">SaaS</span></td><td>IT Admin uploads valid SAML IdP metadata; saves config</td><td>SSO activated; test login redirects to IdP; authentication succeeds</td><td><span class="tag tm">Medium</span></td></tr>
+        <tr><td>TC-SS-02</td><td>OIDC SSO configuration and login flow</td><td><span class="tag saas">SaaS</span></td><td>IT Admin configures OIDC with client ID/secret/discovery URL; user logs in</td><td>User redirected to OIDC provider; upon success, JWT issued with tenant context</td><td><span class="tag tm">Medium</span></td></tr>
+        <tr><td>TC-SS-03</td><td>SSO unavailable on Basic tier</td><td><span class="tag saas">SaaS</span></td><td>Basic tier tenant navigates to SSO settings</td><td>SSO option not available; upgrade prompt displayed</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-SS-04</td><td>SSO misconfiguration shows clear error</td><td><span class="tag neg">Negative</span></td><td>Upload invalid IdP metadata XML</td><td>Validation error shown; SSO not activated; existing login unaffected</td><td><span class="tag tm">Medium</span></td></tr>
+        <tr><td>TC-SS-05</td><td>Tenant A SSO config does not affect Tenant B login</td><td><span class="tag saas">SaaS</span></td><td>Tenant A enables SSO; Tenant B user logs in via local password</td><td>Tenant B login unaffected; SSO config scoped to Tenant A only</td><td><span class="tag th">High</span></td></tr>
+      </tbody>
+    </table>
+
+    <!-- Data Ingestion -->
+    <div class="section-title">Module: Data Ingestion (Per Tenant)</div>
+    <table>
+      <thead><tr><th>TC ID</th><th>Test Case</th><th>Type</th><th>Steps</th><th>Expected Result</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td>TC-DI-01</td><td>Ingest valid attendance record</td><td><span class="tag func">Functional</span></td><td>POST /api/v1/attendance with valid payload and Tenant API key</td><td>HTTP 201; record stored with correct tenant_id; profile updated</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-DI-02</td><td>Ingest attendance with missing employee_id</td><td><span class="tag neg">Negative</span></td><td>POST attendance without employee_id field</td><td>HTTP 400 with descriptive validation error</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-DI-03</td><td>Duplicate record rejected</td><td><span class="tag neg">Negative</span></td><td>POST same attendance record twice with same date/employee</td><td>HTTP 409 Conflict; no duplicate stored</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-DI-04</td><td>Ingest valid assessment score</td><td><span class="tag func">Functional</span></td><td>POST /api/v1/assessments with valid score payload</td><td>HTTP 201; score stored with tenant_id; profile recalculated</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-DI-05</td><td>Assessment score out of valid range</td><td><span class="tag neg">Negative</span></td><td>POST assessment with score = 150 (max=100)</td><td>HTTP 422 with validation error</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-DI-06</td><td>Ingest valid milestone update</td><td><span class="tag func">Functional</span></td><td>POST /api/v1/milestones with valid payload</td><td>HTTP 201; milestone status updated; profile updated</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-DI-07</td><td>Bulk CSV import — valid file</td><td><span class="tag func">Functional</span></td><td>Upload CSV with 500 valid attendance records</td><td>All records imported; import summary returned; all tagged with tenant_id</td><td><span class="tag tm">Medium</span></td></tr>
+        <tr><td>TC-DI-08</td><td>Bulk CSV import — partial errors</td><td><span class="tag neg">Negative</span></td><td>Upload CSV with 490 valid + 10 invalid rows</td><td>490 imported; error log returned listing 10 failed rows with reasons</td><td><span class="tag tm">Medium</span></td></tr>
+      </tbody>
+    </table>
+
+    <!-- Profile Engine -->
+    <div class="section-title">Module: Employee Learning Profile</div>
+    <table>
+      <thead><tr><th>TC ID</th><th>Test Case</th><th>Type</th><th>Steps</th><th>Expected Result</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td>TC-PE-01</td><td>Attendance % calculated correctly</td><td><span class="tag func">Functional</span></td><td>18 attended / 20 sessions; view profile</td><td>Attendance = 90.0% displayed</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-PE-02</td><td>Average score calculated correctly</td><td><span class="tag func">Functional</span></td><td>Scores [80, 70, 90, 60]; view profile</td><td>Average = 75.0%</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-PE-03</td><td>Declining trend detected</td><td><span class="tag func">Functional</span></td><td>Scores: M1=85, M2=70, M3=55</td><td>Trend = "Declining" with % drop shown</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-PE-04</td><td>Profile scoped to authenticated tenant</td><td><span class="tag sec">Security</span></td><td>Tenant A trainer views profile list</td><td>Only Tenant A employee profiles returned</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-PE-05</td><td>Manager sees only team profiles</td><td><span class="tag sec">Security</span></td><td>Manager requests profile of employee outside their team</td><td>HTTP 403 Forbidden</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-PE-06</td><td>Profile API response time SLA</td><td><span class="tag perf">Performance</span></td><td>Request profile for employee with 2-year data history</td><td>Response &lt; 500ms</td><td><span class="tag th">High</span></td></tr>
+      </tbody>
+    </table>
+
+    <!-- Risk Engine -->
+    <div class="section-title">Module: Risk Rule Engine (Per Tenant)</div>
+    <table>
+      <thead><tr><th>TC ID</th><th>Test Case</th><th>Type</th><th>Steps</th><th>Expected Result</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td>TC-RE-01</td><td>Attendance rule triggers correctly</td><td><span class="tag func">Functional</span></td><td>Rule: attendance &lt; 75%; employee attendance = 70%</td><td>CRITICAL risk flag; trainer and admin alerted</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-RE-02</td><td>Attendance rule does not trigger above threshold</td><td><span class="tag func">Functional</span></td><td>Rule: attendance &lt; 75%; employee = 80%</td><td>No risk flag for this rule</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-RE-03</td><td>Two consecutive failing scores rule fires</td><td><span class="tag func">Functional</span></td><td>Rule: 2 consecutive fails &lt; 60%; scores = 55%, 50%</td><td>HIGH risk flag; trainer notified</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-RE-04</td><td>Score decline trend rule fires</td><td><span class="tag func">Functional</span></td><td>Rule: 20% decline in 60 days; drop from 80% to 55%</td><td>HIGH risk flag with 31.25% decline noted</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-RE-05</td><td>Composite AND rule — all conditions met</td><td><span class="tag func">Functional</span></td><td>Rule: attendance &lt;80% AND score &lt;60%; employee: 75%, 55%</td><td>CRITICAL risk flag created</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-RE-06</td><td>Composite AND rule — only one condition met</td><td><span class="tag func">Functional</span></td><td>Rule: attendance &lt;80% AND score &lt;60%; employee: 75%, 70%</td><td>Rule does NOT fire</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-RE-07</td><td>Tenant A rule does not fire for Tenant B employee</td><td><span class="tag saas">SaaS</span></td><td>Tenant A has ATT_001 rule; Tenant B employee attendance = 60%</td><td>No risk flag for Tenant B; rule is tenant-scoped</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-RE-08</td><td>Invalid rule JSON blocked from saving</td><td><span class="tag neg">Negative</span></td><td>Admin submits rule with malformed JSON conditions</td><td>HTTP 400; validation error; rule not saved</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-RE-09</td><td>Deactivated rule does not fire</td><td><span class="tag func">Functional</span></td><td>Deactivate ATT_001; employee attendance drops to 60%</td><td>No alert for deactivated rule</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-RE-10</td><td>Risk engine processes 1000 employees/tenant in SLA</td><td><span class="tag perf">Performance</span></td><td>Trigger nightly batch for tenant with 1000 employees</td><td>Batch completes in &lt; 2 minutes</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-RE-11</td><td>Rule version history maintained on update</td><td><span class="tag func">Functional</span></td><td>Update ATT_001 threshold 75% → 80%</td><td>New version created; old version preserved; audit record created</td><td><span class="tag tm">Medium</span></td></tr>
+        <tr><td>TC-RE-12</td><td>Trainer cannot create/edit risk rules</td><td><span class="tag sec">Security</span></td><td>Trainer calls POST /rules</td><td>HTTP 403 Forbidden</td><td><span class="tag th">High</span></td></tr>
+      </tbody>
+    </table>
+
+    <!-- Intervention -->
+    <div class="section-title">Module: Intervention Tracking</div>
+    <table>
+      <thead><tr><th>TC ID</th><th>Test Case</th><th>Type</th><th>Steps</th><th>Expected Result</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td>TC-IV-01</td><td>Assign remedial training intervention</td><td><span class="tag func">Functional</span></td><td>Trainer assigns remedial session; submits for approval</td><td>Intervention created (tenant-scoped); approver notified</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-IV-02</td><td>Approve intervention</td><td><span class="tag func">Functional</span></td><td>L&amp;D Admin approves pending intervention</td><td>Status = Active; employee notified</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-IV-03</td><td>Reject intervention with reason</td><td><span class="tag func">Functional</span></td><td>L&amp;D Admin rejects with reason</td><td>Status = Rejected; trainer notified with reason</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-IV-04</td><td>Effectiveness calculation accuracy</td><td><span class="tag func">Functional</span></td><td>Pre-score=55%, post-score=75%</td><td>Improvement = +20pp recorded; status = Completed</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-IV-05</td><td>Tenant A intervention not visible to Tenant B</td><td><span class="tag saas">SaaS</span></td><td>Tenant A creates 10 interventions; Tenant B admin views interventions</td><td>Tenant B sees zero Tenant A interventions</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-IV-06</td><td>Employee cannot view other employee's intervention</td><td><span class="tag sec">Security</span></td><td>Employee A tries to access Employee B's intervention record</td><td>HTTP 403 Forbidden</td><td><span class="tag th">High</span></td></tr>
+      </tbody>
+    </table>
+
+    <!-- Compliance Reporting -->
+    <div class="section-title">Module: Compliance Reporting (Per Tenant)</div>
+    <table>
+      <thead><tr><th>TC ID</th><th>Test Case</th><th>Type</th><th>Steps</th><th>Expected Result</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td>TC-CR-01</td><td>Generate attendance compliance report — PDF</td><td><span class="tag func">Functional</span></td><td>Admin generates Q1 Attendance Compliance report as PDF</td><td>PDF generated &lt;30s; contains only tenant's data</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-CR-02</td><td>Report contains only tenant-scoped data</td><td><span class="tag saas">SaaS</span></td><td>Compare report output against raw DB for tenant; check no other tenant rows present</td><td>100% data match; zero cross-tenant records in report</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-CR-03</td><td>Audit trail created on report generation</td><td><span class="tag func">Functional</span></td><td>Generate report; check audit log</td><td>Audit entry: user, timestamp, report type, tenant_id recorded</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-CR-04</td><td>Trainer cannot access compliance reports</td><td><span class="tag sec">Security</span></td><td>Trainer navigates to Compliance Reports module</td><td>Module not visible; direct URL access returns HTTP 403</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-CR-05</td><td>Report generation — empty date range</td><td><span class="tag neg">Negative</span></td><td>Generate report for a date range with no records</td><td>Report generated with "No records found"; no error thrown</td><td><span class="tag tm">Medium</span></td></tr>
+        <tr><td>TC-CR-06</td><td>Scheduled report generated on time</td><td><span class="tag func">Functional</span></td><td>Configure weekly report schedule; await trigger</td><td>Report auto-generated and sent to configured recipients on schedule</td><td><span class="tag tm">Medium</span></td></tr>
+      </tbody>
+    </table>
+
+    <!-- Performance Tests -->
+    <div class="section-title">Multi-Tenant Performance Test Cases</div>
+    <table>
+      <thead><tr><th>TC ID</th><th>Test Case</th><th>Load</th><th>Expected SLA</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td>TC-PF-01</td><td>API response time — normal load</td><td>50 concurrent users across 10 tenants</td><td>P95 &lt; 200ms for all endpoints</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-PF-02</td><td>API response time — peak multi-tenant load</td><td>500 concurrent users across 50 tenants</td><td>P95 &lt; 500ms; zero 5xx errors</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-PF-03</td><td>Nightly risk batch — multi-tenant staggered</td><td>50 tenants × 1000 employees each</td><td>All tenants complete batch within 2-hour window</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-PF-04</td><td>Dashboard load — concurrent tenant users</td><td>100 simultaneous logins across 20 tenants</td><td>Each dashboard renders &lt; 2 seconds</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-PF-05</td><td>Report generation — large tenant dataset</td><td>Report for tenant with 5000 employees</td><td>Generated in &lt; 30 seconds</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-PF-06</td><td>Tenant provisioning speed</td><td>10 simultaneous new tenant registrations</td><td>Each provisioned in &lt; 60 seconds</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>TC-PF-07</td><td>Platform availability (uptime)</td><td>72-hour continuous operation</td><td>&gt; 99.9% uptime; zero unplanned downtime</td><td><span class="tag th">High</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SECTION 4: RTM                         -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="card pink">
+    <h2>🗂️ 4. Requirement Traceability Matrix (RTM)</h2>
+    <table>
+      <thead>
+        <tr><th>FR ID</th><th>Requirement</th><th>Use Case</th><th>Test Cases</th><th>Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>FR-S01</td><td>Self-service tenant registration</td><td>UC-01</td><td>TC-TO-01, TC-TO-02</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-S02</td><td>Tenant provisioned within 60 seconds</td><td>UC-01</td><td>TC-TO-03, TC-TO-04, TC-PF-06</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-S03</td><td>Row-Level Security enforced</td><td>All tenant UCs</td><td>TC-TI-01, TC-TI-02, TC-TI-03, TC-TI-04, TC-TI-05, TC-TI-06, TC-TI-07</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-S04</td><td>No cross-tenant data exposure</td><td>All tenant UCs</td><td>TC-TI-01 through TC-TI-07, TC-RL-03, TC-SS-05</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-S05</td><td>Subscription tier enforcement</td><td>UC-03</td><td>TC-ST-01 through TC-ST-07</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-S06</td><td>Upgrade prompt on tier limit breach</td><td>UC-03</td><td>TC-ST-01, TC-ST-02, TC-ST-03</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-S07</td><td>Per-tenant API key generation</td><td>UC-04, UC-05</td><td>TC-RL-01, TC-RL-02, TC-RL-03, TC-RL-07</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-S08</td><td>Per-tenant rate limiting</td><td>UC-05</td><td>TC-RL-04, TC-RL-05, TC-RL-06</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-S09</td><td>Per-tenant SSO (SAML/OIDC)</td><td>UC-04</td><td>TC-SS-01, TC-SS-02, TC-SS-03, TC-SS-04, TC-SS-05</td><td><span class="tag tm">Medium</span></td></tr>
+        <tr><td>FR-S10</td><td>Super Admin portal with audit logging</td><td>UC-02</td><td>TC-TO-05, TC-TO-06</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-S11</td><td>Per-tenant usage metering</td><td>UC-03</td><td>TC-ST-03, TC-ST-07</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F01</td><td>Data ingestion via REST API</td><td>UC-05</td><td>TC-DI-01, TC-DI-04, TC-DI-06</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F02</td><td>Payload validation</td><td>UC-05</td><td>TC-DI-02, TC-DI-03, TC-DI-05</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F03</td><td>Bulk CSV import</td><td>UC-05</td><td>TC-DI-07, TC-DI-08</td><td><span class="tag tm">Medium</span></td></tr>
+        <tr><td>FR-F04</td><td>Employee profile aggregation</td><td>UC-06</td><td>TC-PE-01, TC-PE-02, TC-PE-04</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F05</td><td>Performance trend calculation</td><td>UC-06</td><td>TC-PE-03</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F06</td><td>Tenant-scoped risk rule definition</td><td>UC-07</td><td>TC-RE-07, TC-RE-08, TC-RE-11, TC-RE-12</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F07</td><td>Nightly risk evaluation</td><td>UC-08</td><td>TC-RE-01, TC-RE-02, TC-RE-09, TC-RE-10</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F08</td><td>Risk alerts dispatched</td><td>UC-08</td><td>TC-RE-01, TC-RE-03, TC-RE-05</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F09</td><td>Intervention assignment &amp; workflow</td><td>UC-09</td><td>TC-IV-01, TC-IV-02, TC-IV-03, TC-IV-05, TC-IV-06</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F10</td><td>Pre/post intervention improvement</td><td>UC-10</td><td>TC-IV-04</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F11</td><td>Tenant-scoped compliance reports</td><td>UC-11</td><td>TC-CR-01, TC-CR-02, TC-CR-05, TC-CR-06</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F12</td><td>Tenant-scoped audit trail</td><td>All UCs</td><td>TC-CR-03</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F13</td><td>Role-based dashboards (tenant-scoped)</td><td>UC-12</td><td>TC-PE-04, TC-PE-05</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F14</td><td>RBAC at platform and tenant levels</td><td>All UCs</td><td>TC-CR-04, TC-RE-12, TC-IV-06, TC-RL-02, TC-RL-03</td><td><span class="tag th">High</span></td></tr>
+        <tr><td>FR-F15</td><td>Encryption at rest &amp; in transit</td><td>All UCs</td><td>Security assessment (separate)</td><td><span class="tag th">High</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SECTION 5: TEST SUMMARY                -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="card green">
+    <h2>📊 5. Test Case Summary</h2>
+    <table>
+      <thead><tr><th>Module</th><th>Total TCs</th><th>Functional</th><th>SaaS-Specific</th><th>Negative</th><th>Performance</th><th>Security</th></tr></thead>
+      <tbody>
+        <tr><td>Tenant Onboarding</td><td>6</td><td>3</td><td>3</td><td>1</td><td>0</td><td>0</td></tr>
+        <tr><td>Tenant Isolation</td><td>7</td><td>0</td><td>5</td><td>0</td><td>0</td><td>7</td></tr>
+        <tr><td>Subscription Tier</td><td>7</td><td>0</td><td>7</td><td>1</td><td>0</td><td>0</td></tr>
+        <tr><td>API Keys &amp; Rate Limiting</td><td>7</td><td>2</td><td>4</td><td>0</td><td>0</td><td>3</td></tr>
+        <tr><td>SSO per Tenant</td><td>5</td><td>2</td><td>3</td><td>1</td><td>0</td><td>1</td></tr>
+        <tr><td>Data Ingestion</td><td>8</td><td>4</td><td>0</td><td>3</td><td>0</td><td>1</td></tr>
+        <tr><td>Employee Profile</td><td>6</td><td>3</td><td>1</td><td>0</td><td>1</td><td>2</td></tr>
+        <tr><td>Risk Rule Engine</td><td>12</td><td>7</td><td>1</td><td>1</td><td>1</td><td>2</td></tr>
+        <tr><td>Intervention Tracking</td><td>6</td><td>3</td><td>1</td><td>0</td><td>0</td><td>2</td></tr>
+        <tr><td>Compliance Reporting</td><td>6</td><td>3</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+        <tr><td>Multi-Tenant Performance</td><td>7</td><td>0</td><td>3</td><td>0</td><td>7</td><td>0</td></tr>
+        <tr style="font-weight:700;background:#f0fff4;"><td>TOTAL</td><td>77</td><td>27</td><td>29</td><td>8</td><td>9</td><td>19</td></tr>
+      </tbody>
+    </table>
+    <div class="saas-highlight" style="margin-top:16px">
+      <strong>SaaS Testing Insight:</strong> Of the 77 total test cases, <strong>29 are SaaS-specific</strong> — covering
+      tenant isolation, subscription enforcement, rate limiting, SSO, and multi-tenant performance. These are the most
+      critical tests for a multi-tenant SaaS platform and must achieve <strong>100% pass rate</strong> before any
+      production release. <strong>19 security test cases</strong> further validate cross-tenant access prevention.
+    </div>
+  </div>
+
+</div>
+<footer>
+  <p>PS3 Test Case Documentation | Corporate Learning SaaS Platform | Multi-Tenant Architecture</p>
+  <p style="margin-top:5px;">Propeller Technothon Challenge | Version 2.0 — SaaS Edition</p>
+</footer>
+</body>
+</html>

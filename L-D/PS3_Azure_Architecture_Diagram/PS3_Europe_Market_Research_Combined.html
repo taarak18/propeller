@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Europe Market Research — Compliance + Upskilling | Pre-Launch 2026</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',sans-serif;background:#f0f4f8;color:#2d3748;line-height:1.75}
+    header{background:linear-gradient(135deg,#1a365d,#2b6cb0,#3182ce);color:white;padding:40px 60px}
+    header h1{font-size:2rem;margin-bottom:6px}
+    header p{opacity:.85;font-size:.95rem}
+    .badges{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .badge{display:inline-block;font-size:.72rem;font-weight:700;padding:3px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:1px}
+    .b-launch{background:#fff;color:#2b6cb0;border:2px solid #90cdf4}
+    .b-blue{background:#bee3f8;color:#1a365d}.b-green{background:#9ae6b4;color:#276749}
+    .b-purple{background:#e9d8fd;color:#553c9a}.b-white{background:rgba(255,255,255,.2);color:white;border:1px solid rgba(255,255,255,.4)}
+    .container{max-width:1200px;margin:40px auto;padding:0 30px 60px}
+    .prelaunch-banner{background:linear-gradient(135deg,#fffaf0,#fef3c7);border:2px solid #f6ad55;border-radius:10px;padding:16px 22px;margin-bottom:16px;display:flex;align-items:flex-start;gap:14px}
+    .prelaunch-banner .icon{font-size:2rem;line-height:1}
+    .prelaunch-banner h4{color:#92400e;font-size:.95rem;margin-bottom:4px}
+    .prelaunch-banner p{margin:0;font-size:.87rem;color:#78350f}
+    .aiact-banner{background:linear-gradient(135deg,#faf5ff,#e9d8fd);border:2px solid #b794f4;border-radius:10px;padding:14px 20px;margin-bottom:20px;display:flex;align-items:flex-start;gap:12px}
+    .aiact-banner .icon{font-size:1.8rem;line-height:1}
+    .aiact-banner h4{color:#553c9a;font-size:.93rem;margin-bottom:4px}
+    .aiact-banner p{margin:0;font-size:.86rem;color:#44337a}
+    .card{background:white;border-radius:12px;padding:28px 32px;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,.07);border-left:5px solid #2b6cb0}
+    .card.green{border-left-color:#38a169}.card.purple{border-left-color:#805ad5}.card.teal{border-left-color:#319795}
+    .card.orange{border-left-color:#dd6b20}.card.red{border-left-color:#e53e3e}.card.gold{border-left-color:#d69e2e}
+    .card.pink{border-left-color:#d53f8c}
+    .section-pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.68rem;font-weight:700;text-transform:uppercase;margin-right:4px}
+    .pill-comp{background:#fed7d7;color:#c53030}.pill-skill{background:#c6f6d5;color:#276749}.pill-both{background:#e9d8fd;color:#553c9a}
+    h2{font-size:1.2rem;color:#1a365d;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+    h3{font-size:.97rem;color:#2b6cb0;margin:16px 0 7px;font-weight:700}
+    h4{font-size:.88rem;color:#2d3748;margin:10px 0 5px;font-weight:700}
+    p{margin-bottom:9px;font-size:.91rem}
+    ul,ol{padding-left:20px;margin-bottom:9px}
+    li{margin-bottom:4px;font-size:.90rem}
+    table{width:100%;border-collapse:collapse;margin-top:8px;font-size:.86rem}
+    th{background:#ebf8ff;color:#1a365d;text-align:left;padding:9px 12px;font-weight:700;border-bottom:2px solid #bee3f8}
+    th.t{background:#f0fff4;color:#276749;border-bottom-color:#9ae6b4}
+    td{padding:8px 12px;border-bottom:1px solid #e2e8f0;vertical-align:top}
+    tr:hover td{background:#ebf8ff}
+    .planned-row{background:#fffaf0}
+    .tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.72rem;font-weight:700;margin:1px}
+    .th{background:#fed7d7;color:#c53030}.tm{background:#fefcbf;color:#975a16}.tl{background:#c6f6d5;color:#276749}
+    .yr{background:#718096;color:white;padding:2px 7px;border-radius:5px;font-size:.70rem;font-weight:700;margin-left:5px}
+    .yr.mkt{background:#38a169}
+    .highlight{background:#ebf8ff;border-left:4px solid #2b6cb0;padding:11px 15px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.91rem}
+    .green-highlight{background:#f0fff4;border-left:4px solid #38a169;padding:11px 15px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.91rem}
+    .purple-highlight{background:#faf5ff;border-left:4px solid #805ad5;padding:11px 15px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.91rem}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:10px}
+    .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:10px}
+    .four-col{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-top:10px}
+    .box{background:#f7fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px}
+    .box h4{color:#2b6cb0;margin-bottom:6px;font-size:.86rem}
+    .box.comp{background:#fff5f5;border-color:#feb2b2}.box.comp h4{color:#c53030}
+    .box.skill{background:#ebf8ff;border-color:#90cdf4}.box.skill h4{color:#2b6cb0}
+    .box.green{background:#f0fff4;border-color:#9ae6b4}.box.green h4{color:#276749}
+    .box.purple{background:#faf5ff;border-color:#d6bcfa}.box.purple h4{color:#553c9a}
+    .metric-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;margin-top:12px}
+    .metric{border-radius:10px;padding:14px;text-align:center;background:white;border:1px solid #e2e8f0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+    .metric .value{font-size:1.3rem;font-weight:800;color:#2b6cb0}
+    .metric.s .value{color:#276749}.metric.p .value{color:#553c9a}
+    .metric .label{font-size:.74rem;color:#718096;margin-top:3px}
+    .metric .sub{font-size:.68rem;color:#a0aec0;margin-top:2px}
+    .bar-container{margin:7px 0}
+    .bar-label{font-size:.80rem;display:flex;justify-content:space-between;margin-bottom:2px}
+    .bar-track{background:#e2e8f0;border-radius:20px;height:11px;overflow:hidden}
+    .bar-comp{height:100%;border-radius:20px;background:linear-gradient(90deg,#2b6cb0,#63b3ed)}
+    .bar-gap{height:100%;border-radius:20px;background:linear-gradient(90deg,#c53030,#fc8181)}
+    .tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px}
+    .tier{border-radius:10px;padding:14px}
+    .tier.s{background:#ebf8ff;border:2px solid #90cdf4}
+    .tier.p{background:#faf5ff;border:2px solid #d6bcfa}
+    .tier.e{background:#fffaf0;border:2px solid #f6ad55}
+    .tier h4{font-size:.88rem;margin-bottom:5px;color:#1a365d}
+    .tier .price{font-size:1.15rem;font-weight:800;margin:4px 0}
+    .tier.s .price{color:#2b6cb0}.tier.p .price{color:#553c9a}.tier.e .price{color:#c05621}
+    .tier ul{font-size:.78rem;padding-left:14px}
+    .swot-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:10px;overflow:hidden;margin-top:12px}
+    .swot-box{padding:16px}.swot-box h4{font-size:.88rem;font-weight:700;margin-bottom:7px}
+    .swot-s{background:#f0fff4;border-right:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0}
+    .swot-w{background:#fff5f5;border-bottom:1px solid #e2e8f0}
+    .swot-o{background:#ebf8ff;border-right:1px solid #e2e8f0}.swot-t{background:#fffaf0}
+    .roadmap-item{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #e2e8f0}
+    .roadmap-item:last-child{border-bottom:none}
+    .rp{border-radius:7px;padding:5px 12px;font-size:.75rem;font-weight:700;white-space:nowrap;height:fit-content;margin-top:3px;color:white;background:#718096}
+    .rp.y1{background:#2b6cb0}.rp.y2{background:#553c9a}.rp.y3{background:#276749}
+    .roadmap-content h4{color:#1a365d;font-size:.88rem;margin-bottom:3px}
+    .roadmap-content p{font-size:.82rem;color:#4a5568;margin:0}
+    .reg-badge{display:inline-block;padding:2px 9px;border-radius:10px;font-size:.70rem;font-weight:700;margin:2px;background:#ebf8ff;color:#1a365d;border:1px solid #bee3f8}
+    .comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:12px}
+    .comp-card{border-radius:9px;padding:12px;border:1px solid #e2e8f0}
+    .comp-card h4{font-size:.84rem;margin-bottom:5px}
+    .ctype{font-size:.68rem;font-weight:700;padding:2px 7px;border-radius:9px;display:inline-block;margin-bottom:5px}
+    .cg{background:#bee3f8;color:#2b6cb0}.ce{background:#c6f6d5;color:#276749}.cp{background:#e9d8fd;color:#553c9a}
+    .divider{background:linear-gradient(90deg,#ebf8ff,#f0fff4);border-radius:8px;padding:9px 16px;margin:18px 0 10px;font-weight:700;font-size:.88rem;border-left:4px solid #2b6cb0;color:#1a365d;display:flex;align-items:center;gap:8px}
+    footer{text-align:center;padding:26px;color:#718096;font-size:.81rem;background:white;border-top:1px solid #e2e8f0;margin-top:36px}
+  </style>
+</head>
+<body>
+<header>
+  <h1>🌍 Europe Market Research — Compliance + Upskilling</h1>
+  <p>Corporate Learning SaaS Platform — Comprehensive Europe L&amp;D Market Analysis &amp; Go-to-Market Strategy</p>
+  <div class="badges">
+    <span class="badge b-launch">🚀 Pre-Launch | Planning 2026</span>
+    <span class="badge b-blue">Compliance Training</span>
+    <span class="badge b-green">Upskilling &amp; Skill Growth</span>
+    <span class="badge b-purple">🤖 EU AI Act Aug 2026</span>
+    <span class="badge b-white">UK · DACH · France · Nordics | USD</span>
+  </div>
+</header>
+<div class="container">
+
+  <div class="prelaunch-banner">
+    <div class="icon">🚀</div>
+    <div>
+      <h4>Pre-Launch Phase — Combined Market Research &amp; Planning Document</h4>
+      <p>This product has <strong>not yet been launched</strong>. This document combines compliance training and upskilling market research for Europe into a single comprehensive reference. All revenue figures are <strong>forward-looking targets</strong>. Data sourced from EU Commission DESI 2025, ETF, LinkedIn Workplace Learning 2026, Cedefop, Gartner Europe, IDC, and HolonIQ.</p>
+    </div>
+  </div>
+
+  <div class="aiact-banner">
+    <div class="icon">⚡</div>
+    <div>
+      <h4>🔴 Critical Launch Timing: EU AI Act Enforcement — August 2026</h4>
+      <p>EU AI Act Article 4 mandates <strong>AI literacy training for all employees using AI systems</strong>. With 70%+ of EU companies deploying AI and enforcement beginning August 2026, there is an <strong>immediate, urgent, penalty-backed (€35M) demand</strong> for our planned AI literacy tracking module. <strong>We must launch before competitors build this capability.</strong> This is the biggest single compliance + upskilling opportunity in EU history.</p>
+    </div>
+  </div>
+
+  <!-- 1. EXECUTIVE SUMMARY -->
+  <div class="card gold">
+    <h2>📌 1. Executive Summary — Europe Combined L&amp;D Opportunity</h2>
+    <div class="highlight">
+      Europe presents a <strong>$14.8B combined L&amp;D market in 2026</strong> — comprising <strong>$5.7B compliance training</strong> and <strong>$9.1B upskilling</strong> — growing to <strong>$24.3B by 2030</strong>. Four simultaneous regulatory drivers create an exceptional 2026 launch window: <strong>EU AI Act enforcement (Aug 2026)</strong>, <strong>NIS2 Directive (active Oct 2024)</strong>, <strong>CSRD Phase 2 (active 2026)</strong>, and <strong>DORA (active Jan 2025)</strong>. No competitor currently has a dedicated EU AI Act compliance + AI literacy tracking module — this is our <strong>first-mover opportunity</strong>.
+    </div>
+    <div class="metric-grid">
+      <div class="metric"><div class="value">$5.7B</div><div class="label">Compliance Market 2026</div><div class="sub">Europe corporate</div></div>
+      <div class="metric s"><div class="value">$9.1B</div><div class="label">Upskilling Market 2026</div><div class="sub">Europe corporate</div></div>
+      <div class="metric"><div class="value">$14.8B</div><div class="label">Combined L&amp;D 2026</div><div class="sub">Total opportunity</div></div>
+      <div class="metric"><div class="value">$24.3B</div><div class="label">Combined L&amp;D 2030</div><div class="sub">Projected target</div></div>
+      <div class="metric p"><div class="value">€35M</div><div class="label">EU AI Act Penalty</div><div class="sub">AI literacy failure</div></div>
+      <div class="metric s"><div class="value">68%</div><div class="label">AI Skill Gap</div><div class="sub">EU workers — urgent</div></div>
+      <div class="metric"><div class="value">€37B</div><div class="label">EU Skills Agenda</div><div class="sub">Government-backed demand</div></div>
+      <div class="metric s"><div class="value">120M</div><div class="label">EU Workers</div><div class="sub">Need upskilling by 2030</div></div>
+    </div>
+  </div>
+
+  <!-- 2. COMBINED MARKET SIZE -->
+  <div class="card blue">
+    <h2>📊 2. Europe Combined L&amp;D Market Size (USD)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Year</th>
+          <th><span class="section-pill pill-comp">Compliance</span></th>
+          <th><span class="section-pill pill-skill">Upskilling</span></th>
+          <th><span class="section-pill pill-both">Combined L&amp;D</span></th>
+          <th>Growth</th><th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>2024</td><td>$5.3B</td><td>$8.3B</td><td><strong>$13.6B</strong></td><td>—</td><td><span class="yr mkt">Industry Data</span></td></tr>
+        <tr><td>2025</td><td>$5.5B</td><td>$8.7B</td><td><strong>$14.2B</strong></td><td>+4%</td><td><span class="yr mkt">Industry Data</span></td></tr>
+        <tr><td>2026</td><td>$5.7B</td><td>$9.1B</td><td><strong>$14.8B</strong></td><td>+4%</td><td><span class="yr mkt">Industry Data</span></td></tr>
+        <tr class="planned-row"><td>2027</td><td>$6.4B</td><td>$10.4B</td><td><strong>$16.8B</strong></td><td>+14%</td><td><span class="yr">Projected</span></td></tr>
+        <tr class="planned-row"><td>2028</td><td>$7.0B</td><td>$11.4B</td><td><strong>$18.4B</strong></td><td>+10%</td><td><span class="yr">Projected</span></td></tr>
+        <tr class="planned-row"><td>2029</td><td>$7.6B</td><td>$12.3B</td><td><strong>$19.9B</strong></td><td>+8%</td><td><span class="yr">Projected</span></td></tr>
+        <tr class="planned-row"><td>2030</td><td>$9.2B</td><td>$15.1B</td><td><strong>$24.3B</strong></td><td>+22%</td><td><span class="yr">Projected</span></td></tr>
+      </tbody>
+    </table>
+    <h3>Industry Vertical Breakdown — Europe</h3>
+    <div class="bar-container"><div class="bar-label"><span>UK Financial Services — FCA + DORA + MiFID II + AI skills</span><span>26%</span></div><div class="bar-track"><div class="bar-comp" style="width:26%"></div></div></div>
+    <div class="bar-container"><div class="bar-label"><span>DACH — NIS2 + EU AI Act + Works Council + Industry 4.0</span><span>22%</span></div><div class="bar-track"><div class="bar-comp" style="width:22%"></div></div></div>
+    <div class="bar-container"><div class="bar-label"><span>France — CSRD + CPF (€900/worker/year) + AI skills</span><span>16%</span></div><div class="bar-track"><div class="bar-comp" style="width:16%"></div></div></div>
+    <div class="bar-container"><div class="bar-label"><span>Nordics — EU AI Act + GDPR leaders; highest WTP</span><span>12%</span></div><div class="bar-track"><div class="bar-comp" style="width:12%"></div></div></div>
+    <div class="bar-container"><div class="bar-label"><span>Benelux — FinTech hub; DORA + MiFID II + AI</span><span>10%</span></div><div class="bar-track"><div class="bar-comp" style="width:10%"></div></div></div>
+    <div class="bar-container"><div class="bar-label"><span>Southern + Eastern Europe — Emerging growth</span><span>14%</span></div><div class="bar-track"><div class="bar-comp" style="width:14%"></div></div></div>
+  </div>
+
+  <!-- 3. COMPLIANCE LANDSCAPE -->
+  <div class="card">
+    <div class="divider"><span class="section-pill pill-comp">COMPLIANCE</span> Regulatory &amp; Compliance Training Landscape — Europe 2026</div>
+    <table>
+      <thead><tr><th>Regulation</th><th>Sector</th><th>2026 Status</th><th>Training Requirement</th><th>Penalty</th></tr></thead>
+      <tbody>
+        <tr><td><span class="reg-badge">GDPR (EU + UK)</span></td><td>All</td><td><span class="tag tl">Active</span></td><td>Annual data privacy; DPO training; processing records</td><td>€20M or 4% global turnover</td></tr>
+        <tr><td><span class="reg-badge">EU AI Act</span></td><td>AI system users</td><td><span class="tag th">🔴 Enforcing Aug 2026</span></td><td>AI literacy mandatory for ALL staff using AI systems</td><td>€35M or 7% global turnover</td></tr>
+        <tr><td><span class="reg-badge">NIS2 Directive</span></td><td>Critical infra</td><td><span class="tag th">Active Oct 2024</span></td><td>Cybersecurity awareness + incident response; board cyber training</td><td>€10M or 2% global turnover</td></tr>
+        <tr><td><span class="reg-badge">CSRD</span></td><td>Large EU cos.</td><td><span class="tag th">Phased 2024–28</span></td><td>ESG reporting training; GRI/TCFD framework literacy</td><td>Public disclosure + fines</td></tr>
+        <tr><td><span class="reg-badge">DORA</span></td><td>EU Financial</td><td><span class="tag th">Active Jan 2025</span></td><td>ICT risk management; third-party risk awareness</td><td>1% daily global turnover</td></tr>
+        <tr><td><span class="reg-badge">MiFID II</span></td><td>Financial</td><td><span class="tag tl">Active</span></td><td>35 CPD hours/year; competency assessments for advisors</td><td>License suspension</td></tr>
+        <tr><td><span class="reg-badge">FCA T&amp;C (UK)</span></td><td>UK Financial</td><td><span class="tag tl">Active</span></td><td>Annual competency training; Consumer Duty</td><td>FCA enforcement</td></tr>
+        <tr><td><span class="reg-badge">EU Pay Transparency</span></td><td>All EU employers</td><td><span class="tag tm">Transposing 2026</span></td><td>Pay equity training for HR; reporting obligations</td><td>Member state fines</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 4. UPSKILLING LANDSCAPE -->
+  <div class="card purple">
+    <div class="divider"><span class="section-pill pill-skill">UPSKILLING</span> Skill Gap Crisis &amp; Upskilling Market Driver — Europe 2026</div>
+    <div class="purple-highlight">
+      <strong>2026 Critical Context:</strong> EU AI Act enforcement begins August 2026 — creating Europe's largest-ever mandatory upskilling event for 160M+ workers. DESI 2025 shows only 56% of EU workers have adequate digital skills. NIS2 (active Oct 2024) has 160,000 EU entities in urgent cybersecurity remediation. CSRD Phase 2 has activated ESG skills training for 3,000+ large companies. France CPF (€900/worker/year) provides built-in training budgets for all French employees.
+    </div>
+    <h3>Critical Skill Gaps — Europe 2026</h3>
+    <div class="bar-container"><div class="bar-label"><span>AI Literacy &amp; Responsible AI (EU AI Act — Aug 2026 enforcement)</span><span>68% gap ⚠️ URGENT</span></div><div class="bar-track"><div class="bar-gap" style="width:68%"></div></div></div>
+    <div class="bar-container"><div class="bar-label"><span>Cybersecurity &amp; NIS2 Compliance Skills</span><span>54% gap</span></div><div class="bar-track"><div class="bar-gap" style="width:54%"></div></div></div>
+    <div class="bar-container"><div class="bar-label"><span>ESG &amp; Sustainability Skills (CSRD Phase 2 active)</span><span>45% gap</span></div><div class="bar-track"><div class="bar-gap" style="width:45%"></div></div></div>
+    <div class="bar-container"><div class="bar-label"><span>Cloud Computing &amp; Digital Infrastructure</span><span>44% gap</span></div><div class="bar-track"><div class="bar-gap" style="width:44%"></div></div></div>
+    <div class="bar-container"><div class="bar-label"><span>DORA — ICT Risk Management (EU Financial Sector)</span><span>38% gap</span></div><div class="bar-track"><div class="bar-gap" style="width:38%"></div></div></div>
+    <div class="bar-container"><div class="bar-label"><span>Data Analytics &amp; GDPR-aligned Governance</span><span>41% gap</span></div><div class="bar-track"><div class="bar-gap" style="width:41%"></div></div></div>
+
+    <h3>Upskilling Program Types — Platform Coverage</h3>
+    <div class="four-col">
+      <div class="box skill"><h4>EU AI Act Literacy</h4><ul><li>AI literacy baseline assessment</li><li>Role-based AI literacy thresholds</li><li>EU AI Act Article 4 report</li><li>AI operator certification</li><li><span class="tag th">🔥 URGENT Aug 2026</span></li></ul></div>
+      <div class="box skill"><h4>ESG / CSRD Skills</h4><ul><li>CSRD Phase 2 reporting skills</li><li>GRI / TCFD / SASB literacy</li><li>Carbon accounting (Scope 1/2/3)</li><li>CSRD readiness score per dept.</li></ul></div>
+      <div class="box skill"><h4>NIS2 + DORA Cyber Skills</h4><ul><li>NIS2 technical implementation</li><li>DORA ICT risk management</li><li>ISO 27001 implementation</li><li>Incident response / CSIRT</li></ul></div>
+      <div class="box skill"><h4>Career Growth (EU)</h4><ul><li>CPF budget tracking (France)</li><li>Works Council compliance (Germany)</li><li>Cross-EU mobility skills</li><li>CEFR language proficiency</li></ul></div>
+    </div>
+  </div>
+
+  <!-- 5. COMBINED RISK RULES -->
+  <div class="card">
+    <h2>⚠️ 5. Configurable Risk Rule Engine — Compliance + Upskilling</h2>
+    <div class="two-col">
+      <div>
+        <h3><span class="section-pill pill-comp">COMPLIANCE</span> Risk Rules</h3>
+        <table>
+          <thead><tr><th>Rule</th><th>Trigger</th><th>Severity</th></tr></thead>
+          <tbody>
+            <tr><td>AI Act Literacy Gap</td><td>AI literacy score &lt;50th percentile; uses AI systems</td><td><span class="tag th">Critical</span></td></tr>
+            <tr><td>NIS2 Non-Readiness</td><td>NIS2 cyber skill &lt;70% for critical roles</td><td><span class="tag th">High</span></td></tr>
+            <tr><td>CSRD Readiness Gap</td><td>ESG reporting skill &lt;80% for finance/ops</td><td><span class="tag th">High</span></td></tr>
+            <tr><td>DORA ICT Gap</td><td>ICT risk skill &lt;70% for financial tech staff</td><td><span class="tag th">High</span></td></tr>
+            <tr><td>GDPR Training Lapsed</td><td>Data privacy cert &gt;12 months old for data handlers</td><td><span class="tag th">High</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3><span class="section-pill pill-skill">UPSKILLING</span> Risk Rules</h3>
+        <table>
+          <thead><tr><th>Rule</th><th>Trigger</th><th>Severity</th></tr></thead>
+          <tbody>
+            <tr><td>AI Operator Cert Expiry</td><td>EU AI Act operator cert expiring in 60 days</td><td><span class="tag th">High</span></td></tr>
+            <tr><td>CPF Budget Unspent (FR)</td><td>French employee CPF &gt;€500 unspent by Q3</td><td><span class="tag tm">Medium</span></td></tr>
+            <tr><td>Works Council Training (DE)</td><td>Betriebsrat-mandated training not completed</td><td><span class="tag th">High</span></td></tr>
+            <tr><td>Skill Stagnation</td><td>No learning activity in 90 days</td><td><span class="tag tm">Medium</span></td></tr>
+            <tr><td>HiPo Flag</td><td>Skill score &gt;90th percentile; all paths complete</td><td><span class="tag tl">Positive</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. TARGET SEGMENTS -->
+  <div class="card green">
+    <h2>🎯 6. Target Customer Segments — Europe</h2>
+    <table>
+      <thead><tr><th>Segment</th><th>Compliance Pain</th><th>Upskilling Pain</th><th>WTP (USD/user/mo)</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td><strong>UK Financial Services</strong><br/><small>HSBC, Barclays, Aviva</small></td><td>FCA T&amp;C, DORA, MiFID II CPD</td><td>AI in finance, digital banking</td><td>£22–£50</td><td><span class="tag th">Primary</span></td></tr>
+        <tr><td><strong>DACH Enterprises</strong><br/><small>Siemens, SAP, Volkswagen</small></td><td>NIS2, Works Council, EU AI Act</td><td>Industry 4.0, AI literacy, cloud</td><td>€20–€45</td><td><span class="tag th">Primary</span></td></tr>
+        <tr><td><strong>French Large Enterprises</strong><br/><small>BNP Paribas, TotalEnergies</small></td><td>CSRD, GDPR, CPF compliance</td><td>AI skills, ESG reporting skills</td><td>€18–€40</td><td><span class="tag th">Primary</span></td></tr>
+        <tr><td><strong>Nordics</strong><br/><small>Volvo, Ericsson, Maersk, Spotify</small></td><td>EU AI Act, GDPR, NIS2</td><td>AI literacy, cloud, sustainability</td><td>€25–€55</td><td><span class="tag th">Primary</span></td></tr>
+        <tr><td><strong>EU Mid-Market</strong><br/><small>500–5000 employees, EU27</small></td><td>GDPR compliance gaps, NIS2</td><td>AI literacy, digital skills</td><td>€12–€28</td><td><span class="tag tm">Secondary</span></td></tr>
+        <tr><td><strong>Pan-EU Tech</strong><br/><small>ASML, Adyen, Klarna</small></td><td>EU AI Act, GDPR, NIS2</td><td>GenAI, cloud, ML engineering</td><td>€18–€40</td><td><span class="tag tm">Secondary</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 7. COMPETITIVE LANDSCAPE -->
+  <div class="card purple">
+    <h2>🏆 7. Competitive Landscape — Europe (Combined View)</h2>
+    <div class="green-highlight">
+      <strong>First-Mover Opportunity:</strong> No competitor has a dedicated EU AI Act Article 4 compliance + AI literacy tracking module. SAP dominates DACH but has no AI Act module. 360Learning and Fuse have content but no compliance or risk engine. Cornerstone has compliance but no AI literacy module. We are the <strong>only platform unifying compliance + upskilling + AI Act tracking + risk engine</strong> for the European market.
+    </div>
+    <div class="comp-grid">
+      <div class="comp-card" style="border-color:#bee3f8"><span class="ctype cg">Global</span><h4>SAP SuccessFactors</h4><ul style="font-size:.79rem;padding-left:12px"><li>€25–€60/user/mo; dominates DACH</li><li>Works Council support</li><li>No EU AI Act module yet</li><li><strong>Gap:</strong> No skill stagnation risk rules</li></ul></div>
+      <div class="comp-card" style="border-color:#c6f6d5"><span class="ctype ce">EU-Based</span><h4>360Learning</h4><ul style="font-size:.79rem;padding-left:12px"><li>€8–€22/user/mo; Paris-based</li><li>Collaborative learning; France/UK</li><li>No compliance or risk engine</li><li><strong>Gap:</strong> No compliance + upskilling unified</li></ul></div>
+      <div class="comp-card" style="border-color:#bee3f8"><span class="ctype cg">Global Content</span><h4>Coursera for Business</h4><ul style="font-size:.79rem;padding-left:12px"><li>€350–€450/user/year</li><li>AI/tech curriculum</li><li>No EU AI Act compliance module</li><li><strong>Gap:</strong> Content only — no compliance</li></ul></div>
+      <div class="comp-card" style="border-color:#c6f6d5"><span class="ctype ce">EU-Based</span><h4>Fuse Universal</h4><ul style="font-size:.79rem;padding-left:12px"><li>UK-based; mobile-first LXP</li><li>Strong UK retail/hospitality</li><li>No EU AI Act module</li><li><strong>Gap:</strong> No risk engine or interventions</li></ul></div>
+      <div class="comp-card" style="border-color:#e9d8fd"><span class="ctype cp">Skills Platform</span><h4>Degreed (EU)</h4><ul style="font-size:.79rem;padding-left:12px"><li>€12–€22/user/mo</li><li>Skills taxonomy; GDPR compliant</li><li>No EU AI Act or CSRD modules</li><li><strong>Gap:</strong> No compliance + skills unified</li></ul></div>
+      <div class="comp-card" style="border-color:#bee3f8"><span class="ctype cg">Global</span><h4>Cornerstone OnDemand</h4><ul style="font-size:.79rem;padding-left:12px"><li>€18–€45/user/mo; EU data residency</li><li>Compliance module available</li><li>No EU AI Act literacy tracker</li><li><strong>Gap:</strong> No AI Act upskilling module</li></ul></div>
+    </div>
+  </div>
+
+  <!-- 8. PRICING -->
+  <div class="card gold">
+    <h2>💰 8. Planned Pricing — Compliance + Upskilling Combined (USD/user/month)</h2>
+    <div class="tier-grid">
+      <div class="tier s">
+        <h4>🔵 Starter</h4><div class="price">$12/user/mo</div>
+        <small style="color:#2b6cb0">Annual — up to 300 employees</small>
+        <ul style="margin-top:8px">
+          <li><span class="section-pill pill-comp" style="font-size:.60rem">COMP</span> GDPR + NIS2 awareness</li>
+          <li><span class="section-pill pill-comp" style="font-size:.60rem">COMP</span> 5 compliance risk rules</li>
+          <li><span class="section-pill pill-skill" style="font-size:.60rem">SKILL</span> EU AI Act literacy baseline</li>
+          <li><span class="section-pill pill-skill" style="font-size:.60rem">SKILL</span> Basic skill gap dashboard</li>
+          <li><span class="section-pill pill-skill" style="font-size:.60rem">SKILL</span> 3 upskilling risk rules</li>
+          <li>EU data residency (Frankfurt) | 99.5% SLA</li>
+        </ul>
+      </div>
+      <div class="tier p">
+        <h4>🟣 Professional</h4><div class="price">$28/user/mo</div>
+        <small style="color:#553c9a">Annual — up to 5,000 employees</small>
+        <ul style="margin-top:8px">
+          <li><span class="section-pill pill-comp" style="font-size:.60rem">COMP</span> GDPR + NIS2 + MiFID II + DORA</li>
+          <li><span class="section-pill pill-comp" style="font-size:.60rem">COMP</span> EU AI Act full compliance module</li>
+          <li><span class="section-pill pill-skill" style="font-size:.60rem">SKILL</span> CSRD ESG skill tracking</li>
+          <li><span class="section-pill pill-skill" style="font-size:.60rem">SKILL</span> Skills taxonomy (1,000 ESCO)</li>
+          <li><span class="section-pill pill-skill" style="font-size:.60rem">SKILL</span> CPF tracker (France)</li>
+          <li><span class="section-pill pill-skill" style="font-size:.60rem">SKILL</span> Works Council reporting (Germany)</li>
+          <li>EN/DE/FR UI | SSO | 99.9% SLA</li>
+        </ul>
+      </div>
+      <div class="tier e">
+        <h4>🟠 Enterprise</h4><div class="price">$56/user/mo</div>
+        <small style="color:#c05621">Annual — unlimited employees</small>
+        <ul style="margin-top:8px">
+          <li><span class="section-pill pill-comp" style="font-size:.60rem">COMP</span> All EU compliance modules</li>
+          <li><span class="section-pill pill-comp" style="font-size:.60rem">COMP</span> AI Act operator cert tracking</li>
+          <li><span class="section-pill pill-skill" style="font-size:.60rem">SKILL</span> Unlimited skills taxonomy</li>
+          <li><span class="section-pill pill-skill" style="font-size:.60rem">SKILL</span> Internal talent marketplace</li>
+          <li><span class="section-pill pill-skill" style="font-size:.60rem">SKILL</span> Succession planning module</li>
+          <li>9 EU languages | UK residency (London) | DPA + SCCs | Custom SLA</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. REVENUE TARGETS -->
+  <div class="card">
+    <h2>📈 9. Europe Revenue Targets — Combined L&amp;D (2026–2030)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Year</th><th>Year #</th><th>Tenants</th><th>Avg ARR</th>
+          <th class="t"><span class="section-pill pill-comp">Compliance</span></th>
+          <th class="t"><span class="section-pill pill-skill">Upskilling</span></th>
+          <th class="t"><span class="section-pill pill-both">Total ARR</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="planned-row"><td>2026</td><td>Launch</td><td>60</td><td>$53,000</td><td>$1.8M</td><td>$1.4M</td><td><strong>$3.2M</strong></td></tr>
+        <tr class="planned-row"><td>2027</td><td>Year 2</td><td>280</td><td>$67,900</td><td>$9.6M</td><td>$9.4M</td><td><strong>$19.0M</strong></td></tr>
+        <tr class="planned-row"><td>2028</td><td>Year 3</td><td>1,000</td><td>$68,200</td><td>$38.4M</td><td>$29.8M</td><td><strong>$68.2M</strong></td></tr>
+        <tr class="planned-row"><td>2029</td><td>Year 4</td><td>2,400</td><td>$82,500</td><td>$96.0M</td><td>$102.0M</td><td><strong>$198.0M</strong></td></tr>
+        <tr class="planned-row" style="font-weight:700"><td>2030</td><td>Year 5</td><td>4,800</td><td>$74,600</td><td>$201.6M</td><td>$156.4M</td><td><strong>$358.0M</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="green-highlight" style="margin-top:10px">
+      <strong>EU AI Act Insight:</strong> The Aug 2026 enforcement deadline creates a demand surge in Q2–Q3 2026. We expect <strong>40–50% of Year 1 EU revenue</strong> to come from EU AI Act compliance module adoption — a unique demand driver no competitor can serve. Act now to capture this window.
+    </div>
+  </div>
+
+  <!-- 10. SWOT -->
+  <div class="card gold">
+    <h2>🔲 10. SWOT — Europe Combined L&amp;D Market Entry</h2>
+    <div class="swot-grid">
+      <div class="swot-box swot-s"><h4>💪 Strengths</h4><ul>
+        <li>Planned EU AI Act module — first to market; enforcement Aug 2026</li>
+        <li>CSRD + NIS2 + DORA + GDPR — covers all major EU compliance mandates</li>
+        <li>CPF budget tracking — unique feature for €34B French training fund</li>
+        <li>Works Council reporting — legal compliance support for DACH market</li>
+        <li>GDPR-native architecture + EU data residency (Frankfurt + London) from Day 1</li>
+        <li>$12/user entry price vs €18–€45 for Cornerstone/SAP</li>
+      </ul></div>
+      <div class="swot-box swot-w"><h4>⚠️ Weaknesses</h4><ul>
+        <li>Zero EU brand recognition or customer references at launch</li>
+        <li>Works Council approval slows DACH enterprise deals (3–6 months)</li>
+        <li>Only 3 EU languages at launch; 6 more needed for full coverage</li>
+        <li>No native content library — compliance + tracking layer only</li>
+        <li>Country-specific regulatory variations across 27 member states</li>
+      </ul></div>
+      <div class="swot-box swot-o"><h4>🌱 Opportunities</h4><ul>
+        <li><strong>EU AI Act Aug 2026</strong> — largest mandatory upskilling event in EU history; no competitor ready</li>
+        <li>CSRD Phase 2 — 3,000 large companies must track ESG training skills NOW</li>
+        <li>€37B EU Skills Agenda — government-backed, durable multi-year demand</li>
+        <li>France CPF — €900/worker/year creates built-in per-employee training budget</li>
+        <li>Nordics — highest digital maturity and premium pricing willingness in Europe</li>
+      </ul></div>
+      <div class="swot-box swot-t"><h4>🚨 Threats</h4><ul>
+        <li>SAP may build EU AI Act module as fast follower post-August 2026</li>
+        <li>360Learning (France) and Fuse Universal (UK) defending home markets</li>
+        <li>EU AI Act scope clarifications still emerging — requirements may shift</li>
+        <li>Works Councils in Germany/France can veto technology adoption</li>
+        <li>Long EU procurement cycles and pilot requirements</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <!-- 11. ROADMAP -->
+  <div class="card teal">
+    <h2>📅 11. Europe Launch Roadmap (All Planned)</h2>
+    <div class="roadmap-item">
+      <div class="rp y1">📋 Launch: Q3 2026 — CRITICAL</div>
+      <div class="roadmap-content"><h4>EU AI Act Window — Must Launch Before Aug 2026 Enforcement</h4><p>AWS Frankfurt + London; GDPR + NIS2 + EU AI Act Article 4 module; AI literacy baseline; 5 compliance + 3 upskilling rules; EN/DE/FR UI. Target: <strong>60 EU tenants; $3.2M ARR by end 2026</strong>. EU AI Act first-mover window.</p></div>
+    </div>
+    <div class="roadmap-item">
+      <div class="rp y2">📋 Year 2: Q1–Q2 2027</div>
+      <div class="roadmap-content"><h4>CSRD + DORA + Skills Taxonomy + Nordics</h4><p>CSRD Phase 2 ESG tracking; DORA for EU financial sector; CPF tracker (France); Works Council reporting (Germany); ESCO skills taxonomy (1,000 skills); Nordics expansion. Target: <strong>280 tenants; $19M ARR by H2 2027</strong>.</p></div>
+    </div>
+    <div class="roadmap-item">
+      <div class="rp y3">📋 Year 3: 2028</div>
+      <div class="roadmap-content"><h4>Internal Mobility + Pan-EU Languages + ML Intelligence</h4><p>Internal talent marketplace; Dutch + Spanish + Italian UI; ML skill gap prediction; CSRD Phase 3 (SME rollout); EU Individual Learning Account (ILA) integration. Target: <strong>1,000 tenants; $68.2M ARR by 2028</strong>.</p></div>
+    </div>
+    <div class="roadmap-item">
+      <div class="rp">📋 Year 4–5: 2029–2030</div>
+      <div class="roadmap-content"><h4>Pan-EU Market Leadership + All 9 EU Languages + IPO</h4><p>2,400 tenants ($198M ARR 2029) → 4,800 tenants ($358M ARR 2030). EU market leadership in combined compliance + upskilling SaaS. Global IPO 2029.</p></div>
+    </div>
+  </div>
+
+</div>
+<footer>
+  <p>🌍 Europe Market Research — Compliance + Upskilling Combined | Pre-Launch Planning | All Values in USD</p>
+  <p style="margin-top:4px;">Propeller Technothon Challenge | Version 5.0 (Combined Edition) | Sources: EU Commission DESI 2025, ETF, LinkedIn Workplace Learning 2026, Cedefop, Gartner Europe, HolonIQ</p>
+</footer>
+</body>
+</html>

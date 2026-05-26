@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Global Market Research — Combined L&amp;D | Pre-Launch 2026</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',sans-serif;background:#f0f4f8;color:#2d3748;line-height:1.75}
+    header{background:linear-gradient(135deg,#1a202c,#2d3748,#4a5568);color:white;padding:40px 60px}
+    header h1{font-size:2rem;margin-bottom:6px}
+    header p{opacity:.85;font-size:.95rem}
+    .badges{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .badge{display:inline-block;font-size:.72rem;font-weight:700;padding:3px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:1px}
+    .b-launch{background:#fff;color:#2d3748;border:2px solid #cbd5e0}
+    .b-india{background:#fbd38d;color:#7b2d00}.b-amer{background:#fed7d7;color:#7b1a1a}
+    .b-eu{background:#bee3f8;color:#1a365d}.b-green{background:#9ae6b4;color:#276749}
+    .b-purple{background:#e9d8fd;color:#553c9a}.b-white{background:rgba(255,255,255,.2);color:white;border:1px solid rgba(255,255,255,.4)}
+    .container{max-width:1200px;margin:40px auto;padding:0 30px 60px}
+    .prelaunch-banner{background:linear-gradient(135deg,#fffaf0,#fef3c7);border:2px solid #f6ad55;border-radius:10px;padding:16px 22px;margin-bottom:20px;display:flex;align-items:flex-start;gap:14px}
+    .prelaunch-banner .icon{font-size:2rem;line-height:1}
+    .prelaunch-banner h4{color:#92400e;font-size:.95rem;margin-bottom:4px}
+    .prelaunch-banner p{margin:0;font-size:.87rem;color:#78350f}
+    .card{background:white;border-radius:12px;padding:30px 35px;margin-bottom:28px;box-shadow:0 2px 12px rgba(0,0,0,.07);border-left:5px solid #4a5568}
+    .card.india{border-left-color:#c05621}.card.amer{border-left-color:#c53030}
+    .card.europe{border-left-color:#2b6cb0}.card.combined{border-left-color:#805ad5}
+    .card.green{border-left-color:#38a169}.card.gold{border-left-color:#d69e2e}
+    .card.teal{border-left-color:#319795}.card.pink{border-left-color:#d53f8c}
+    h2{font-size:1.25rem;color:#1a365d;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    h3{font-size:1rem;color:#4a5568;margin:18px 0 8px;font-weight:700}
+    p{margin-bottom:10px;font-size:.93rem}
+    ul,ol{padding-left:22px;margin-bottom:10px}
+    li{margin-bottom:5px;font-size:.92rem}
+    table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.86rem}
+    th{background:#edf2f7;color:#1a202c;text-align:left;padding:10px 14px;font-weight:700;border-bottom:2px solid #cbd5e0}
+    th.india-th{background:#fff5eb;color:#7b2d00;border-bottom-color:#fbd38d}
+    th.amer-th{background:#fff5f5;color:#7b1a1a;border-bottom-color:#feb2b2}
+    th.eu-th{background:#ebf8ff;color:#1a365d;border-bottom-color:#90cdf4}
+    th.combined-th{background:#faf5ff;color:#553c9a;border-bottom-color:#d6bcfa}
+    td{padding:9px 14px;border-bottom:1px solid #e2e8f0;vertical-align:top}
+    tr:hover td{background:#f7fafc}
+    .planned-row{background:#fffaf0}
+    .tag{display:inline-block;padding:2px 9px;border-radius:12px;font-size:.73rem;font-weight:700;margin:2px}
+    .th{background:#fed7d7;color:#c53030}.tm{background:#fefcbf;color:#975a16}.tl{background:#c6f6d5;color:#276749}
+    .yr-tag{background:#718096;color:white;padding:2px 8px;border-radius:6px;font-size:.72rem;font-weight:700;margin-left:6px}
+    .yr-tag.market{background:#38a169}
+    .combined-highlight{background:#faf5ff;border-left:4px solid #805ad5;padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0;font-size:.92rem}
+    .green-highlight{background:#f0fff4;border-left:4px solid #38a169;padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0;font-size:.92rem}
+    .highlight{background:#edf2f7;border-left:4px solid #4a5568;padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0;font-size:.92rem}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:12px}
+    .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:12px}
+    .box{background:#f7fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px 16px}
+    .box h4{color:#4a5568;margin-bottom:8px;font-size:.9rem}
+    .box.india{background:#fff5eb;border-color:#fbd38d}.box.india h4{color:#c05621}
+    .box.amer{background:#fff5f5;border-color:#feb2b2}.box.amer h4{color:#c53030}
+    .box.europe{background:#ebf8ff;border-color:#90cdf4}.box.europe h4{color:#2b6cb0}
+    .box.combined{background:#faf5ff;border-color:#d6bcfa}.box.combined h4{color:#553c9a}
+    .box.green{background:#f0fff4;border-color:#9ae6b4}.box.green h4{color:#276749}
+    .metric-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px;margin-top:14px}
+    .metric{border-radius:10px;padding:16px;text-align:center;background:white;border:1px solid #e2e8f0;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+    .metric .value{font-size:1.4rem;font-weight:800}
+    .metric.india-m .value{color:#c05621}.metric.amer-m .value{color:#c53030}
+    .metric.eu-m .value{color:#2b6cb0}.metric.global-m .value{color:#805ad5}
+    .metric .label{font-size:.75rem;color:#718096;margin-top:4px}
+    .metric .sub{font-size:.70rem;color:#a0aec0;margin-top:2px}
+    /* Projection Bars */
+    .proj-year{background:white;border-radius:10px;padding:18px 22px;margin-bottom:12px;border:1px solid #e2e8f0;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+    .proj-year-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .proj-year-label{font-size:1rem;font-weight:800;color:#1a202c}
+    .proj-year-total{font-size:1.15rem;font-weight:800;color:#805ad5}
+    .proj-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+    .proj-bar-region{min-width:80px;font-size:.79rem;font-weight:700;color:#4a5568}
+    .proj-bar-track{flex:1;background:#e2e8f0;border-radius:20px;height:16px;overflow:hidden}
+    .proj-bar-fill{height:100%;border-radius:20px;display:flex;align-items:center;padding-left:8px;font-size:.70rem;font-weight:700;color:white;white-space:nowrap}
+    .fill-india{background:linear-gradient(90deg,#c05621,#ed8936)}
+    .fill-amer{background:linear-gradient(90deg,#c53030,#fc8181)}
+    .fill-eu{background:linear-gradient(90deg,#2b6cb0,#63b3ed)}
+    .proj-bar-val{min-width:70px;font-size:.79rem;font-weight:700;color:#2d3748;text-align:right}
+    /* Timeline */
+    .timeline{position:relative;padding-left:30px;margin-top:14px}
+    .timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:#e2e8f0}
+    .timeline-item{position:relative;margin-bottom:14px}
+    .timeline-dot{position:absolute;left:-24px;top:5px;width:12px;height:12px;border-radius:50%;border:2px solid white}
+    .dot-launch{background:#276749}.dot-y1{background:#805ad5}.dot-planned{background:#718096}
+    .timeline-content h4{font-size:.9rem;font-weight:700;color:#1a365d;margin-bottom:2px}
+    .timeline-content p{font-size:.82rem;color:#4a5568;margin:0}
+    .region-tag{display:inline-block;padding:1px 8px;border-radius:10px;font-size:.70rem;font-weight:700;margin-right:4px}
+    .rt-india{background:#fff5eb;color:#c05621;border:1px solid #fbd38d}
+    .rt-amer{background:#fff5f5;color:#c53030;border:1px solid #feb2b2}
+    .rt-eu{background:#ebf8ff;color:#2b6cb0;border:1px solid #90cdf4}
+    .rt-global{background:#faf5ff;color:#553c9a;border:1px solid #d6bcfa}
+    .swot-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:10px;overflow:hidden;margin-top:14px}
+    .swot-box{padding:18px}.swot-box h4{font-size:.92rem;font-weight:700;margin-bottom:8px}
+    .swot-s{background:#f0fff4;border-right:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0}
+    .swot-w{background:#fff5f5;border-bottom:1px solid #e2e8f0}
+    .swot-o{background:#ebf8ff;border-right:1px solid #e2e8f0}.swot-t{background:#fffaf0}
+    .legend-row{display:flex;gap:16px;margin-top:8px;font-size:.77rem}
+    .legend-dot{width:12px;height:12px;border-radius:3px;display:inline-block}
+    footer{text-align:center;padding:28px;color:#718096;font-size:.83rem;background:white;border-top:1px solid #e2e8f0;margin-top:40px}
+  </style>
+</head>
+<body>
+<header>
+  <h1>🌐 Global Market Research — Combined L&amp;D Platform</h1>
+  <p>Compliance Training + Employee Upskilling + Skill Growth | India 🇮🇳 · AMER 🌎 · Europe 🌍 | Pre-Launch Planning 2026</p>
+  <div class="badges">
+    <span class="badge b-launch">🚀 Pre-Launch | Planning 2026</span>
+    <span class="badge b-india">🇮🇳 India</span>
+    <span class="badge b-amer">🌎 AMER</span>
+    <span class="badge b-eu">🌍 Europe</span>
+    <span class="badge b-green">Compliance + Upskilling</span>
+    <span class="badge b-purple">2026–2030 Revenue Targets</span>
+    <span class="badge b-white">Propeller Technothon</span>
+  </div>
+</header>
+<div class="container">
+
+  <div class="prelaunch-banner">
+    <div class="icon">🚀</div>
+    <div>
+      <h4>Pre-Launch Phase — Global Market Research &amp; Go-to-Market Planning Document</h4>
+      <p>This product has <strong>not yet been launched</strong>. This document represents comprehensive global market research and revenue targeting across India, AMER, and Europe. All revenue figures are <strong>forward-looking targets, not current performance</strong>. Market size data is sourced from ATD, IDC, HolonIQ, Gartner, NASSCOM, EU Commission, and LinkedIn Workplace Learning 2026.</p>
+    </div>
+  </div>
+
+  <!-- 1. GLOBAL EXECUTIVE SUMMARY -->
+  <div class="card combined">
+    <h2>📌 1. Global Executive Summary — Pre-Launch Market Opportunity</h2>
+    <div class="combined-highlight">
+      We are entering a <strong>$42.9B global L&amp;D SaaS market in 2026</strong> — growing to <strong>$72.5B by 2030</strong>. Our combined compliance + upskilling platform targets a <strong>$69.8B SAM</strong> across India, AMER, and Europe. Three regulatory events in 2026 create the optimal launch window: <strong>DPDPA enforcement (India), EU AI Act enforcement (Aug 2026, Europe)</strong>, and <strong>CHIPS Act workforce reporting (AMER)</strong>. No incumbent platform globally unifies compliance tracking + upskilling + configurable risk engine + intervention management in a single self-service SaaS. Our 5-year revenue target is <strong>$2.55B ARR by 2030</strong> across <strong>33,000 tenants</strong>.
+    </div>
+
+    <div class="three-col" style="margin-top:16px">
+      <div class="box india">
+        <h4>🇮🇳 India — Market Entry</h4>
+        <ul style="font-size:.87rem">
+          <li>Market: $3.29B (2026) → $6.75B (2030)</li>
+          <li>Entry point: POSH + DPDPA enforcement</li>
+          <li>Year 1 target: 250 tenants; $8.3M ARR</li>
+          <li>Year 5 target: 8,000 tenants; $442.5M ARR</li>
+          <li>Key differentiator: 12 India compliance modules</li>
+        </ul>
+      </div>
+      <div class="box amer">
+        <h4>🌎 AMER — Market Entry</h4>
+        <ul style="font-size:.87rem">
+          <li>Market: $24.8B (2026) → $41.4B (2030)</li>
+          <li>Entry point: HIPAA + CHIPS Act + GenAI skills</li>
+          <li>Year 1 target: 120 tenants; $6.6M ARR</li>
+          <li>Year 5 target: 8,000 tenants; $832M ARR</li>
+          <li>Key differentiator: CHIPS + SEC Cyber modules</li>
+        </ul>
+      </div>
+      <div class="box europe">
+        <h4>🌍 Europe — Market Entry</h4>
+        <ul style="font-size:.87rem">
+          <li>Market: $14.8B (2026) → $24.3B (2030)</li>
+          <li>Entry point: EU AI Act (Aug 2026 enforcement)</li>
+          <li>Year 1 target: 60 tenants; $3.2M ARR</li>
+          <li>Year 5 target: 4,800 tenants; $358M ARR</li>
+          <li>Key differentiator: Only EU AI Act module globally</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="metric-grid" style="margin-top:20px">
+      <div class="metric global-m"><div class="value">$42.9B</div><div class="label">Global L&amp;D Market 2026</div><div class="sub">Combined 3 regions</div></div>
+      <div class="metric global-m"><div class="value">$72.5B</div><div class="label">Global L&amp;D Market 2030</div><div class="sub">Projected</div></div>
+      <div class="metric global-m"><div class="value">$275.0B</div><div class="label">Global TAM</div><div class="sub">Total addressable</div></div>
+      <div class="metric global-m"><div class="value">$69.8B</div><div class="label">Global SAM</div><div class="sub">Serviceable 2026</div></div>
+      <div class="metric global-m"><div class="value">$18.1M</div><div class="label">Year 1 Global Target</div><div class="sub">2026 — 430 tenants</div></div>
+      <div class="metric global-m"><div class="value">$2.55B</div><div class="label">Year 5 Global Target</div><div class="sub">2030 — 33,000 tenants</div></div>
+    </div>
+  </div>
+
+  <!-- 2. GLOBAL MARKET SIZE -->
+  <div class="card">
+    <h2>📊 2. Global Market Size — Compliance + Upskilling (USD)</h2>
+    <table>
+      <thead><tr><th>Year</th><th>Status</th><th class="india-th">🇮🇳 India</th><th class="amer-th">🌎 AMER</th><th class="eu-th">🌍 Europe</th><th class="combined-th">🌐 Global Total</th><th>Growth</th></tr></thead>
+      <tbody>
+        <tr><td>2024</td><td><span class="yr-tag market">Industry Data</span></td><td>$2.92B</td><td>$22.7B</td><td>$13.6B</td><td><strong>$39.2B</strong></td><td>—</td></tr>
+        <tr><td>2025</td><td><span class="yr-tag market">Industry Data</span></td><td>$3.11B</td><td>$23.7B</td><td>$14.2B</td><td><strong>$41.0B</strong></td><td>+5%</td></tr>
+        <tr><td>2026</td><td><span class="yr-tag market">Industry Data</span></td><td>$3.29B</td><td>$24.8B</td><td>$14.8B</td><td><strong>$42.9B</strong></td><td>+5%</td></tr>
+        <tr class="planned-row"><td>2027</td><td><span class="yr-tag">Projected</span></td><td>$4.01B</td><td>$28.7B</td><td>$16.8B</td><td><strong>$49.5B</strong></td><td>+15%</td></tr>
+        <tr class="planned-row"><td>2028</td><td><span class="yr-tag">Projected</span></td><td>$4.64B</td><td>$31.2B</td><td>$18.4B</td><td><strong>$54.2B</strong></td><td>+10%</td></tr>
+        <tr class="planned-row"><td>2029</td><td><span class="yr-tag">Projected</span></td><td>$5.29B</td><td>$34.2B</td><td>$19.9B</td><td><strong>$59.4B</strong></td><td>+10%</td></tr>
+        <tr class="planned-row"><td>2030</td><td><span class="yr-tag">Projected</span></td><td>$6.75B</td><td>$41.4B</td><td>$24.3B</td><td><strong>$72.5B</strong></td><td>+22%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 3. TAM SAM SOM -->
+  <div class="card combined">
+    <h2>🎯 3. Global TAM / SAM / Revenue Targets</h2>
+    <table>
+      <thead><tr><th>Metric</th><th class="india-th">🇮🇳 India</th><th class="amer-th">🌎 AMER</th><th class="eu-th">🌍 Europe</th><th class="combined-th">🌐 Global</th></tr></thead>
+      <tbody>
+        <tr><td><strong>TAM</strong></td><td>$41.1B</td><td>$148.5B</td><td>$85.4B</td><td><strong>$275.0B</strong></td></tr>
+        <tr><td><strong>SAM (2026)</strong></td><td>$11.7B</td><td>$36.8B</td><td>$21.3B</td><td><strong>$69.8B</strong></td></tr>
+        <tr class="planned-row"><td><strong>Year 1 Target (2026)</strong></td><td>$8.3M</td><td>$6.6M</td><td>$3.2M</td><td><strong>$18.1M</strong></td></tr>
+        <tr class="planned-row"><td><strong>Year 2 Target (2027)</strong></td><td>$30.4M</td><td>$36.0M</td><td>$19.0M</td><td><strong>$85.4M</strong></td></tr>
+        <tr class="planned-row"><td><strong>Year 3 Target (2028)</strong></td><td>$90.0M</td><td>$153.0M</td><td>$68.2M</td><td><strong>$311.2M</strong></td></tr>
+        <tr class="planned-row"><td><strong>Year 4 Target (2029)</strong></td><td>$236.3M</td><td>$411.6M</td><td>$198.0M</td><td><strong>$845.9M</strong></td></tr>
+        <tr class="planned-row"><td><strong>Year 5 Target (2030)</strong></td><td>$442.5M</td><td>$832.0M</td><td>$358.0M</td><td><strong>$1,632.5M</strong></td></tr>
+        <tr class="planned-row"><td><strong>Extended Target (2030+)</strong></td><td>$700.0M</td><td>$1,286.0M</td><td>$560.0M</td><td><strong>$2,546.0M</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 4. 5-YEAR REVENUE PROJECTION -->
+  <div class="card gold">
+    <h2>📈 4. 5-Year Global Revenue Targets (All Forward-Looking)</h2>
+
+    <div class="proj-year">
+      <div class="proj-year-header"><div class="proj-year-label">📅 Year 1 — 2026 (Launch Year)</div><div class="proj-year-total">Target ARR: $18.1M | 430 Tenants</div></div>
+      <div class="proj-bar-row"><div class="proj-bar-region">🇮🇳 India</div><div class="proj-bar-track"><div class="proj-bar-fill fill-india" style="width:46%">250 tenants</div></div><div class="proj-bar-val">$8.3M</div></div>
+      <div class="proj-bar-row"><div class="proj-bar-region">🌎 AMER</div><div class="proj-bar-track"><div class="proj-bar-fill fill-amer" style="width:36%">120 tenants</div></div><div class="proj-bar-val">$6.6M</div></div>
+      <div class="proj-bar-row"><div class="proj-bar-region">🌍 Europe</div><div class="proj-bar-track"><div class="proj-bar-fill fill-eu" style="width:18%">60 tenants</div></div><div class="proj-bar-val">$3.2M</div></div>
+      <div style="margin-top:8px;font-size:.81rem;color:#553c9a">Avg ARR/tenant: $42,100 | Focus: India POSH/DPDPA · AMER HIPAA · EU GDPR/AI Act baseline</div>
+    </div>
+
+    <div class="proj-year">
+      <div class="proj-year-header"><div class="proj-year-label">📅 Year 2 — 2027</div><div class="proj-year-total">Target ARR: $85.4M (+372%) | 1,580 Tenants</div></div>
+      <div class="proj-bar-row"><div class="proj-bar-region">🇮🇳 India</div><div class="proj-bar-track"><div class="proj-bar-fill fill-india" style="width:36%">800 tenants</div></div><div class="proj-bar-val">$30.4M</div></div>
+      <div class="proj-bar-row"><div class="proj-bar-region">🌎 AMER</div><div class="proj-bar-track"><div class="proj-bar-fill fill-amer" style="width:42%">500 tenants</div></div><div class="proj-bar-val">$36.0M</div></div>
+      <div class="proj-bar-row"><div class="proj-bar-region">🌍 Europe</div><div class="proj-bar-track"><div class="proj-bar-fill fill-eu" style="width:22%">280 tenants</div></div><div class="proj-bar-val">$19.0M</div></div>
+      <div style="margin-top:8px;font-size:.81rem;color:#4a5568">Avg ARR/tenant: $54,100 | BFSI vertical · EU AI Act full module · CHIPS Act · Skills taxonomy launch</div>
+    </div>
+
+    <div class="proj-year">
+      <div class="proj-year-header"><div class="proj-year-label">📅 Year 3 — 2028</div><div class="proj-year-total">Target ARR: $311.2M (+264%) | 4,800 Tenants</div></div>
+      <div class="proj-bar-row"><div class="proj-bar-region">🇮🇳 India</div><div class="proj-bar-track"><div class="proj-bar-fill fill-india" style="width:29%">2,000 tenants</div></div><div class="proj-bar-val">$90.0M</div></div>
+      <div class="proj-bar-row"><div class="proj-bar-region">🌎 AMER</div><div class="proj-bar-track"><div class="proj-bar-fill fill-amer" style="width:49%">1,800 tenants</div></div><div class="proj-bar-val">$153.0M</div></div>
+      <div class="proj-bar-row"><div class="proj-bar-region">🌍 Europe</div><div class="proj-bar-track"><div class="proj-bar-fill fill-eu" style="width:22%">1,000 tenants</div></div><div class="proj-bar-val">$68.2M</div></div>
+      <div style="margin-top:8px;font-size:.81rem;color:#4a5568">Avg ARR/tenant: $64,800 | Series B · India Tier-2 · AMER FedRAMP · EU pan-European expansion</div>
+    </div>
+
+    <div class="proj-year">
+      <div class="proj-year-header"><div class="proj-year-label">📅 Year 4 — 2029</div><div class="proj-year-total">Target ARR: $845.9M (+172%) | 11,100 Tenants</div></div>
+      <div class="proj-bar-row"><div class="proj-bar-region">🇮🇳 India</div><div class="proj-bar-track"><div class="proj-bar-fill fill-india" style="width:28%">4,500 tenants</div></div><div class="proj-bar-val">$236.3M</div></div>
+      <div class="proj-bar-row"><div class="proj-bar-region">🌎 AMER</div><div class="proj-bar-track"><div class="proj-bar-fill fill-amer" style="width:49%">4,200 tenants</div></div><div class="proj-bar-val">$411.6M</div></div>
+      <div class="proj-bar-row"><div class="proj-bar-region">🌍 Europe</div><div class="proj-bar-track"><div class="proj-bar-fill fill-eu" style="width:23%">2,400 tenants</div></div><div class="proj-bar-val">$198.0M</div></div>
+      <div style="margin-top:8px;font-size:.81rem;color:#4a5568">Avg ARR/tenant: $76,200 | ML risk prediction · White-labelling · LatAm launch · IPO preparation</div>
+    </div>
+
+    <div class="proj-year">
+      <div class="proj-year-header"><div class="proj-year-label">📅 Year 5 — 2030 🎯</div><div class="proj-year-total" style="color:#276749">Target ARR: $1,632.5M (+93%) | 20,800 Tenants</div></div>
+      <div class="proj-bar-row"><div class="proj-bar-region">🇮🇳 India</div><div class="proj-bar-track"><div class="proj-bar-fill fill-india" style="width:27%">8,000 tenants</div></div><div class="proj-bar-val">$442.5M</div></div>
+      <div class="proj-bar-row"><div class="proj-bar-region">🌎 AMER</div><div class="proj-bar-track"><div class="proj-bar-fill fill-amer" style="width:51%">8,000 tenants</div></div><div class="proj-bar-val">$832.0M</div></div>
+      <div class="proj-bar-row"><div class="proj-bar-region">🌍 Europe</div><div class="proj-bar-track"><div class="proj-bar-fill fill-eu" style="width:22%">4,800 tenants</div></div><div class="proj-bar-val">$358.0M</div></div>
+      <div style="margin-top:8px;font-size:.81rem;color:#276749">Avg ARR/tenant: $78,500 | IPO complete · Global rule marketplace · 20,000+ tenants · Market leader</div>
+      <div class="legend-row"><span style="display:flex;align-items:center;gap:5px"><span class="legend-dot" style="background:#c05621"></span>India</span><span style="display:flex;align-items:center;gap:5px"><span class="legend-dot" style="background:#c53030"></span>AMER</span><span style="display:flex;align-items:center;gap:5px"><span class="legend-dot" style="background:#2b6cb0"></span>Europe</span></div>
+    </div>
+
+    <h3>Consolidated Revenue Target Table (2026–2030)</h3>
+    <table>
+      <thead>
+        <tr><th>Year</th><th>Year #</th><th class="india-th">🇮🇳 ARR</th><th class="india-th">Tenants</th><th class="amer-th">🌎 ARR</th><th class="amer-th">Tenants</th><th class="eu-th">🌍 ARR</th><th class="eu-th">Tenants</th><th class="combined-th">🌐 Global ARR</th><th class="combined-th">Total Tenants</th></tr>
+      </thead>
+      <tbody>
+        <tr class="planned-row"><td>2026</td><td>Launch</td><td>$8.3M</td><td>250</td><td>$6.6M</td><td>120</td><td>$3.2M</td><td>60</td><td><strong>$18.1M</strong></td><td><strong>430</strong></td></tr>
+        <tr class="planned-row"><td>2027</td><td>Year 2</td><td>$30.4M</td><td>800</td><td>$36.0M</td><td>500</td><td>$19.0M</td><td>280</td><td><strong>$85.4M</strong></td><td><strong>1,580</strong></td></tr>
+        <tr class="planned-row"><td>2028</td><td>Year 3</td><td>$90.0M</td><td>2,000</td><td>$153.0M</td><td>1,800</td><td>$68.2M</td><td>1,000</td><td><strong>$311.2M</strong></td><td><strong>4,800</strong></td></tr>
+        <tr class="planned-row"><td>2029</td><td>Year 4</td><td>$236.3M</td><td>4,500</td><td>$411.6M</td><td>4,200</td><td>$198.0M</td><td>2,400</td><td><strong>$845.9M</strong></td><td><strong>11,100</strong></td></tr>
+        <tr class="planned-row" style="font-weight:700"><td>2030</td><td>Year 5</td><td>$442.5M</td><td>8,000</td><td>$832.0M</td><td>8,000</td><td>$358.0M</td><td>4,800</td><td><strong>$1,632.5M</strong></td><td><strong>20,800</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 5. COMPLIANCE vs UPSKILLING SPLIT -->
+  <div class="card green">
+    <h2>📊 5. Revenue Split — Compliance vs Upskilling Targets</h2>
+    <table>
+      <thead>
+        <tr><th>Year</th><th class="india-th">IN Comp.</th><th class="india-th">IN Upskill</th><th class="amer-th">AM Comp.</th><th class="amer-th">AM Upskill</th><th class="eu-th">EU Comp.</th><th class="eu-th">EU Upskill</th><th class="combined-th">Global Comp.</th><th class="combined-th">Global Upskill</th><th class="combined-th">Total</th></tr>
+      </thead>
+      <tbody>
+        <tr class="planned-row"><td>2026</td><td>$5.2M</td><td>$3.1M</td><td>$3.8M</td><td>$2.8M</td><td>$1.8M</td><td>$1.4M</td><td><strong>$10.8M</strong></td><td><strong>$7.3M</strong></td><td><strong>$18.1M</strong></td></tr>
+        <tr class="planned-row"><td>2027</td><td>$18.8M</td><td>$11.6M</td><td>$22.4M</td><td>$13.6M</td><td>$9.6M</td><td>$9.4M</td><td><strong>$50.8M</strong></td><td><strong>$34.6M</strong></td><td><strong>$85.4M</strong></td></tr>
+        <tr class="planned-row"><td>2028</td><td>$52.0M</td><td>$38.0M</td><td>$85.0M</td><td>$68.0M</td><td>$38.4M</td><td>$29.8M</td><td><strong>$175.4M</strong></td><td><strong>$135.8M</strong></td><td><strong>$311.2M</strong></td></tr>
+        <tr class="planned-row"><td>2029</td><td>$130.2M</td><td>$106.1M</td><td>$220.0M</td><td>$191.6M</td><td>$96.0M</td><td>$102.0M</td><td><strong>$446.2M</strong></td><td><strong>$399.7M</strong></td><td><strong>$845.9M</strong></td></tr>
+        <tr class="planned-row" style="font-weight:700"><td>2030</td><td>$254.5M</td><td>$188.0M</td><td>$462.0M</td><td>$370.0M</td><td>$201.6M</td><td>$156.4M</td><td><strong>$918.1M</strong></td><td><strong>$714.4M</strong></td><td><strong>$1,632.5M</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="green-highlight" style="margin-top:12px">
+      <strong>Strategy Insight:</strong> Compliance is the <strong>non-discretionary entry point</strong> (always budget-approved). Upskilling is the <strong>expansion revenue driver</strong> (upsell after compliance adoption). Target 30% of ARR from upskilling by Year 1, growing to 44% by Year 5. Every compliance customer is an upskilling expansion opportunity.
+    </div>
+  </div>
+
+  <!-- 6. KEY FINANCIAL METRICS -->
+  <div class="card">
+    <h2>💰 6. Key Financial Metrics — 5-Year Targets</h2>
+    <div class="three-col">
+      <div class="box combined"><h4>📈 Growth Targets</h4>
+        <table style="margin-top:0;font-size:.84rem">
+          <tr><td>Year 1 ARR Target (2026)</td><td><strong>$18.1M</strong></td></tr>
+          <tr><td>Year 2 ARR Target (2027)</td><td><strong>$85.4M</strong></td></tr>
+          <tr><td>Year 3 ARR Target (2028)</td><td><strong>$311.2M</strong></td></tr>
+          <tr><td>Year 4 ARR Target (2029)</td><td><strong>$845.9M</strong></td></tr>
+          <tr><td>Year 5 ARR Target (2030)</td><td><strong>$1,632.5M</strong></td></tr>
+          <tr><td>5-Year CAGR Target</td><td><strong>~147%</strong></td></tr>
+        </table>
+      </div>
+      <div class="box combined"><h4>🏢 Customer Targets</h4>
+        <table style="margin-top:0;font-size:.84rem">
+          <tr><td>Year 1 Tenants (2026)</td><td><strong>430</strong></td></tr>
+          <tr><td>Year 2 Tenants (2027)</td><td><strong>1,580</strong></td></tr>
+          <tr><td>Year 5 Tenants (2030)</td><td><strong>20,800</strong></td></tr>
+          <tr><td>Avg ARR/Tenant Y1</td><td><strong>$42,100</strong></td></tr>
+          <tr><td>Avg ARR/Tenant Y5</td><td><strong>$78,500</strong></td></tr>
+          <tr><td>Target NRR</td><td><strong>120%+</strong></td></tr>
+        </table>
+      </div>
+      <div class="box combined"><h4>💵 Unit Economics Targets</h4>
+        <table style="margin-top:0;font-size:.84rem">
+          <tr><td>Target Gross Margin</td><td><strong>85%</strong></td></tr>
+          <tr><td>CAC Payback Target</td><td><strong>&lt;14 months</strong></td></tr>
+          <tr><td>LTV:CAC Ratio Target</td><td><strong>5:1+</strong></td></tr>
+          <tr><td>Annual Churn Target</td><td><strong>&lt;5%</strong></td></tr>
+          <tr><td>Expansion Revenue Target</td><td><strong>30%+ of ARR</strong></td></tr>
+          <tr><td>Rule of 40 (Year 3)</td><td><strong>&gt;40</strong></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <h3>Fundraising Plan</h3>
+    <table>
+      <thead><tr><th>Round</th><th>Planned Year</th><th>Amount</th><th>Target ARR</th><th>Use of Funds</th></tr></thead>
+      <tbody>
+        <tr class="planned-row"><td>Pre-Seed / Seed</td><td>2026 (Planning)</td><td>$3–5M</td><td>Pre-revenue</td><td>Product build, founding team, India + AMER + EU pilots</td></tr>
+        <tr class="planned-row"><td>Series A</td><td>2027</td><td>$15–20M</td><td>$18.1M ARR</td><td>India scale, AMER launch, EU entry, sales team hire</td></tr>
+        <tr class="planned-row"><td>Series B</td><td>2028</td><td>$80–100M</td><td>$85.4M ARR</td><td>ML/AI engine, white-labelling, LatAm expansion</td></tr>
+        <tr class="planned-row"><td>Series C / Pre-IPO</td><td>2029</td><td>$200–300M</td><td>$311.2M ARR</td><td>IPO preparation, global marketplace, M&amp;A</td></tr>
+        <tr class="planned-row"><td>IPO</td><td>2030</td><td>$500M+</td><td>$845.9M ARR</td><td>Global expansion, partner ecosystem, acquisitions</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 7. LAUNCH ROADMAP -->
+  <div class="card teal">
+    <h2>🗺️ 7. Global Launch Roadmap — All Planned</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot dot-launch"></div>
+        <div class="timeline-content">
+          <h4>📋 Q3–Q4 2026 — Global Platform Launch</h4>
+          <p><span class="region-tag rt-india">India</span> POSH + DPDPA + basic upskilling. AWS Mumbai. INR/USD pricing. 250 tenants target.<br/>
+          <span class="region-tag rt-amer">AMER</span> HIPAA + OSHA + GenAI literacy baseline. AWS us-east-1. 120 tenants target.<br/>
+          <span class="region-tag rt-eu">Europe</span> GDPR + EU AI Act module (enforcement Aug 2026 — urgent). AWS Frankfurt + London. 60 tenants target.<br/>
+          <strong>Global target: 430 tenants; $18.1M ARR by end 2026.</strong></p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot dot-y1"></div>
+        <div class="timeline-content">
+          <h4>📋 Q1–Q2 2027 — Vertical Expansion</h4>
+          <p><span class="region-tag rt-india">India</span> RBI/SEBI + NASSCOM skills taxonomy + Darwinbox integration.<br/>
+          <span class="region-tag rt-amer">AMER</span> FINRA CE 2.0 + CHIPS Act + Workday integration + Salesforce AppExchange.<br/>
+          <span class="region-tag rt-eu">Europe</span> NIS2 full module + CSRD Phase 2 + CPF tracker + Works Council reporting.<br/>
+          <strong>Global target: 1,580 tenants; $85.4M ARR by H2 2027.</strong></p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot dot-planned"></div>
+        <div class="timeline-content">
+          <h4>📋 Q3–Q4 2027 — Series A + Internal Mobility</h4>
+          <p><span class="region-tag rt-global">Global</span> Series A ($15–20M). Internal talent marketplace GA. India Android app. Canada French UI. Nordics EU expansion. CMMC 2.0 (US defense). ML team hired for 2028 release.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot dot-planned"></div>
+        <div class="timeline-content">
+          <h4>📋 2028 — Series B + ML Intelligence + LatAm</h4>
+          <p><span class="region-tag rt-global">Global</span> Series B ($80–100M). ML skill gap prediction live. India: 10 regional languages. AMER: FedRAMP cert + Brazil/Mexico. Europe: 9 EU languages + CSRD Phase 3. White-labelling. <strong>Target: 4,800 tenants; $311.2M ARR.</strong></p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot dot-planned"></div>
+        <div class="timeline-content">
+          <h4>📋 2029 — Series C + Global Marketplace + IPO Prep</h4>
+          <p><span class="region-tag rt-global">Global</span> Series C ($200–300M). Global risk rule marketplace. Industry benchmarking. Public API. <strong>Target: 11,100 tenants; $845.9M ARR. IPO preparation.</strong></p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot dot-planned"></div>
+        <div class="timeline-content">
+          <h4>📋 2030 — IPO + $1.6B ARR + Market Leadership 🎯</h4>
+          <p><span class="region-tag rt-global">Global</span> IPO ($500M+). 20,800 tenants. $1,632.5M ARR. Global L&amp;D SaaS market leader — compliance + upskilling unified platform. Rule of 40 &gt;50. NRR &gt;120%.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. GLOBAL SWOT -->
+  <div class="card combined">
+    <h2>🔲 8. Global SWOT — Pre-Launch Assessment</h2>
+    <div class="swot-grid">
+      <div class="swot-box swot-s">
+        <h4>💪 Strengths (Planned)</h4>
+        <ul>
+          <li>Only platform globally unifying compliance + upskilling + risk engine + interventions</li>
+          <li>EU AI Act module planned before Aug 2026 enforcement — first mover window</li>
+          <li>India: POSH/DPDPA/RBI; AMER: HIPAA/FINRA/CHIPS; EU: GDPR/NIS2/AI Act</li>
+          <li>Self-service multi-tenant SaaS — days to value vs 6–18 month implementations</li>
+          <li>3-region data residency from day 1: AWS Mumbai + Frankfurt + us-east-1</li>
+          <li>Competitive pricing: India $1.80, AMER $14, EU $12 entry — 4–10× below incumbents</li>
+        </ul>
+      </div>
+      <div class="swot-box swot-w">
+        <h4>⚠️ Weaknesses (To Address at Launch)</h4>
+        <ul>
+          <li>Zero customer references or case studies at launch</li>
+          <li>No brand recognition in any of the 3 target markets</li>
+          <li>Limited sales team bandwidth — will need to prioritize 1–2 verticals first</li>
+          <li>Works Council approval slows Germany/France enterprise deals</li>
+          <li>FedRAMP certification 18+ months out — US government sector delayed</li>
+          <li>Regional language support and mobile apps are Phase 2 (2027)</li>
+        </ul>
+      </div>
+      <div class="swot-box swot-o">
+        <h4>🌱 Opportunities</h4>
+        <ul>
+          <li><strong>EU AI Act Aug 2026</strong> — only platform with AI literacy tracking module</li>
+          <li><strong>DPDPA India enforcement</strong> — ~$30.1M penalty risk forcing immediate adoption</li>
+          <li><strong>CHIPS Act AMER</strong> — 50,000+ new jobs need tracked training plans</li>
+          <li>87M US + 120M EU + 63M India workers need upskilling — persistent 3-region demand</li>
+          <li>Workday / SAP pricing out mid-market — our self-service fills the gap</li>
+          <li>Content platform co-sell (Coursera, LinkedIn Learning) — distribution channel</li>
+        </ul>
+      </div>
+      <div class="swot-box swot-t">
+        <h4>🚨 Threats</h4>
+        <ul>
+          <li>SAP/Workday building compliance + skills features — fast follower risk post-launch</li>
+          <li>Disprz (India) / 360Learning (EU) / Docebo (AMER) could add compliance modules</li>
+          <li>Long enterprise sales cycles in all 3 regions (3–12 months)</li>
+          <li>Regulatory changes (DPDPA rulemaking, EU AI Act clarifications) shifting requirements</li>
+          <li>Economic slowdown reducing L&amp;D discretionary budgets</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. TOP 6 PRIORITIES -->
+  <div class="card pink">
+    <h2>💡 9. Top 6 Pre-Launch Strategic Priorities</h2>
+    <div class="three-col">
+      <div class="box"><h4>🥇 EU AI Act — Launch Before Aug 2026</h4><p style="font-size:.86rem">EU AI Act enforcement begins August 2026. Launch the EU AI Act literacy tracking module before competitors build it. This is a <strong>months-wide first-mover window</strong> worth hundreds of millions. Every day of delay narrows the advantage.</p></div>
+      <div class="box"><h4>🇮🇳 POSH + DPDPA — India Entry Wedge</h4><p style="font-size:.86rem">Every Indian company must comply with POSH (since 2013) and DPDPA (active enforcement 2026). Offer <strong>30-day free trial with POSH module</strong> — highest urgency, zero procurement friction. Convert to paid on compliance value alone.</p></div>
+      <div class="box"><h4>💰 Raise Pre-Seed / Seed NOW</h4><p style="font-size:.86rem">Three simultaneous regulatory windows (DPDPA, EU AI Act, CHIPS Act) converge in 2026. <strong>Secure $3–5M seed funding</strong> immediately to hire core team, build product, and capture the launch window before it closes and competitors catch up.</p></div>
+      <div class="box"><h4>🔗 Partner with HCM Platforms</h4><p style="font-size:.86rem">Position as the <strong>compliance + upskilling tracking add-on</strong> for Darwinbox (India), Workday (AMER), and SAP SuccessFactors (EU/DACH). These platforms have distribution to thousands of enterprises but lack our compliance + risk engine depth.</p></div>
+      <div class="box"><h4>🎯 Mid-Market First, Enterprise Second</h4><p style="font-size:.86rem">Mid-market (500–5,000 employees) closes in 30–60 days vs 6–12 months for enterprise. Target mid-market in Year 1 to build revenue, references, and case studies. Use those to open enterprise doors in Year 2.</p></div>
+      <div class="box"><h4>📊 Compliance → Upskilling Upsell Motion</h4><p style="font-size:.86rem">Design the product so compliance tracking is the entry point and upskilling modules are the natural expansion. Every customer who tracks POSH completion is a candidate to also track GenAI skill development. <strong>Target 30% ARR from upskilling by end of Year 1.</strong></p></div>
+    </div>
+  </div>
+
+</div>
+<footer>
+  <p>🌐 Global Market Research — Combined L&amp;D Platform | Pre-Launch Planning Document | India 🇮🇳 · AMER 🌎 · Europe 🌍 | All Values in USD</p>
+  <p style="margin-top:5px;">Propeller Technothon Challenge | Version 4.0 (Pre-Launch Edition) | Sources: ATD, IDC, HolonIQ, Gartner, NASSCOM, EU Commission, LinkedIn Workplace Learning 2026, McKinsey</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Azure Cloud System Design — Corporate Learning SaaS Platform</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',sans-serif;background:#f0f4f8;color:#2d3748;line-height:1.75}
+    header{background:linear-gradient(135deg,#0078d4,#005a9e,#004578);color:white;padding:40px 60px}
+    header h1{font-size:2rem;margin-bottom:6px}
+    header p{opacity:.85;font-size:.95rem}
+    .badges{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .badge{display:inline-block;font-size:.72rem;font-weight:700;padding:3px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:1px}
+    .b-azure{background:#50e6ff;color:#004578}
+    .b-green{background:#9ae6b4;color:#276749}
+    .b-purple{background:#e9d8fd;color:#553c9a}
+    .b-yellow{background:#fefcbf;color:#975a16}
+    .b-white{background:rgba(255,255,255,.2);color:white;border:1px solid rgba(255,255,255,.4)}
+    .container{max-width:1280px;margin:40px auto;padding:0 30px 60px}
+    .card{background:white;border-radius:12px;padding:30px 35px;margin-bottom:28px;box-shadow:0 2px 12px rgba(0,0,0,.07);border-left:5px solid #0078d4}
+    .card.green{border-left-color:#107c10}.card.purple{border-left-color:#5c2d91}
+    .card.teal{border-left-color:#008272}.card.red{border-left-color:#d13438}
+    .card.orange{border-left-color:#d47500}.card.gold{border-left-color:#d4ac00}
+    .card.pink{border-left-color:#e74856}.card.gray{border-left-color:#605e5c}
+    h2{font-size:1.25rem;color:#004578;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    h3{font-size:1rem;color:#0078d4;margin:18px 0 8px;font-weight:700}
+    h4{font-size:.92rem;color:#2d3748;margin:12px 0 6px;font-weight:700}
+    p{margin-bottom:10px;font-size:.93rem}
+    ul,ol{padding-left:22px;margin-bottom:10px}
+    li{margin-bottom:5px;font-size:.92rem}
+    table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.88rem}
+    th{background:#deecf9;color:#004578;text-align:left;padding:10px 14px;font-weight:700;border-bottom:2px solid #0078d4}
+    td{padding:9px 14px;border-bottom:1px solid #e2e8f0;vertical-align:top}
+    tr:hover td{background:#f3f9fd}
+    .tag{display:inline-block;padding:2px 9px;border-radius:12px;font-size:.73rem;font-weight:700;margin:2px}
+    .azure-tag{background:#deecf9;color:#0078d4;border:1px solid #0078d4}
+    .th{background:#fed7d7;color:#c53030}.tm{background:#fefcbf;color:#975a16}.tl{background:#c6f6d5;color:#276749}
+    .highlight{background:#deecf9;border-left:4px solid #0078d4;padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0;font-size:.92rem}
+    .green-highlight{background:#dff6dd;border-left:4px solid #107c10;padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0;font-size:.92rem}
+    .warning-highlight{background:#fff4ce;border-left:4px solid #d47500;padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0;font-size:.92rem}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:12px}
+    .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:12px}
+    .four-col{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;margin-top:12px}
+    .box{background:#f7fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px 16px}
+    .box h4{color:#0078d4;margin-bottom:8px;font-size:.9rem}
+    .box.azure{background:#deecf9;border-color:#0078d4}.box.azure h4{color:#004578}
+    .box.green{background:#dff6dd;border-color:#107c10}.box.green h4{color:#107c10}
+    .box.purple{background:#f4e9ff;border-color:#5c2d91}.box.purple h4{color:#5c2d91}
+    .box.orange{background:#fff4ce;border-color:#d47500}.box.orange h4{color:#d47500}
+    .box.red{background:#fde7e9;border-color:#d13438}.box.red h4{color:#d13438}
+    .box.teal{background:#e6f4f3;border-color:#008272}.box.teal h4{color:#008272}
+    .svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-top:14px}
+    .svc-card{border-radius:10px;padding:14px;border:1px solid #e2e8f0;background:#f7fafc}
+    .svc-card h4{font-size:.88rem;margin-bottom:4px;color:#004578}
+    .svc-card .svc-icon{font-size:1.4rem;margin-bottom:6px;display:block}
+    .svc-card .svc-tag{font-size:.71rem;font-weight:700;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:6px;background:#deecf9;color:#0078d4}
+    .svc-card ul{font-size:.80rem;padding-left:14px}
+    .tier-block{border:2px solid #0078d4;border-radius:12px;padding:18px;margin-bottom:16px}
+    .tier-block h3{margin-top:0;padding-bottom:8px;border-bottom:1px solid #deecf9}
+    .tier-label{display:inline-block;background:#0078d4;color:white;padding:4px 14px;border-radius:20px;font-size:.75rem;font-weight:700;margin-bottom:10px}
+    .tier-label.green{background:#107c10}
+    .tier-label.purple{background:#5c2d91}
+    .tier-label.teal{background:#008272}
+    .tier-label.orange{background:#d47500}
+    .tier-label.gray{background:#605e5c}
+    .arch-diagram{background:#1a202c;border-radius:10px;padding:22px;font-family:'Courier New',monospace;font-size:.78rem;line-height:1.8;color:#a0aec0;overflow-x:auto;margin-top:12px;white-space:pre}
+    .arch-diagram .c-azure{color:#50e6ff}
+    .arch-diagram .c-green{color:#9ae6b4}
+    .arch-diagram .c-yellow{color:#fefcbf}
+    .arch-diagram .c-pink{color:#fbb6ce}
+    .arch-diagram .c-purple{color:#d6bcfa}
+    .arch-diagram .c-gray{color:#718096}
+    pre.code{background:#1a202c;color:#a0aec0;padding:18px 22px;border-radius:8px;font-size:.79rem;overflow-x:auto;margin-top:10px;line-height:1.7;font-family:'Courier New',monospace;white-space:pre}
+    .uc-map{border:1px solid #deecf9;border-radius:8px;padding:12px 16px;margin-bottom:10px;background:#f3f9fd}
+    .uc-map h4{color:#004578;margin-bottom:6px;font-size:.9rem}
+    .uc-map p{font-size:.86rem;color:#4a5568;margin:0}
+    .swot-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:10px;overflow:hidden;margin-top:14px}
+    .swot-box{padding:18px}.swot-box h4{font-size:.92rem;font-weight:700;margin-bottom:8px}
+    .swot-s{background:#dff6dd;border-right:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0}
+    .swot-w{background:#fde7e9;border-bottom:1px solid #e2e8f0}
+    .swot-o{background:#deecf9;border-right:1px solid #e2e8f0}.swot-t{background:#fff4ce}
+    .roadmap-item{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid #e2e8f0}
+    .roadmap-item:last-child{border-bottom:none}
+    .rp{border-radius:8px;padding:6px 14px;font-size:.78rem;font-weight:700;white-space:nowrap;height:fit-content;margin-top:4px;color:white;background:#0078d4}
+    .roadmap-content h4{color:#004578;font-size:.92rem;margin-bottom:4px}
+    .roadmap-content p{font-size:.85rem;color:#4a5568;margin:0}
+    .cost-table th{background:#dff6dd;color:#107c10;border-bottom-color:#107c10}
+    footer{text-align:center;padding:28px;color:#718096;font-size:.83rem;background:white;border-top:1px solid #e2e8f0;margin-top:40px}
+    .mermaid-wrap{background:white;border-radius:10px;padding:24px;margin-top:18px;border:1px solid #deecf9;overflow-x:auto}
+    .mermaid-wrap svg{max-width:100%;height:auto}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({startOnLoad:true,theme:'default',flowchart:{curve:'orthogonal',useMaxWidth:true},themeVariables:{primaryColor:'#deecf9',primaryTextColor:'#004578',primaryBorderColor:'#0078d4',lineColor:'#0078d4',secondaryColor:'#dff6dd',tertiaryColor:'#f4e9ff'}});</script>
+</head>
+<body>
+<header>
+  <h1>☁️ Azure Cloud System Design</h1>
+  <p>Corporate Learning Progress, Intervention &amp; Compliance Tracking SaaS Platform — Azure Deployment Architecture</p>
+  <div class="badges">
+    <span class="badge b-azure">Microsoft Azure</span>
+    <span class="badge b-green">Multi-Tenant SaaS</span>
+    <span class="badge b-purple">Microservices</span>
+    <span class="badge b-yellow">12 Use Cases Covered</span>
+    <span class="badge b-white">Propeller Technothon</span>
+  </div>
+</header>
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 1. ARCHITECTURE OVERVIEW                        -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="card">
+    <h2>📐 1. Architecture Overview</h2>
+    <div class="highlight">
+      The platform is deployed as a <strong>cloud-native, multi-tenant SaaS application on Microsoft Azure</strong>
+      using a <strong>microservices architecture</strong>. Each use case maps to one or more dedicated Azure services.
+      Tenant isolation is enforced at every layer — network, compute, data, and identity — using Azure-native
+      capabilities including Row-Level Security in Azure Database for PostgreSQL, Azure API Management per-tenant
+      policies, and Azure Active Directory B2C for multi-tenant identity federation.
+    </div>
+
+    <h3>Architecture Principles</h3>
+    <div class="four-col">
+      <div class="box azure"><h4>🏗️ Multi-Tenancy</h4><ul><li>Row-Level Security (RLS) in PostgreSQL</li><li>Per-tenant API keys via APIM</li><li>Tenant-scoped Azure AD B2C policies</li><li>Isolated Key Vault secrets per tenant</li></ul></div>
+      <div class="box azure"><h4>☁️ Cloud-Native</h4><ul><li>Azure Container Apps (microservices)</li><li>Azure Functions (serverless batch)</li><li>Azure Service Bus (async messaging)</li><li>Azure Front Door (global CDN + WAF)</li></ul></div>
+      <div class="box azure"><h4>🔒 Zero-Trust Security</h4><ul><li>Azure AD B2C + SAML/OIDC federation</li><li>Azure Key Vault for all secrets</li><li>Private Endpoints for all data services</li><li>Azure DDoS + WAF protection</li></ul></div>
+      <div class="box azure"><h4>📊 Observability</h4><ul><li>Azure Application Insights</li><li>Azure Log Analytics Workspace</li><li>Azure Monitor + Alerts</li><li>Azure Dashboard per tenant</li></ul></div>
+    </div>
+
+    <h3>Use Case → Azure Service Mapping</h3>
+    <table>
+      <thead><tr><th>Use Case</th><th>Primary Azure Services</th><th>Supporting Services</th></tr></thead>
+      <tbody>
+        <tr><td><strong>UC-01</strong> Tenant Onboarding</td><td>Azure Container Apps (Provisioning Svc), Azure DB PostgreSQL</td><td>Azure Service Bus, Azure Key Vault, Azure Communication Services</td></tr>
+        <tr><td><strong>UC-02</strong> Super Admin Manages Tenant</td><td>Azure Container Apps (Admin API), Azure DB PostgreSQL</td><td>Azure Application Insights, Azure Monitor</td></tr>
+        <tr><td><strong>UC-03</strong> Manage Subscription Tier</td><td>Azure Container Apps (Billing Svc), Azure DB PostgreSQL</td><td>Azure Service Bus, External Billing API (Stripe)</td></tr>
+        <tr><td><strong>UC-04</strong> Configure Tenant SSO</td><td>Azure AD B2C (Custom Policies), Azure Key Vault</td><td>Azure Container Apps (Identity Svc), Azure AD Federation</td></tr>
+        <tr><td><strong>UC-05</strong> Ingest Training Data</td><td>Azure API Management, Azure Container Apps (Ingestion Svc)</td><td>Azure Event Hubs, Azure DB PostgreSQL, Azure Redis Cache</td></tr>
+        <tr><td><strong>UC-06</strong> View Employee Profile</td><td>Azure Container Apps (Profile API), Azure DB PostgreSQL</td><td>Azure Redis Cache, Azure CDN (Front Door)</td></tr>
+        <tr><td><strong>UC-07</strong> Configure Risk Rule</td><td>Azure Container Apps (Rules Svc), Azure DB PostgreSQL</td><td>Azure Blob Storage (rule JSON), Azure Key Vault</td></tr>
+        <tr><td><strong>UC-08</strong> Identify At-Risk Learners</td><td>Azure Functions (Risk Engine Batch), Azure Container Apps Jobs</td><td>Azure Service Bus, Azure DB PostgreSQL, Azure Communication Svc</td></tr>
+        <tr><td><strong>UC-09</strong> Assign Intervention</td><td>Azure Container Apps (Intervention Svc), Azure DB PostgreSQL</td><td>Azure Service Bus, Azure Communication Services</td></tr>
+        <tr><td><strong>UC-10</strong> Track Effectiveness</td><td>Azure Container Apps (Analytics Svc), Azure DB PostgreSQL</td><td>Azure Synapse Analytics (reporting), Azure Blob Storage</td></tr>
+        <tr><td><strong>UC-11</strong> Generate Compliance Report</td><td>Azure Container Apps (Report Svc), Azure Blob Storage</td><td>Azure Functions (PDF gen), Azure DB PostgreSQL</td></tr>
+        <tr><td><strong>UC-12</strong> Role-Based Dashboard</td><td>Azure Container Apps (Dashboard API), Azure Redis Cache</td><td>Azure DB PostgreSQL, Azure Front Door, Azure CDN</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 2. FULL ARCHITECTURE DIAGRAM                    -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="card purple">
+    <h2>🗺️ 2. Full Azure Architecture Diagram</h2>
+    <div class="arch-diagram">
+<span class="c-gray">╔══════════════════════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="c-gray">║                          CORPORATE LEARNING SAAS — AZURE ARCHITECTURE                        ║</span>
+<span class="c-gray">╚══════════════════════════════════════════════════════════════════════════════════════════════╝</span>
+
+<span class="c-yellow">┌─────────────────────────────────── CLIENT LAYER ───────────────────────────────────────────┐</span>
+│  <span class="c-azure">Browser (React PWA)</span>        <span class="c-azure">Mobile (Android PWA)</span>      <span class="c-azure">External Systems (LMS/Attendance)</span>  │
+<span class="c-yellow">└────────────────────────────────────────┬───────────────────────────────────────────────────┘</span>
+                                          │ HTTPS
+<span class="c-yellow">┌─────────────────────────────── GLOBAL EDGE LAYER ──────────────────────────────────────────┐</span>
+│  <span class="c-azure">Azure Front Door</span> (CDN + WAF + DDoS Protection + SSL Termination + Global Load Balancing)    │
+<span class="c-yellow">└───────────────────────────┬────────────────────────────┬───────────────────────────────────┘</span>
+                   Static Assets                    API Traffic
+                       │                                │
+         <span class="c-azure">Azure Static Web Apps</span>          <span class="c-yellow">┌──────────────────────────────────────┐</span>
+         <span class="c-gray">(React SPA / PWA)</span>              │  <span class="c-azure">Azure API Management (APIM)</span>          │
+                                        │  • Per-tenant API key validation      │
+                                        │  • Rate limiting per subscription tier│
+                                        │  • JWT token validation               │
+                                        │  • Request routing to microservices   │
+                                        │  • Developer portal for API keys      │
+                                        <span class="c-yellow">└────────────────────┬─────────────────┘</span>
+                                                             │
+<span class="c-yellow">┌────────────────────────────── APPLICATION LAYER (Azure Container Apps) ────────────────────┐</span>
+│                                                                                              │
+│  <span class="c-azure">┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌────────────┐</span>  │
+│  <span class="c-azure">│ Tenant Svc   │  │ Identity Svc │  │Ingestion Svc │  │ Profile Svc  │  │  Rules Svc │</span>  │
+│  <span class="c-azure">│ UC-01,02,03  │  │ UC-04 (SSO)  │  │ UC-05 (Data) │  │ UC-06        │  │  UC-07     │</span>  │
+│  <span class="c-azure">└──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘  └────────────┘</span>  │
+│                                                                                              │
+│  <span class="c-azure">┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌────────────┐</span>  │
+│  <span class="c-azure">│Intervention  │  │ Analytics    │  │  Report Svc  │  │ Dashboard    │  │Notification│</span>  │
+│  <span class="c-azure">│Svc UC-09,10  │  │ Svc UC-10    │  │  UC-11       │  │  Svc UC-12   │  │  Svc       │</span>  │
+│  <span class="c-azure">└──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘  └────────────┘</span>  │
+│                                                                                              │
+│  <span class="c-green">Azure Container Apps Environment  •  Dapr Sidecar  •  KEDA Auto-scaling  •  Managed Identity</span> │
+<span class="c-yellow">└──────────┬─────────────────────┬─────────────────────┬────────────────────────────────────┘</span>
+           │                     │                     │
+<span class="c-yellow">┌──────────▼──────────┐ ┌────────▼────────┐ ┌─────────▼──────────────────────────────────────┐</span>
+│  <span class="c-azure">Azure Service Bus</span>  │ │  <span class="c-azure">Azure Event</span>  │ │           <span class="c-pink">BATCH PROCESSING LAYER</span>                 │
+│  • Intervention     │ │  <span class="c-azure">Hubs</span>          │ │  <span class="c-azure">Azure Functions</span> (Serverless)                  │
+│    approval queue   │ │  • Data        │ │  • Nightly Risk Evaluation (UC-08)             │
+│  • Notification     │ │    ingestion   │ │  • Daily Profile Aggregation                   │
+│    dispatch queue   │ │    streams     │ │  • Scheduled Report Generation (UC-11)         │
+│  • Report gen queue │ │  • 1M+ events  │ │  • Tenant usage metering                       │
+<span class="c-yellow">└─────────────────────┘ └─────────────────┘ └────────────────────────────────────────────────┘</span>
+                                         │
+<span class="c-yellow">┌────────────────────────────── DATA LAYER ──────────────────────────────────────────────────┐</span>
+│                                                                                              │
+│  <span class="c-azure">┌──────────────────────────┐</span>  <span class="c-azure">┌────────────────────┐</span>  <span class="c-azure">┌─────────────────────────┐</span>   │
+│  <span class="c-azure">│Azure DB for PostgreSQL   │</span>  <span class="c-azure">│ Azure Cache for    │</span>  <span class="c-azure">│  Azure Blob Storage     │</span>   │
+│  <span class="c-azure">│ Flexible Server          │</span>  <span class="c-azure">│ Redis              │</span>  <span class="c-azure">│  • Reports (PDF/XLSX)   │</span>   │
+│  <span class="c-azure">│ • Row-Level Security     │</span>  <span class="c-azure">│ • Session cache    │</span>  <span class="c-azure">│  • CSV imports          │</span>   │
+│  <span class="c-azure">│ • Per-tenant schemas     │</span>  <span class="c-azure">│ • Dashboard cache  │</span>  <span class="c-azure">│  • Rule templates (JSON)│</span>   │
+│  <span class="c-azure">│ • HA with read replicas  │</span>  <span class="c-azure">│ • Rate limit state │</span>  <span class="c-azure">│  • Audit log archives   │</span>   │
+│  <span class="c-azure">│ • Zone redundant         │</span>  <span class="c-azure">│ • API response TTL │</span>  <span class="c-azure">│  • Immutable compliance │</span>   │
+│  <span class="c-azure">└──────────────────────────┘</span>  <span class="c-azure">└────────────────────┘</span>  <span class="c-azure">└─────────────────────────┘</span>   │
+│                                                                                              │
+│  <span class="c-purple">┌──────────────────────────────────────────────────────────────────────────────────────┐</span>   │
+│  <span class="c-purple">│  Azure Cosmos DB (NoSQL)  — Audit Trail Store (append-only, per-tenant partitioned)   │</span>   │
+│  <span class="c-purple">└──────────────────────────────────────────────────────────────────────────────────────┘</span>   │
+<span class="c-yellow">└──────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+                                         │
+<span class="c-yellow">┌────────────────────────────── IDENTITY &amp; SECURITY LAYER ──────────────────────────────────┐</span>
+│  <span class="c-azure">Azure AD B2C</span>              <span class="c-azure">Azure Key Vault</span>          <span class="c-azure">Azure Private Endpoints</span>                   │
+│  • SAML 2.0 / OIDC        • Tenant API keys          • All data services on private network  │
+│  • Multi-tenant SSO        • DB connection strings    • No public internet exposure           │
+│  • MFA for admins          • Encryption keys          • VNet Integration                      │
+│  • Custom user flows       • Certificate management                                           │
+<span class="c-yellow">└──────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+                                         │
+<span class="c-yellow">┌────────────────────────────── OBSERVABILITY LAYER ─────────────────────────────────────────┐</span>
+│  <span class="c-green">Azure Application Insights</span>   <span class="c-green">Azure Log Analytics</span>   <span class="c-green">Azure Monitor + Alerts</span>   <span class="c-green">Azure Dashboards</span>   │
+<span class="c-yellow">└──────────────────────────────────────────────────────────────────────────────────────────────┘</span>
+    </div>
+
+    <h3 style="margin-top:24px">🔷 Interactive Mermaid Architecture Diagram</h3>
+    <p style="font-size:.9rem;color:#4a5568;margin-bottom:4px">End-to-end Azure deployment architecture — all layers from client to data, identity, and DevOps.</p>
+    <div class="mermaid-wrap">
+      <div class="mermaid">
+flowchart TD
+    subgraph CLIENTS["🖥️ Client Layer"]
+        B["React PWA\n(Browser)"]
+        M["Android PWA\n(Mobile)"]
+        ES["External Systems\nLMS / Attendance / Assessment APIs"]
+    end
+
+    subgraph EDGE["🌐 Global Edge Layer"]
+        AFD["☁️ Azure Front Door\nCDN · WAF · DDoS · SSL Termination"]
+        SWA["📦 Azure Static Web Apps\nReact SPA / PWA"]
+    end
+
+    subgraph GATEWAY["🔀 API Gateway"]
+        APIM["⚙️ Azure API Management\nRate Limiting · JWT Validation\nTenant Routing · API Keys"]
+    end
+
+    subgraph APP["☁️ Application Layer — Azure Container Apps"]
+        TS["🏢 Tenant Service\nUC-01 · UC-02 · UC-03"]
+        IS["🔐 Identity Service\nUC-04 SSO / SAML / OIDC"]
+        IG["📥 Ingestion Service\nUC-05 Data Ingest"]
+        PS["👤 Profile Service\nUC-06 Aggregation"]
+        RS["⚙️ Risk Rules Service\nUC-07 Rule Config"]
+        RE["🚨 Risk Engine\nUC-08 Batch Evaluation"]
+        IV["🛠️ Intervention Service\nUC-09 · UC-10"]
+        RP["📋 Report Service\nUC-11 PDF / Excel / CSV"]
+        DS["📊 Dashboard Service\nUC-12 Role Dashboards"]
+        NS["🔔 Notification Service\nEmail · SMS · In-App"]
+        AS["📝 Audit Service\nAudit Trail"]
+        BS["💰 Billing Service\nSubscription Mgmt"]
+    end
+
+    subgraph BATCH["⏱️ Batch and Event Layer"]
+        AF["⚡ Azure Functions\nNightly Risk Batch\nScheduled Reports"]
+        SB["📨 Azure Service Bus\nApproval Queues\nNotification Queue"]
+        EH["📡 Azure Event Hubs\nData Ingestion Stream\n1M+ events per day"]
+    end
+
+    subgraph DATA["🗄️ Data Layer"]
+        PG["🐘 Azure DB for PostgreSQL\nFlexible Server · RLS · HA"]
+        RD["⚡ Azure Cache for Redis\nSession · Dashboard · Rate Limit"]
+        BLOB["📁 Azure Blob Storage\nReports · Imports · Templates"]
+        COSMOS["🌍 Azure Cosmos DB\nAudit Trail · Append-Only"]
+    end
+
+    subgraph IDENTITY["🔒 Identity and Security"]
+        B2C["🆔 Azure AD B2C\nMulti-Tenant SSO\nSAML 2.0 / OIDC"]
+        KV["🔑 Azure Key Vault\nSecrets · API Keys · Certs"]
+        PE["🔗 Private Endpoints\nAll Data Services on VNet"]
+    end
+
+    subgraph OBS["📊 Observability"]
+        AI["🔍 Application Insights\nDistributed Tracing"]
+        LA["📋 Log Analytics\nCentralised Logs"]
+        MON["🚨 Azure Monitor\nAlerts · Dashboards"]
+    end
+
+    subgraph DEVOPS["🔄 DevOps"]
+        ADO["🔄 Azure DevOps\nCI/CD Pipelines"]
+        ACR["📦 Azure Container Registry\nDocker Images"]
+    end
+
+    B & M --> AFD
+    ES --> APIM
+    AFD --> SWA
+    AFD --> APIM
+    APIM --> TS & IS & IG & PS & RS & IV & RP & DS & AS & BS
+    IG --> EH
+    RE --> SB
+    IV --> SB
+    RP --> SB
+    SB --> NS
+    SB --> AF
+    TS & IS & IG & PS & RS & RE & IV & RP & DS & AS & BS --> PG
+    PS & DS & RS --> RD
+    RP --> BLOB
+    AS --> COSMOS
+    AF --> PG
+    AF --> BLOB
+    EH --> PS
+    IS --> B2C
+    KV -.-> TS & IS & IG & PS & RS & IV & RP & DS & AS & BS
+    DATA --> PE
+    APP --> AI
+    AI --> LA
+    LA --> MON
+    ADO --> ACR
+    ACR --> APP
+
+    classDef clientStyle fill:#1e293b,color:#94a3b8,stroke:#475569
+    classDef edgeStyle fill:#dbeafe,color:#1e40af,stroke:#3b82f6
+    classDef gatewayStyle fill:#fef9c3,color:#713f12,stroke:#eab308
+    classDef appStyle fill:#dcfce7,color:#14532d,stroke:#22c55e
+    classDef batchStyle fill:#f3e8ff,color:#4a1d96,stroke:#a855f7
+    classDef dataStyle fill:#e0f2fe,color:#0c4a6e,stroke:#0284c7
+    classDef identityStyle fill:#ffe4e6,color:#881337,stroke:#f43f5e
+    classDef obsStyle fill:#d1fae5,color:#064e3b,stroke:#10b981
+    classDef devopsStyle fill:#f1f5f9,color:#1e293b,stroke:#94a3b8
+
+    class B,M,ES clientStyle
+    class AFD,SWA edgeStyle
+    class APIM gatewayStyle
+    class TS,IS,IG,PS,RS,RE,IV,RP,DS,NS,AS,BS appStyle
+    class AF,SB,EH batchStyle
+    class PG,RD,BLOB,COSMOS dataStyle
+    class B2C,KV,PE identityStyle
+    class AI,LA,MON obsStyle
+    class ADO,ACR devopsStyle
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 3. MICROSERVICES ARCHITECTURE                   -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="card">
+    <h2>🔧 3. Microservices Architecture — Azure Container Apps</h2>
+    <div class="highlight">
+      All backend services run as <strong>Azure Container Apps</strong> within a shared environment using <strong>Dapr</strong> for service-to-service communication, state management, and pub/sub messaging. Each service is independently scalable, deployable, and monitored.
+    </div>
+
+    <div class="svc-grid">
+      <div class="svc-card">
+        <span class="svc-icon">🏢</span>
+        <span class="svc-tag">Tenant Service</span>
+        <h4>tenant-api</h4>
+        <ul>
+          <li>UC-01: Self-service onboarding</li>
+          <li>UC-02: Super Admin tenant mgmt</li>
+          <li>UC-03: Subscription tier enforcement</li>
+          <li>Provisions DB schema + RLS policies</li>
+          <li>Generates per-tenant API keys</li>
+          <li><strong>Azure:</strong> Container Apps + PostgreSQL</li>
+        </ul>
+      </div>
+      <div class="svc-card">
+        <span class="svc-icon">🔐</span>
+        <span class="svc-tag">Identity Service</span>
+        <h4>identity-api</h4>
+        <ul>
+          <li>UC-04: SSO configuration (SAML/OIDC)</li>
+          <li>JWT token issuance with tenant_id claim</li>
+          <li>RBAC enforcement per request</li>
+          <li>MFA policy enforcement for admins</li>
+          <li><strong>Azure:</strong> AD B2C + Container Apps</li>
+        </ul>
+      </div>
+      <div class="svc-card">
+        <span class="svc-icon">📥</span>
+        <span class="svc-tag">Ingestion Service</span>
+        <h4>ingestion-api</h4>
+        <ul>
+          <li>UC-05: Training data ingestion</li>
+          <li>API key validation + tenant resolution</li>
+          <li>Rate limit enforcement per tier</li>
+          <li>Payload schema validation</li>
+          <li>Publishes events to Event Hubs</li>
+          <li><strong>Azure:</strong> APIM + Container Apps + Event Hubs</li>
+        </ul>
+      </div>
+      <div class="svc-card">
+        <span class="svc-icon">👤</span>
+        <span class="svc-tag">Profile Service</span>
+        <h4>profile-api</h4>
+        <ul>
+          <li>UC-06: Employee profile aggregation</li>
+          <li>Attendance %, scores, milestones</li>
+          <li>Trend calculation (improving/declining)</li>
+          <li>Redis caching for dashboard speed</li>
+          <li><strong>Azure:</strong> Container Apps + PostgreSQL + Redis</li>
+        </ul>
+      </div>
+      <div class="svc-card">
+        <span class="svc-icon">⚙️</span>
+        <span class="svc-tag">Risk Rules Service</span>
+        <h4>rules-api</h4>
+        <ul>
+          <li>UC-07: Risk rule CRUD (JSON/YAML)</li>
+          <li>Rule syntax validation engine</li>
+          <li>Tier limit enforcement (5 rules = Basic)</li>
+          <li>Rule versioning + audit trail</li>
+          <li>Global template library management</li>
+          <li><strong>Azure:</strong> Container Apps + PostgreSQL + Blob</li>
+        </ul>
+      </div>
+      <div class="svc-card">
+        <span class="svc-icon">🚨</span>
+        <span class="svc-tag">Risk Engine (Batch)</span>
+        <h4>risk-engine-func</h4>
+        <ul>
+          <li>UC-08: Nightly at-risk evaluation</li>
+          <li>Staggered per-tenant batch processing</li>
+          <li>Composite risk scoring algorithm</li>
+          <li>Critical/High/Medium/Low classification</li>
+          <li>Publishes alerts to Service Bus</li>
+          <li><strong>Azure:</strong> Azure Functions + Container Apps Jobs</li>
+        </ul>
+      </div>
+      <div class="svc-card">
+        <span class="svc-icon">🛠️</span>
+        <span class="svc-tag">Intervention Service</span>
+        <h4>intervention-api</h4>
+        <ul>
+          <li>UC-09: Assign intervention</li>
+          <li>UC-10: Track effectiveness</li>
+          <li>Approval workflow state machine</li>
+          <li>Pre/post metric comparison</li>
+          <li>Publishes approval events</li>
+          <li><strong>Azure:</strong> Container Apps + PostgreSQL + Service Bus</li>
+        </ul>
+      </div>
+      <div class="svc-card">
+        <span class="svc-icon">📋</span>
+        <span class="svc-tag">Report Service</span>
+        <h4>report-api</h4>
+        <ul>
+          <li>UC-11: Compliance report generation</li>
+          <li>PDF / Excel / CSV rendering</li>
+          <li>Scheduled + on-demand reports</li>
+          <li>Stores reports in Blob Storage</li>
+          <li>SAS URL generation for download</li>
+          <li><strong>Azure:</strong> Container Apps + Functions + Blob Storage</li>
+        </ul>
+      </div>
+      <div class="svc-card">
+        <span class="svc-icon">📊</span>
+        <span class="svc-tag">Dashboard Service</span>
+        <h4>dashboard-api</h4>
+        <ul>
+          <li>UC-12: Role-based dashboards</li>
+          <li>Tier-gated widget visibility</li>
+          <li>Redis-backed caching (&lt;2s load)</li>
+          <li>Aggregated KPI calculations</li>
+          <li>Real-time refresh via SignalR</li>
+          <li><strong>Azure:</strong> Container Apps + Redis + SignalR Service</li>
+        </ul>
+      </div>
+      <div class="svc-card">
+        <span class="svc-icon">🔔</span>
+        <span class="svc-tag">Notification Service</span>
+        <h4>notification-worker</h4>
+        <ul>
+          <li>Email via Azure Communication Services</li>
+          <li>SMS (Pro/Enterprise tiers)</li>
+          <li>In-app via Azure SignalR Service</li>
+          <li>Consumes Service Bus queue</li>
+          <li>Tier-based channel enforcement</li>
+          <li><strong>Azure:</strong> Container Apps + Comm. Services + SignalR</li>
+        </ul>
+      </div>
+      <div class="svc-card">
+        <span class="svc-icon">📝</span>
+        <span class="svc-tag">Audit Service</span>
+        <h4>audit-worker</h4>
+        <ul>
+          <li>Appends all user actions to audit log</li>
+          <li>Tenant-partitioned Cosmos DB store</li>
+          <li>Immutable, tamper-evident records</li>
+          <li>Regulatory audit report generation</li>
+          <li><strong>Azure:</strong> Container Apps + Cosmos DB</li>
+        </ul>
+      </div>
+      <div class="svc-card">
+        <span class="svc-icon">💰</span>
+        <span class="svc-tag">Billing Service</span>
+        <h4>billing-api</h4>
+        <ul>
+          <li>UC-03: Subscription management</li>
+          <li>Usage metering per tenant</li>
+          <li>Stripe/Chargebee webhook handling</li>
+          <li>Tier limit enforcement triggers</li>
+          <li><strong>Azure:</strong> Container Apps + PostgreSQL + Service Bus</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 4. DATA ARCHITECTURE                            -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="card teal">
+    <h2>🗄️ 4. Data Architecture — Azure Data Services</h2>
+
+    <h3>4.1 Azure Database for PostgreSQL Flexible Server (Primary Store)</h3>
+    <div class="two-col">
+      <div class="box azure">
+        <h4>Configuration</h4>
+        <ul>
+          <li>SKU: General Purpose, 8 vCores, 32 GB RAM</li>
+          <li>Storage: 1 TB with auto-grow enabled</li>
+          <li>High Availability: Zone-redundant standby</li>
+          <li>Read Replicas: 1 replica in same region</li>
+          <li>Backup: 35-day retention, geo-redundant</li>
+          <li>Private Endpoint: No public internet access</li>
+          <li>Encryption: Azure Key Vault CMK</li>
+        </ul>
+      </div>
+      <div class="box azure">
+        <h4>Row-Level Security (RLS) Design</h4>
+        <ul>
+          <li>All tables include <code>tenant_id UUID NOT NULL</code></li>
+          <li>RLS Policy: <code>USING (tenant_id = current_setting('app.tenant_id')::uuid)</code></li>
+          <li>Application sets <code>SET app.tenant_id = '{tenant_id}'</code> per request</li>
+          <li>No query can return cross-tenant data at DB level</li>
+          <li>Separate read-only role per tenant for reporting</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>4.2 Complete Database Schema — All 12 Use Cases</h3>
+    <div class="highlight" style="margin-bottom:14px">
+      <strong>Coverage:</strong> 24 tables across 8 functional groups — every table enforces <strong>Row-Level Security (RLS)</strong>
+      scoped by <code>tenant_id</code>. Tables marked with <span style="background:#deecf9;padding:2px 6px;border-radius:4px;font-size:.8rem">Platform</span> are not tenant-scoped.
+    </div>
+    <pre class="code">
+-- ═══════════════════════════════════════════════════════════════════
+-- GROUP 1 · PLATFORM LAYER  (UC-01, UC-02, UC-03)
+-- ═══════════════════════════════════════════════════════════════════
+
+-- ═══════════════════════════════════════════════════════════════════
+-- GROUP 1 · PLATFORM LAYER  (UC-01 UC-02 UC-03)  [No RLS — global]
+-- ═══════════════════════════════════════════════════════════════════
+
+-- UC-01 UC-02 UC-03 · Tenant master record
+CREATE TABLE tenants (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  domain            VARCHAR(255) UNIQUE NOT NULL,
+  name              VARCHAR(255) NOT NULL,
+  tier              VARCHAR(50)  NOT NULL DEFAULT 'BASIC',  -- BASIC|PROFESSIONAL|ENTERPRISE
+  status            VARCHAR(50)  NOT NULL DEFAULT 'PENDING_SETUP',
+                                           -- PENDING_SETUP|ACTIVE|SUSPENDED|CANCELLED
+  admin_email       VARCHAR(255) NOT NULL,
+  activated_at      TIMESTAMPTZ,
+  suspended_at      TIMESTAMPTZ,
+  metadata          JSONB        DEFAULT '{}',
+  created_at        TIMESTAMPTZ  DEFAULT NOW()
+);
+CREATE INDEX idx_tenants_domain ON tenants(domain);
+CREATE INDEX idx_tenants_status ON tenants(status);
+
+-- UC-03 · Subscription plan definitions (global catalogue)
+CREATE TABLE subscription_plans (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  name              VARCHAR(50) UNIQUE NOT NULL,   -- BASIC|PROFESSIONAL|ENTERPRISE
+  max_employees     INT,                            -- NULL = unlimited
+  max_risk_rules    INT,                            -- NULL = unlimited
+  max_api_calls_min INT,                            -- per-minute rate limit
+  features          JSONB   NOT NULL,               -- feature flag map
+  monthly_price_usd DECIMAL(10,2),
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- UC-03 · Active and historical subscriptions per tenant
+CREATE TABLE tenant_subscriptions (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL REFERENCES tenants(id),
+  plan_name         VARCHAR(50) NOT NULL,
+  status            VARCHAR(50) DEFAULT 'ACTIVE',  -- ACTIVE|CANCELLED|PAST_DUE
+  billing_cycle     VARCHAR(20) DEFAULT 'ANNUAL',  -- MONTHLY|ANNUAL
+  started_at        TIMESTAMPTZ DEFAULT NOW(),
+  expires_at        TIMESTAMPTZ,
+  cancelled_at      TIMESTAMPTZ,
+  stripe_sub_id     VARCHAR(255),
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX idx_subscriptions_tenant ON tenant_subscriptions(tenant_id, status);
+
+-- UC-03 · Daily usage metering per tenant (employees, API calls, storage)
+CREATE TABLE usage_metering (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL REFERENCES tenants(id),
+  metric_date       DATE    NOT NULL,
+  active_employees  INT     DEFAULT 0,
+  api_calls_count   BIGINT  DEFAULT 0,
+  storage_bytes     BIGINT  DEFAULT 0,
+  report_count      INT     DEFAULT 0,
+  created_at        TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(tenant_id, metric_date)
+);
+
+-- UC-01 UC-05 · Per-tenant API keys for external system ingestion
+CREATE TABLE tenant_api_keys (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL REFERENCES tenants(id),
+  key_hash          VARCHAR(255) NOT NULL,  -- SHA-256 of actual key
+  key_prefix        VARCHAR(10)  NOT NULL,  -- first 8 chars shown in UI
+  name              VARCHAR(255),
+  is_active         BOOLEAN DEFAULT TRUE,
+  last_used_at      TIMESTAMPTZ,
+  expires_at        TIMESTAMPTZ,
+  created_by        UUID,
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE UNIQUE INDEX idx_api_keys_hash   ON tenant_api_keys(key_hash);
+CREATE INDEX        idx_api_keys_tenant ON tenant_api_keys(tenant_id, is_active);
+
+-- UC-04 · Per-tenant SSO configuration (SAML 2.0 / OIDC)
+CREATE TABLE tenant_sso_configs (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL REFERENCES tenants(id) UNIQUE,
+  protocol          VARCHAR(20) NOT NULL,           -- SAML2|OIDC
+  -- SAML fields
+  idp_metadata_url  VARCHAR(500),
+  idp_entity_id     VARCHAR(500),
+  idp_sso_url       VARCHAR(500),
+  idp_certificate   TEXT,
+  -- OIDC fields
+  oidc_client_id    VARCHAR(255),
+  oidc_issuer_url   VARCHAR(500),
+  oidc_scopes       VARCHAR(500),
+  is_active         BOOLEAN  DEFAULT FALSE,
+  tested_at         TIMESTAMPTZ,
+  created_at        TIMESTAMPTZ DEFAULT NOW(),
+  updated_at        TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- ═══════════════════════════════════════════════════════════════════
+-- GROUP 2 · USERS & RBAC  (All UCs — authentication & authorisation)
+-- ═══════════════════════════════════════════════════════════════════
+
+-- All authenticated users: Super Admin (tenant_id NULL) + tenant users
+CREATE TABLE users (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    REFERENCES tenants(id), -- NULL for Super Admin
+  email             VARCHAR(255) NOT NULL,
+  full_name         VARCHAR(255),
+  is_active         BOOLEAN DEFAULT TRUE,
+  is_super_admin    BOOLEAN DEFAULT FALSE,
+  b2c_object_id     VARCHAR(255),                   -- Azure AD B2C object ID
+  last_login_at     TIMESTAMPTZ,
+  created_at        TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(tenant_id, email)
+);
+ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation ON users
+  USING (tenant_id = current_setting('app.tenant_id')::uuid
+      OR is_super_admin = TRUE);
+CREATE INDEX idx_users_tenant ON users(tenant_id);
+CREATE INDEX idx_users_b2c    ON users(b2c_object_id);
+
+-- RBAC role assignments per tenant user
+CREATE TABLE user_roles (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL REFERENCES tenants(id),
+  user_id           UUID    NOT NULL REFERENCES users(id),
+  role              VARCHAR(50) NOT NULL,
+              -- SUPER_ADMIN|LD_ADMIN|TRAINER|MANAGER|EMPLOYEE
+              -- COMPLIANCE_OFFICER|IT_ADMIN
+  assigned_by       UUID    REFERENCES users(id),
+  assigned_at       TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(tenant_id, user_id, role)
+);
+ALTER TABLE user_roles ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation ON user_roles
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+
+-- ═══════════════════════════════════════════════════════════════════
+-- GROUP 3 · EMPLOYEE MASTER & DATA INGESTION  (UC-05 UC-06)
+-- ═══════════════════════════════════════════════════════════════════
+
+-- Core employee master data
+CREATE TABLE employees (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL REFERENCES tenants(id),
+  user_id           UUID    REFERENCES users(id),
+  employee_code     VARCHAR(100),
+  full_name         VARCHAR(255) NOT NULL,
+  email             VARCHAR(255) NOT NULL,
+  department        VARCHAR(255),
+  designation       VARCHAR(255),
+  manager_id        UUID    REFERENCES employees(id),
+  location          VARCHAR(255),
+  join_date         DATE,
+  is_active         BOOLEAN DEFAULT TRUE,
+  created_at        TIMESTAMPTZ DEFAULT NOW(),
+  updated_at        TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(tenant_id, email)
+);
+ALTER TABLE employees ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation ON employees
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+CREATE INDEX idx_employees_tenant  ON employees(tenant_id);
+CREATE INDEX idx_employees_manager ON employees(manager_id);
+
+-- UC-05 · Raw attendance records ingested from external system
+CREATE TABLE attendance_records (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL,
+  employee_id       UUID    NOT NULL REFERENCES employees(id),
+  training_session  VARCHAR(255),
+  session_date      DATE    NOT NULL,
+  status            VARCHAR(20) NOT NULL,  -- ATTENDED|ABSENT|EXCUSED|LATE
+  duration_minutes  INT,
+  source_system     VARCHAR(100),          -- LMS|ATTENDANCE_APP|CSV
+  ingested_at       TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(tenant_id, employee_id, training_session, session_date)
+);
+ALTER TABLE attendance_records ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation ON attendance_records
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+CREATE INDEX idx_attendance_emp  ON attendance_records(tenant_id, employee_id);
+CREATE INDEX idx_attendance_date ON attendance_records(tenant_id, session_date DESC);
+
+-- UC-05 · Assessment score records ingested from assessment system
+CREATE TABLE assessment_scores (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL,
+  employee_id       UUID    NOT NULL REFERENCES employees(id),
+  assessment_name   VARCHAR(255) NOT NULL,
+  assessment_type   VARCHAR(50),   -- QUIZ|EXAM|PRACTICAL|OBSERVATION
+  score             DECIMAL(5,2) NOT NULL,  -- 0.00–100.00
+  max_score         DECIMAL(5,2) DEFAULT 100.00,
+  pass_score        DECIMAL(5,2) DEFAULT 60.00,
+  is_passed         BOOLEAN GENERATED ALWAYS AS (score >= pass_score) STORED,
+  taken_at          DATE    NOT NULL,
+  source_system     VARCHAR(100),
+  ingested_at       TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE assessment_scores ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation ON assessment_scores
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+CREATE INDEX idx_assessments_emp  ON assessment_scores(tenant_id, employee_id);
+CREATE INDEX idx_assessments_date ON assessment_scores(tenant_id, taken_at DESC);
+
+-- UC-05 · Competency milestone progress ingested from LMS
+CREATE TABLE competency_milestones (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL,
+  employee_id       UUID    NOT NULL REFERENCES employees(id),
+  milestone_code    VARCHAR(100) NOT NULL,
+  milestone_name    VARCHAR(255) NOT NULL,
+  competency_area   VARCHAR(255),
+  status            VARCHAR(50) DEFAULT 'NOT_STARTED',
+                              -- NOT_STARTED|IN_PROGRESS|COMPLETED|OVERDUE
+  target_date       DATE,
+  completed_at      TIMESTAMPTZ,
+  proficiency_level VARCHAR(50),  -- BEGINNER|INTERMEDIATE|ADVANCED|EXPERT
+  source_system     VARCHAR(100),
+  ingested_at       TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(tenant_id, employee_id, milestone_code)
+);
+ALTER TABLE competency_milestones ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation ON competency_milestones
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+CREATE INDEX idx_milestones_emp    ON competency_milestones(tenant_id, employee_id);
+CREATE INDEX idx_milestones_status ON competency_milestones(tenant_id, status);
+
+-- UC-06 · Aggregated employee learning profile (computed by Profile Service)
+CREATE TABLE employee_learning_profiles (
+  id                    UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id             UUID    NOT NULL,
+  employee_id           UUID    NOT NULL REFERENCES employees(id),
+  attendance_pct_30d    DECIMAL(5,2),  -- attendance % last 30 days
+  attendance_pct_90d    DECIMAL(5,2),  -- attendance % last 90 days
+  avg_score_30d         DECIMAL(5,2),  -- avg score last 30 days
+  avg_score_90d         DECIMAL(5,2),  -- avg score last 90 days
+  consecutive_fails     INT     DEFAULT 0,
+  milestones_total      INT     DEFAULT 0,
+  milestones_completed  INT     DEFAULT 0,
+  milestones_pct        DECIMAL(5,2),
+  trend_direction       VARCHAR(20),   -- IMPROVING|DECLINING|STABLE
+  trend_score_delta     DECIMAL(5,2),  -- score change over 60 days
+  last_activity_date    DATE,
+  current_risk_level    VARCHAR(20)   DEFAULT 'LOW',
+  last_calculated_at    TIMESTAMPTZ   DEFAULT NOW(),
+  UNIQUE(tenant_id, employee_id)
+);
+ALTER TABLE employee_learning_profiles ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation ON employee_learning_profiles
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+CREATE INDEX idx_profiles_emp  ON employee_learning_profiles(tenant_id, employee_id);
+CREATE INDEX idx_profiles_risk ON employee_learning_profiles(tenant_id, current_risk_level);
+
+-- UC-05 · Ingestion audit log (every API push is recorded)
+CREATE TABLE ingestion_logs (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL,
+  api_key_id        UUID    REFERENCES tenant_api_keys(id),
+  data_type         VARCHAR(50),  -- ATTENDANCE|ASSESSMENT|MILESTONE
+  source_system     VARCHAR(100),
+  records_received  INT     DEFAULT 0,
+  records_processed INT     DEFAULT 0,
+  records_failed    INT     DEFAULT 0,
+  error_details     JSONB,
+  ingested_at       TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX idx_ingestion_tenant ON ingestion_logs(tenant_id, ingested_at DESC);
+
+-- ═══════════════════════════════════════════════════════════════════
+-- GROUP 4 · RISK ENGINE  (UC-07 UC-08)
+-- ═══════════════════════════════════════════════════════════════════
+
+-- UC-07 · Tenant-scoped risk rule definitions (JSON/YAML conditions)
+CREATE TABLE risk_rules (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL REFERENCES tenants(id),
+  rule_code         VARCHAR(50) NOT NULL,
+  name              VARCHAR(255) NOT NULL,
+  description       TEXT,
+  severity          VARCHAR(20) NOT NULL,  -- CRITICAL|HIGH|MEDIUM|LOW
+  rule_type         VARCHAR(50),           -- ATTENDANCE|SCORE|TREND|MILESTONE|COMPOSITE
+  conditions        JSONB   NOT NULL,      -- structured rule definition
+  actions           JSONB   NOT NULL,      -- alert targets, intervention suggestions
+  is_active         BOOLEAN DEFAULT TRUE,
+  is_global_template BOOLEAN DEFAULT FALSE,
+  version           INT     DEFAULT 1,
+  created_by        UUID    REFERENCES users(id),
+  created_at        TIMESTAMPTZ DEFAULT NOW(),
+  updated_at        TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(tenant_id, rule_code, version)
+);
+ALTER TABLE risk_rules ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation ON risk_rules
+  USING (tenant_id = current_setting('app.tenant_id')::uuid
+      OR is_global_template = TRUE);
+CREATE INDEX idx_rules_tenant ON risk_rules(tenant_id, is_active);
+
+-- UC-07 · Full version history of every rule change (audit trail)
+CREATE TABLE risk_rule_versions (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL,
+  rule_id           UUID    NOT NULL REFERENCES risk_rules(id),
+  version           INT     NOT NULL,
+  conditions        JSONB   NOT NULL,
+  actions           JSONB   NOT NULL,
+  changed_by        UUID    REFERENCES users(id),
+  change_reason     TEXT,
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE risk_rule_versions ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation ON risk_rule_versions
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+
+-- UC-08 · Batch job execution record (one row per tenant per night)
+CREATE TABLE risk_evaluation_jobs (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL REFERENCES tenants(id),
+  evaluation_date   DATE    NOT NULL,
+  status            VARCHAR(50) DEFAULT 'PENDING',
+                            -- PENDING|RUNNING|COMPLETED|FAILED
+  employees_evaluated INT   DEFAULT 0,
+  alerts_generated  INT     DEFAULT 0,
+  started_at        TIMESTAMPTZ,
+  completed_at      TIMESTAMPTZ,
+  error_message     TEXT,
+  created_at        TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(tenant_id, evaluation_date)
+);
+
+-- UC-08 · Per-employee risk assessment result (output of risk engine)
+CREATE TABLE risk_assessments (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL,
+  employee_id       UUID    NOT NULL REFERENCES employees(id),
+  evaluation_job_id UUID    REFERENCES risk_evaluation_jobs(id),
+  risk_level        VARCHAR(20) NOT NULL,       -- CRITICAL|HIGH|MEDIUM|LOW
+  risk_score        DECIMAL(5,2),
+  rules_fired       JSONB,                      -- [{rule_id, rule_code, severity}]
+  contributing_factors JSONB,                   -- {attendance_pct, avg_score, ...}
+  previous_risk_level VARCHAR(20),              -- for escalation detection
+  is_notified       BOOLEAN  DEFAULT FALSE,
+  notified_at       TIMESTAMPTZ,
+  assessed_at       TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE risk_assessments ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation ON risk_assessments
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+CREATE INDEX idx_risk_emp   ON risk_assessments(tenant_id, employee_id);
+CREATE INDEX idx_risk_level ON risk_assessments(tenant_id, risk_level);
+CREATE INDEX idx_risk_date  ON risk_assessments(tenant_id, assessed_at DESC);
+
+-- ═══════════════════════════════════════════════════════════════════
+-- GROUP 5 · INTERVENTION MANAGEMENT  (UC-09 UC-10)
+-- ═══════════════════════════════════════════════════════════════════
+
+-- UC-09 UC-10 · Intervention record (full lifecycle)
+CREATE TABLE interventions (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL,
+  employee_id       UUID    NOT NULL REFERENCES employees(id),
+  risk_assessment_id UUID   REFERENCES risk_assessments(id),
+  type              VARCHAR(50) NOT NULL,  -- REMEDIAL|COACHING|MENTORING|WORKSHOP
+  title             VARCHAR(255),
+  description       TEXT,
+  status            VARCHAR(50) DEFAULT 'DRAFT',
+                    -- DRAFT|PENDING_APPROVAL|APPROVED|ACTIVE|COMPLETED|REJECTED|CANCELLED
+  assigned_by       UUID    REFERENCES users(id),
+  approved_by       UUID    REFERENCES users(id),
+  rejected_by       UUID    REFERENCES users(id),
+  rejection_reason  TEXT,
+  trainer_id        UUID    REFERENCES users(id),
+  scheduled_start   TIMESTAMPTZ,
+  scheduled_end     TIMESTAMPTZ,
+  actual_start      TIMESTAMPTZ,
+  actual_end        TIMESTAMPTZ,
+  sessions_planned  INT     DEFAULT 1,
+  sessions_attended INT     DEFAULT 0,
+  pre_metrics       JSONB,   -- profile snapshot at assignment time
+  post_metrics      JSONB,   -- profile snapshot after completion
+  improvement_pct   DECIMAL(5,2),
+  outcome_notes     TEXT,
+  created_at        TIMESTAMPTZ DEFAULT NOW(),
+  updated_at        TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE interventions ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation ON interventions
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+CREATE INDEX idx_interventions_emp     ON interventions(tenant_id, employee_id);
+CREATE INDEX idx_interventions_status  ON interventions(tenant_id, status);
+CREATE INDEX idx_interventions_trainer ON interventions(tenant_id, trainer_id);
+
+-- UC-09 UC-10 · Individual sessions within an intervention
+CREATE TABLE intervention_sessions (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL,
+  intervention_id   UUID    NOT NULL REFERENCES interventions(id),
+  session_number    INT     NOT NULL,
+  scheduled_at      TIMESTAMPTZ,
+  conducted_at      TIMESTAMPTZ,
+  duration_minutes  INT,
+  attendance_status VARCHAR(20),  -- ATTENDED|ABSENT|RESCHEDULED
+  trainer_notes     TEXT,
+  employee_feedback TEXT,
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE intervention_sessions ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation ON intervention_sessions
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+
+-- UC-09 · Approval workflow state-machine event log
+CREATE TABLE intervention_workflow_events (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL,
+  intervention_id   UUID    NOT NULL REFERENCES interventions(id),
+  from_status       VARCHAR(50),
+  to_status         VARCHAR(50) NOT NULL,
+  action            VARCHAR(50) NOT NULL,
+                    -- SUBMITTED|APPROVED|REJECTED|ACTIVATED|COMPLETED|CANCELLED
+  performed_by      UUID    REFERENCES users(id),
+  comments          TEXT,
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE intervention_workflow_events ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation ON intervention_workflow_events
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+CREATE INDEX idx_workflow_intervention ON intervention_workflow_events(intervention_id);
+
+-- ═══════════════════════════════════════════════════════════════════
+-- GROUP 6 · COMPLIANCE REPORTING  (UC-11)
+-- ═══════════════════════════════════════════════════════════════════
+
+-- UC-11 · Report type definitions (global templates + tenant-custom)
+CREATE TABLE report_definitions (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    REFERENCES tenants(id),  -- NULL = global template
+  name              VARCHAR(255) NOT NULL,
+  description       TEXT,
+  report_type       VARCHAR(100) NOT NULL,
+   -- ATTENDANCE_COMPLIANCE|AT_RISK_LEARNERS|INTERVENTION_OUTCOMES
+   -- MILESTONE_ACHIEVEMENT|COMPETENCY_SUMMARY|CUSTOM
+  default_filters   JSONB,
+  is_global         BOOLEAN  DEFAULT FALSE,
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- UC-11 · On-demand and scheduled report generation jobs
+CREATE TABLE report_jobs (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL,
+  report_definition_id UUID  REFERENCES report_definitions(id),
+  requested_by      UUID    REFERENCES users(id),
+  report_type       VARCHAR(100) NOT NULL,
+  parameters        JSONB   NOT NULL,    -- {date_from, date_to, dept, format ...}
+  format            VARCHAR(20) NOT NULL,  -- PDF|EXCEL|CSV
+  status            VARCHAR(50) DEFAULT 'PENDING',
+                    -- PENDING|PROCESSING|COMPLETED|FAILED
+  blob_url          VARCHAR(1000),       -- Azure Blob SAS download URL
+  file_size_bytes   BIGINT,
+  error_message     TEXT,
+  requested_at      TIMESTAMPTZ DEFAULT NOW(),
+  completed_at      TIMESTAMPTZ,
+  expires_at        TIMESTAMPTZ          -- SAS URL expiry (default +24h)
+);
+ALTER TABLE report_jobs ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation ON report_jobs
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+CREATE INDEX idx_report_jobs_tenant ON report_jobs(tenant_id, requested_at DESC);
+CREATE INDEX idx_report_jobs_status ON report_jobs(tenant_id, status);
+
+-- UC-11 · Recurring scheduled reports (cron-based)
+CREATE TABLE report_schedules (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL,
+  name              VARCHAR(255) NOT NULL,
+  report_definition_id UUID  REFERENCES report_definitions(id),
+  parameters        JSONB   NOT NULL,
+  cron_expression   VARCHAR(100) NOT NULL,  -- e.g. '0 8 * * 1' = Mon 08:00
+  format            VARCHAR(20) DEFAULT 'PDF',
+  recipient_emails  JSONB   NOT NULL,       -- ["a@b.com", "c@d.com"]
+  is_active         BOOLEAN DEFAULT TRUE,
+  last_run_at       TIMESTAMPTZ,
+  next_run_at       TIMESTAMPTZ,
+  created_by        UUID    REFERENCES users(id),
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE report_schedules ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation ON report_schedules
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+
+-- ═══════════════════════════════════════════════════════════════════
+-- GROUP 7 · NOTIFICATIONS  (UC-08 UC-09 UC-11)
+-- ═══════════════════════════════════════════════════════════════════
+
+-- All outbound notifications across every channel
+CREATE TABLE notifications (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL,
+  user_id           UUID    REFERENCES users(id),
+  type              VARCHAR(100) NOT NULL,
+    -- RISK_ALERT|INTERVENTION_ASSIGNED|INTERVENTION_APPROVED
+    -- REPORT_READY|CERT_EXPIRY|TIER_LIMIT_WARNING
+  channel           VARCHAR(20) NOT NULL,   -- EMAIL|SMS|IN_APP
+  subject           VARCHAR(255),
+  body              TEXT,
+  status            VARCHAR(20) DEFAULT 'PENDING',  -- PENDING|SENT|DELIVERED|FAILED
+  reference_id      UUID,          -- FK to risk_assessment, intervention, report_job
+  reference_type    VARCHAR(50),   -- RISK_ASSESSMENT|INTERVENTION|REPORT_JOB
+  sent_at           TIMESTAMPTZ,
+  read_at           TIMESTAMPTZ,
+  created_at        TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation ON notifications
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+CREATE INDEX idx_notifications_user   ON notifications(tenant_id, user_id, read_at);
+CREATE INDEX idx_notifications_status ON notifications(tenant_id, status);
+
+-- ═══════════════════════════════════════════════════════════════════
+-- GROUP 8 · DASHBOARD  (UC-12)
+-- ═══════════════════════════════════════════════════════════════════
+
+-- UC-12 · Per-role and per-user dashboard widget layout
+CREATE TABLE dashboard_configurations (
+  id                UUID    PRIMARY KEY DEFAULT gen_random_uuid(),
+  tenant_id         UUID    NOT NULL,
+  user_id           UUID    REFERENCES users(id),   -- NULL = role-level default
+  role              VARCHAR(50) NOT NULL,
+               -- LD_ADMIN|TRAINER|MANAGER|EMPLOYEE|COMPLIANCE_OFFICER
+  widgets           JSONB   NOT NULL,  -- ordered list of {widget_id, config}
+  layout            JSONB,             -- grid layout metadata
+  created_at        TIMESTAMPTZ DEFAULT NOW(),
+  updated_at        TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE dashboard_configurations ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation ON dashboard_configurations
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+    </pre>
+
+    <h3>4.3 Azure Cache for Redis — Caching Strategy</h3>
+    <table>
+      <thead><tr><th>Cache Key Pattern</th><th>Content</th><th>TTL</th><th>Use Case</th></tr></thead>
+      <tbody>
+        <tr><td><code>profile:{tenant_id}:{employee_id}</code></td><td>Aggregated employee profile JSON</td><td>15 min</td><td>UC-06 Profile API</td></tr>
+        <tr><td><code>dashboard:{tenant_id}:{role}</code></td><td>Dashboard KPI aggregations</td><td>5 min</td><td>UC-12 Dashboard</td></tr>
+        <tr><td><code>rules:{tenant_id}</code></td><td>Active risk rules list per tenant</td><td>30 min</td><td>UC-08 Risk Engine</td></tr>
+        <tr><td><code>ratelimit:{tenant_id}:{window}</code></td><td>API call count for rate limiting</td><td>60 sec</td><td>UC-05 Ingestion</td></tr>
+        <tr><td><code>token:{jwt_jti}</code></td><td>Revoked token list (blacklist)</td><td>Token expiry</td><td>Auth / Security</td></tr>
+        <tr><td><code>tenant:{tenant_id}:config</code></td><td>Tenant tier, limits, feature flags</td><td>60 min</td><td>All services</td></tr>
+      </tbody>
+    </table>
+
+    <h3>4.4 Azure Blob Storage — Object Storage Design</h3>
+    <table>
+      <thead><tr><th>Container Name</th><th>Content</th><th>Access Policy</th><th>Retention</th></tr></thead>
+      <tbody>
+        <tr><td><code>reports/{tenant_id}/</code></td><td>Generated PDF/Excel/CSV compliance reports</td><td>Private (SAS URLs for download)</td><td>7 years (regulatory)</td></tr>
+        <tr><td><code>imports/{tenant_id}/</code></td><td>Bulk CSV upload files</td><td>Private</td><td>30 days after processing</td></tr>
+        <tr><td><code>rule-templates/</code></td><td>Global JSON/YAML rule template library</td><td>Read-only (APIM service principal)</td><td>Permanent</td></tr>
+        <tr><td><code>audit-archive/{tenant_id}/</code></td><td>Long-term audit log archives (Parquet)</td><td>Private + Immutable policy</td><td>10 years</td></tr>
+        <tr><td><code>attachments/{tenant_id}/</code></td><td>Intervention documents, evidence files</td><td>Private (SAS)</td><td>5 years</td></tr>
+      </tbody>
+    </table>
+
+    <h3>4.5 Azure Cosmos DB — Audit Trail Store</h3>
+    <div class="box teal">
+      <h4>Audit Log Design (NoSQL, Append-Only)</h4>
+      <ul>
+        <li>Partition key: <code>/tenantId</code> — ensures tenant isolation at partition level</li>
+        <li>Every write operation appends an immutable audit document — no updates/deletes permitted</li>
+        <li>Change Feed enabled for real-time audit streaming to Log Analytics</li>
+        <li>TTL: No auto-expiry (permanent retention for compliance)</li>
+        <li>Consistency: Session (within tenant context); Strong for audit writes</li>
+      </ul>
+      <pre class="code" style="margin-top:10px">
+{
+  "id": "audit_20261015_abc123",
+  "tenantId": "tenant-uuid",
+  "userId": "user-uuid",
+  "userRole": "L&D_ADMIN",
+  "action": "GENERATE_COMPLIANCE_REPORT",
+  "entityType": "REPORT",
+  "entityId": "report-uuid",
+  "timestamp": "2026-10-15T14:32:00Z",
+  "ipAddress": "203.0.113.42",
+  "requestId": "req-uuid",
+  "payload": { "reportType": "ATTENDANCE_COMPLIANCE", "period": "Q3-2026" },
+  "result": "SUCCESS"
+}
+      </pre>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 5. IDENTITY & SECURITY ARCHITECTURE             -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="card red">
+    <h2>🔒 5. Identity &amp; Security Architecture</h2>
+
+    <h3>5.1 Azure Active Directory B2C — Multi-Tenant Identity</h3>
+    <div class="two-col">
+      <div class="box red">
+        <h4>Authentication Flows</h4>
+        <ul>
+          <li><strong>Local Accounts:</strong> Email + password for Basic tier tenants</li>
+          <li><strong>SSO Federation (UC-04):</strong> SAML 2.0 / OIDC per-tenant IdP</li>
+          <li><strong>MFA:</strong> Enforced for L&amp;D Admin, Super Admin, Compliance Officer roles</li>
+          <li><strong>JWT Claims:</strong> <code>tenant_id</code>, <code>user_id</code>, <code>roles[]</code>, <code>tier</code></li>
+          <li><strong>Token Expiry:</strong> Access token 1hr; Refresh token 90 days</li>
+        </ul>
+      </div>
+      <div class="box red">
+        <h4>Custom B2C User Flows</h4>
+        <ul>
+          <li><code>B2C_1_SignIn</code> — Standard sign-in with local account</li>
+          <li><code>B2C_1_SSO_{tenant_id}</code> — Per-tenant SSO federation flow</li>
+          <li><code>B2C_1_MFAAdmin</code> — MFA-enforced flow for admin roles</li>
+          <li><code>B2C_1_PasswordReset</code> — Self-service password reset</li>
+          <li>Custom claims transformer injects <code>tenant_id</code> into JWT</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>5.2 Azure Key Vault — Secrets Management</h3>
+    <table>
+      <thead><tr><th>Secret Name Pattern</th><th>Content</th><th>Access Policy</th></tr></thead>
+      <tbody>
+        <tr><td><code>tenant-{id}-api-key</code></td><td>Per-tenant API key for external integrations (UC-05)</td><td>Ingestion Service Managed Identity only</td></tr>
+        <tr><td><code>db-connection-string</code></td><td>PostgreSQL connection string with RLS user</td><td>All backend service Managed Identities</td></tr>
+        <tr><td><code>redis-connection-string</code></td><td>Azure Redis Cache connection string</td><td>Profile, Dashboard, Rules Services</td></tr>
+        <tr><td><code>b2c-{tenant_id}-oidc-secret</code></td><td>OIDC client secret for per-tenant SSO (UC-04)</td><td>Identity Service only</td></tr>
+        <tr><td><code>stripe-webhook-secret</code></td><td>Stripe billing webhook signing secret</td><td>Billing Service only</td></tr>
+        <tr><td><code>report-signing-key</code></td><td>RSA key for digital report signing</td><td>Report Service only</td></tr>
+      </tbody>
+    </table>
+
+    <h3>5.3 Network Security Architecture</h3>
+    <div class="arch-diagram">
+<span class="c-yellow">Internet</span>
+    │
+    ▼
+<span class="c-azure">Azure DDoS Protection Standard</span> (L3/L4 DDoS mitigation)
+    │
+    ▼
+<span class="c-azure">Azure Front Door</span> (L7 WAF — OWASP Top 10, rate limiting, geo-blocking)
+    │                              │
+    ▼                              ▼
+<span class="c-azure">Azure Static Web Apps</span>    <span class="c-azure">Azure API Management</span> (Public subnet — DMZ)
+<span class="c-gray">(React SPA)</span>               │
+                               │ Private Link
+                               ▼
+<span class="c-yellow">┌──────────────────── Azure Virtual Network (10.0.0.0/16) ──────────────────────┐</span>
+│                                                                                │
+│  <span class="c-azure">┌─── App Subnet (10.0.1.0/24) ───────────────────────────────────────────┐</span>  │
+│  <span class="c-azure">│  Azure Container Apps Environment (Managed VNet injection)             │</span>  │
+│  <span class="c-azure">│  All 12 microservices — NO public IPs                                  │</span>  │
+│  <span class="c-azure">└────────────────────────────────────────────────────────────────────────┘</span>  │
+│                                                                                │
+│  <span class="c-green">┌─── Functions Subnet (10.0.2.0/24) ──────────────────────────────────────┐</span>  │
+│  <span class="c-green">│  Azure Functions (Risk Engine, Report Gen, Scheduled Jobs)              │</span>  │
+│  <span class="c-green">└────────────────────────────────────────────────────────────────────────┘</span>  │
+│                                                                                │
+│  <span class="c-purple">┌─── Data Subnet (10.0.3.0/24) ────────────────────────────────────────────┐</span>  │
+│  <span class="c-purple">│  PostgreSQL Private Endpoint    Redis Private Endpoint                  │</span>  │
+│  <span class="c-purple">│  Cosmos DB Private Endpoint     Blob Storage Private Endpoint          │</span>  │
+│  <span class="c-purple">│  Service Bus Private Endpoint   Event Hubs Private Endpoint            │</span>  │
+│  <span class="c-purple">└────────────────────────────────────────────────────────────────────────┘</span>  │
+│                                                                                │
+│  NSG Rules: Deny all inbound from internet | Allow only within VNet           │
+<span class="c-yellow">└────────────────────────────────────────────────────────────────────────────────┘</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 6. API MANAGEMENT DESIGN                        -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="card orange">
+    <h2>🌐 6. Azure API Management — Gateway Design</h2>
+    <div class="highlight">
+      Azure API Management (APIM) is the single entry point for all API traffic. It handles per-tenant API key validation, rate limiting by subscription tier, JWT validation, and request routing to backend Container Apps.
+    </div>
+
+    <h3>6.1 API Products (Per Subscription Tier)</h3>
+    <table>
+      <thead><tr><th>APIM Product</th><th>Rate Limit</th><th>Features Enabled</th><th>Mapped to Tier</th></tr></thead>
+      <tbody>
+        <tr><td><strong>basic-plan</strong></td><td>100 req/min, 50K req/day</td><td>Core APIs only; email notifications; max 5 risk rules</td><td>Basic</td></tr>
+        <tr><td><strong>professional-plan</strong></td><td>1,000 req/min, 1M req/day</td><td>All APIs; SMS+email; unlimited rules; SSO; webhooks</td><td>Professional</td></tr>
+        <tr><td><strong>enterprise-plan</strong></td><td>Unlimited (fair use)</td><td>All APIs; custom integrations; dedicated bandwidth</td><td>Enterprise</td></tr>
+        <tr><td><strong>platform-admin</strong></td><td>Internal only</td><td>Super Admin portal APIs; tenant provisioning</td><td>Platform</td></tr>
+      </tbody>
+    </table>
+
+    <h3>6.2 Key APIM Policies</h3>
+    <pre class="code">
+&lt;!-- Per-Tenant Rate Limiting Policy --&gt;
+&lt;policies&gt;
+  &lt;inbound&gt;
+    &lt;!-- Validate JWT from Azure AD B2C --&gt;
+    &lt;validate-jwt header-name="Authorization" require-expiration-time="true"&gt;
+      &lt;openid-config url="https://{b2c-tenant}.b2clogin.com/{tenant}/v2.0/.well-known/openid-configuration"/&gt;
+      &lt;required-claims&gt;
+        &lt;claim name="tenant_id" /&gt;
+        &lt;claim name="roles" /&gt;
+      &lt;/required-claims&gt;
+    &lt;/validate-jwt&gt;
+
+    &lt;!-- Extract tenant_id from JWT and set as context variable --&gt;
+    &lt;set-variable name="tenantId" value="@(context.Request.Headers["X-Tenant-Id"].First())" /&gt;
+
+    &lt;!-- Per-Tenant Rate Limiting (keyed by tenant_id from JWT) --&gt;
+    &lt;rate-limit-by-key calls="1000" renewal-period="60"
+      counter-key="@(context.Request.Headers.GetValueOrDefault("X-Tenant-Id",""))"
+      increment-condition="@(context.Response.StatusCode &lt; 500)" /&gt;
+
+    &lt;!-- Inject tenant_id into backend header for RLS --&gt;
+    &lt;set-header name="X-Tenant-Id" exists-action="override"&gt;
+      &lt;value&gt;@((string)context.Variables["tenantId"])&lt;/value&gt;
+    &lt;/set-header&gt;
+
+    &lt;!-- Route to correct backend Container App --&gt;
+    &lt;set-backend-service backend-id="tenant-specific-backend" /&gt;
+  &lt;/inbound&gt;
+  &lt;backend&gt;&lt;forward-request /&gt;&lt;/backend&gt;
+  &lt;outbound&gt;
+    &lt;!-- Add correlation headers --&gt;
+    &lt;set-header name="X-Request-Id" exists-action="override"&gt;
+      &lt;value&gt;@(context.RequestId.ToString())&lt;/value&gt;
+    &lt;/set-header&gt;
+  &lt;/outbound&gt;
+&lt;/policies&gt;
+    </pre>
+
+    <h3>6.3 API Endpoints by Service</h3>
+    <table>
+      <thead><tr><th>Endpoint Group</th><th>Base Path</th><th>Methods</th><th>Service</th></tr></thead>
+      <tbody>
+        <tr><td>Tenant Management</td><td><code>/api/v1/tenants</code></td><td>GET, POST, PUT, DELETE</td><td>tenant-api</td></tr>
+        <tr><td>SSO Configuration</td><td><code>/api/v1/tenants/{id}/sso</code></td><td>GET, PUT</td><td>identity-api</td></tr>
+        <tr><td>Training Data Ingestion</td><td><code>/api/v1/ingest/{type}</code></td><td>POST</td><td>ingestion-api</td></tr>
+        <tr><td>Employee Profiles</td><td><code>/api/v1/employees/{id}/profile</code></td><td>GET</td><td>profile-api</td></tr>
+        <tr><td>Risk Rules</td><td><code>/api/v1/rules</code></td><td>GET, POST, PUT, DELETE</td><td>rules-api</td></tr>
+        <tr><td>Risk Assessments</td><td><code>/api/v1/assessments</code></td><td>GET</td><td>risk-engine</td></tr>
+        <tr><td>Interventions</td><td><code>/api/v1/interventions</code></td><td>GET, POST, PATCH</td><td>intervention-api</td></tr>
+        <tr><td>Reports</td><td><code>/api/v1/reports</code></td><td>GET, POST</td><td>report-api</td></tr>
+        <tr><td>Dashboards</td><td><code>/api/v1/dashboards/{role}</code></td><td>GET</td><td>dashboard-api</td></tr>
+        <tr><td>Audit Trail</td><td><code>/api/v1/audit</code></td><td>GET</td><td>audit-api</td></tr>
+        <tr><td>Subscriptions</td><td><code>/api/v1/subscriptions</code></td><td>GET, PUT</td><td>billing-api</td></tr>
+        <tr><td>Notifications</td><td><code>/api/v1/notifications</code></td><td>GET</td><td>notification-api</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 7. BATCH PROCESSING & EVENT ARCHITECTURE        -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="card">
+    <h2>⚙️ 7. Batch Processing &amp; Event-Driven Architecture</h2>
+
+    <h3>7.1 UC-08 — Nightly Risk Evaluation (Azure Functions + Container Apps Jobs)</h3>
+    <div class="arch-diagram">
+<span class="c-azure">Azure Timer Trigger Function</span>  (fires at 01:00 UTC daily)
+         │
+         ▼
+<span class="c-azure">Fetch active tenants list</span>  →  PostgreSQL: SELECT id FROM tenants WHERE status = 'ACTIVE'
+         │
+         ▼ (for each tenant — staggered 30s apart to avoid DB overload)
+<span class="c-azure">Azure Service Bus</span>: Enqueue TenantRiskEvaluationJob { tenant_id, evaluation_date }
+         │
+         ▼
+<span class="c-azure">Container Apps Job</span> (risk-engine-worker): Dequeues and processes each tenant
+         │
+         ├── Fetch active risk rules for tenant:  SELECT * FROM risk_rules WHERE tenant_id = ?
+         │
+         ├── Fetch employee profiles:  SELECT * FROM employee_profiles WHERE tenant_id = ?
+         │
+         ├── Evaluate rules against each employee profile
+         │      Rule: ATT_001 → attendance_pct &lt; 75  → CRITICAL
+         │      Rule: SCORE_001 → consecutive_fails &gt;= 2  → HIGH
+         │      Rule: COMP_001 → att_pct &lt; 80 AND score &lt; 60  → CRITICAL
+         │
+         ├── Calculate composite risk score + assign level
+         │
+         ├── UPSERT risk_assessments: { employee_id, risk_level, rules_fired, assessed_at }
+         │
+         └── Publish RiskAlertEvent to <span class="c-azure">Azure Service Bus</span>
+                     │
+                     ▼
+         <span class="c-azure">Notification Service</span> consumes alert:
+              → Email to Trainer + L&D Admin (all tiers)
+              → SMS notification (Pro/Enterprise)
+              → In-app via SignalR (Pro/Enterprise)
+    </div>
+
+    <h3>7.2 UC-05 — Real-Time Data Ingestion (Azure Event Hubs)</h3>
+    <div class="arch-diagram">
+<span class="c-azure">External System</span>  POST /api/v1/ingest/attendance  (with API key)
+         │
+         ▼
+<span class="c-azure">Azure APIM</span>: Validate API key → resolve tenant_id → rate limit check
+         │
+         ▼
+<span class="c-azure">Ingestion API</span> (Container App):
+         ├── Schema validation (JSON Schema)
+         ├── Duplicate detection (Redis idempotency key)
+         └── Publish to <span class="c-azure">Azure Event Hubs</span> (partition key = tenant_id)
+                     │
+                     ▼ (Kafka-compatible consumer)
+         <span class="c-azure">Profile Aggregation Worker</span> (Container App):
+              ├── Consume attendance event
+              ├── Recalculate: attendance_pct, avg_score, milestone_status
+              ├── UPDATE employee_profiles WHERE tenant_id = ? AND employee_id = ?
+              └── Invalidate Redis cache: DEL profile:{tenant_id}:{employee_id}
+    </div>
+
+    <h3>7.3 UC-11 — Report Generation (Async, Azure Functions)</h3>
+    <div class="arch-diagram">
+<span class="c-azure">User</span>: POST /api/v1/reports  { type, date_range, format: PDF }
+         │
+         ▼
+<span class="c-azure">Report API</span>: Create report job record (status=PENDING) → return job_id
+         │
+         ▼
+<span class="c-azure">Azure Service Bus</span>: Enqueue ReportGenerationJob { tenant_id, job_id, params }
+         │
+         ▼
+<span class="c-azure">Azure Function</span> (report-generator):
+         ├── Dequeue job
+         ├── Query PostgreSQL for tenant-scoped data (RLS enforced)
+         ├── Render PDF using Azure Document Intelligence / custom renderer
+         ├── Upload to <span class="c-azure">Azure Blob Storage</span>: reports/{tenant_id}/{job_id}.pdf
+         ├── Generate SAS URL (24hr expiry)
+         └── UPDATE report_jobs SET status=COMPLETED, download_url=? WHERE id=?
+                     │
+                     ▼
+         <span class="c-azure">SignalR Service</span>: Push notification → "Your report is ready: [Download]"
+         <span class="c-azure">Audit Service</span>: Append audit record to Cosmos DB
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 8. OBSERVABILITY & MONITORING                   -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="card green">
+    <h2>📊 8. Observability &amp; Monitoring Architecture</h2>
+
+    <div class="three-col">
+      <div class="box green">
+        <h4>📈 Azure Application Insights</h4>
+        <ul>
+          <li>Distributed tracing across all microservices</li>
+          <li>Custom telemetry per <code>tenant_id</code></li>
+          <li>Request/dependency tracking per service</li>
+          <li>Exception tracking with stack traces</li>
+          <li>Live Metrics stream for real-time health</li>
+          <li>Smart detection for anomalies</li>
+        </ul>
+      </div>
+      <div class="box green">
+        <h4>📋 Azure Log Analytics Workspace</h4>
+        <ul>
+          <li>Centralised log aggregation from all services</li>
+          <li>Kusto (KQL) queries for incident analysis</li>
+          <li>Audit log streaming from Cosmos DB Change Feed</li>
+          <li>Security log analysis (APIM, Key Vault, AAD)</li>
+          <li>Log retention: 90 days hot + 2 years archive</li>
+          <li>Workbooks for tenant health reports</li>
+        </ul>
+      </div>
+      <div class="box green">
+        <h4>🚨 Azure Monitor Alerts</h4>
+        <ul>
+          <li>P95 API response &gt;200ms → Warning alert</li>
+          <li>Risk batch job failure → Critical alert</li>
+          <li>PostgreSQL CPU &gt;80% → Scale-up trigger</li>
+          <li>Service Bus queue depth &gt;1000 → Alert</li>
+          <li>Failed login attempts &gt;50/min → Security alert</li>
+          <li>Tenant API rate limit exceeded → Notify admin</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>SLA &amp; Performance Targets</h3>
+    <table>
+      <thead><tr><th>Metric</th><th>Target SLA</th><th>Azure Service</th><th>Alert Threshold</th></tr></thead>
+      <tbody>
+        <tr><td>API Response Time (P95)</td><td>&lt;200ms</td><td>Container Apps + APIM</td><td>&gt;200ms → Warn, &gt;500ms → Critical</td></tr>
+        <tr><td>Dashboard Load Time</td><td>&lt;2 seconds</td><td>Dashboard API + Redis</td><td>&gt;2s → Warn, cache miss rate &gt;30%</td></tr>
+        <tr><td>Platform Uptime</td><td>&gt;99.9%</td><td>Azure Front Door (99.99% SLA)</td><td>Availability &lt;99.9% → Critical</td></tr>
+        <tr><td>Risk Batch Completion</td><td>All tenants in &lt;2hr window</td><td>Azure Functions + Service Bus</td><td>Job &gt;2hrs → Critical, retry</td></tr>
+        <tr><td>Report Generation</td><td>&lt;30 seconds</td><td>Azure Functions + Blob</td><td>Job &gt;30s → Warn, &gt;120s → Fail</td></tr>
+        <tr><td>Data Ingestion Throughput</td><td>10,000 records/minute</td><td>Event Hubs (10 partitions)</td><td>Consumer lag &gt;10K events → Scale</td></tr>
+        <tr><td>DB Query Response</td><td>&lt;100ms (P99)</td><td>PostgreSQL Flexible Server</td><td>&gt;100ms → Enable read replica routing</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 9. CI/CD & DEVOPS PIPELINE                      -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="card purple">
+    <h2>🔄 9. CI/CD Pipeline — Azure DevOps</h2>
+    <div class="arch-diagram">
+<span class="c-azure">Developer</span>: git push feature/risk-engine-fix
+         │
+         ▼
+<span class="c-azure">Azure DevOps — Build Pipeline</span>
+         ├── Code quality: SonarQube analysis
+         ├── Security scan: Microsoft Defender for DevOps
+         ├── Unit tests: JUnit / PyTest / Jest (must pass &gt;80% coverage)
+         ├── Integration tests: Testcontainers (PostgreSQL + Redis)
+         ├── Docker build: docker build -t myapp:${BUILD_ID}
+         └── Push to <span class="c-azure">Azure Container Registry (ACR)</span>: acr.azurecr.io/risk-engine:v1.2.3
+                     │
+                     ▼
+<span class="c-azure">Azure DevOps — Release Pipeline</span>
+         ├── DEV environment:
+         │      az containerapp update --image risk-engine:v1.2.3 --env dev
+         │      Run E2E tests (Playwright / Postman Newman)
+         │
+         ├── STAGING environment:
+         │      az containerapp update --image risk-engine:v1.2.3 --env staging
+         │      Run performance tests (k6 / JMeter)
+         │      Security pen test (OWASP ZAP scan)
+         │
+         └── PRODUCTION environment:
+                Blue-green deployment via Container Apps traffic splitting
+                10% traffic → new revision
+                Monitor P95 &lt;200ms, error rate &lt;0.1% for 10 minutes
+                100% traffic → new revision (if healthy)
+                Automatic rollback if alerts trigger
+
+<span class="c-azure">Infrastructure as Code:</span>  Azure Bicep / Terraform
+         ├── All Azure resources defined as code
+         ├── Stored in Git repository (infra/ folder)
+         ├── Applied via Azure DevOps pipeline on merge to main
+         └── State stored in Azure Storage Account (Terraform backend)
+    </div>
+
+    <h3>Environment Configuration</h3>
+    <table>
+      <thead><tr><th>Environment</th><th>Azure Region</th><th>PostgreSQL SKU</th><th>Container Apps</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>DEV</td><td>East US</td><td>Burstable B2ms</td><td>Min 1 replica each</td><td>Developer testing</td></tr>
+        <tr><td>SIT/QA</td><td>East US</td><td>GP 4 vCores</td><td>Min 1, max 3 replicas</td><td>Integration + functional testing</td></tr>
+        <tr><td>STAGING</td><td>East US</td><td>GP 8 vCores</td><td>Min 2, max 5 replicas</td><td>Performance + UAT testing</td></tr>
+        <tr><td>PROD (Primary)</td><td>East US</td><td>GP 8 vCores + ZRS</td><td>Min 3, max 20 replicas</td><td>Live production — India + AMER</td></tr>
+        <tr><td>PROD (EU)</td><td>West Europe</td><td>GP 8 vCores + ZRS</td><td>Min 2, max 10 replicas</td><td>EU data residency (GDPR)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 10. DEPLOYMENT REGIONS & DR                     -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="card gold">
+    <h2>🌐 10. Multi-Region Deployment &amp; Disaster Recovery</h2>
+    <div class="arch-diagram">
+<span class="c-azure">Azure Front Door</span> (Global — automatic failover, geo-routing, WAF)
+         │                              │
+         ▼                              ▼
+<span class="c-yellow">PRIMARY REGION</span>                  <span class="c-yellow">EU DATA RESIDENCY REGION</span>
+<span class="c-azure">East US (India + AMER)</span>          <span class="c-azure">West Europe (EU tenants)</span>
+         │                              │
+         ├── Container Apps (PROD)      ├── Container Apps (PROD-EU)
+         ├── PostgreSQL (Primary)       ├── PostgreSQL (Primary-EU, GDPR)
+         ├── Redis Cache                ├── Redis Cache
+         ├── Blob Storage               ├── Blob Storage (EU residency)
+         ├── Cosmos DB                  ├── Cosmos DB (EU residency)
+         ├── Service Bus                ├── Service Bus
+         └── Key Vault                  └── Key Vault
+                     │
+                     ▼
+<span class="c-yellow">DR REGION (Warm Standby)</span>
+<span class="c-azure">Central US</span>  (RPO: 1hr | RTO: 4hrs)
+         ├── PostgreSQL Read Replica → Promoted on failover
+         ├── Container Apps (0 replicas — scaled from 0 on failover)
+         ├── Blob Storage (geo-redundant replication)
+         └── Azure Traffic Manager failover profile
+
+<span class="c-green">Data Residency Enforcement:</span>
+  India tenants    → East US (ap-south via Front Door routing rules)
+  AMER tenants     → East US
+  EU tenants       → West Europe (GDPR — data never leaves EU region)
+    </div>
+
+    <h3>Backup &amp; Recovery Strategy</h3>
+    <table>
+      <thead><tr><th>Resource</th><th>Backup Type</th><th>RPO</th><th>RTO</th><th>Retention</th></tr></thead>
+      <tbody>
+        <tr><td>PostgreSQL (Primary)</td><td>Automated + geo-redundant</td><td>5 min</td><td>30 min</td><td>35 days</td></tr>
+        <tr><td>PostgreSQL (DR)</td><td>Continuous replication (read replica)</td><td>30 sec</td><td>5 min (promote)</td><td>Same as primary</td></tr>
+        <tr><td>Blob Storage</td><td>GRS (geo-redundant storage)</td><td>&lt;15 min</td><td>1 hr</td><td>7–10 years (tier-based)</td></tr>
+        <tr><td>Cosmos DB</td><td>Continuous backup + multi-region writes</td><td>Near-zero</td><td>Instant failover</td><td>Permanent</td></tr>
+        <tr><td>Redis Cache</td><td>RDB snapshots every 60 min</td><td>1 hr</td><td>15 min</td><td>7 days</td></tr>
+        <tr><td>Container Apps config</td><td>ARM/Bicep templates in Git</td><td>0 (IaC)</td><td>30 min (redeploy)</td><td>Git history</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 11. AZURE SERVICES COST ESTIMATE                -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="card">
+    <h2>💰 11. Estimated Azure Monthly Cost (Production — 1,580 Tenants)</h2>
+    <div class="warning-highlight">
+      Estimates based on Azure public pricing (East US region, 2026). Actual costs will vary based on usage, negotiated enterprise agreements, and Azure Reserved Instance commitments (up to 40% savings).
+    </div>
+    <table class="cost-table">
+      <thead><tr><th>Azure Service</th><th>Configuration</th><th>Est. Monthly Cost (USD)</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Azure Container Apps</td><td>12 services × avg 3 replicas × 1 vCPU/2GB</td><td>$2,800–$4,200</td><td>KEDA auto-scaling; pay-per-use</td></tr>
+        <tr><td>Azure DB PostgreSQL</td><td>GP 8 vCores, 512 GB, ZRS HA + 1 replica</td><td>$1,800–$2,400</td><td>~30% saving with 1-yr reserved</td></tr>
+        <tr><td>Azure API Management</td><td>Developer tier → Standard tier (1M calls/mo)</td><td>$700–$1,200</td><td>Scales with API call volume</td></tr>
+        <tr><td>Azure Front Door</td><td>Standard tier, 10 TB outbound, WAF policies</td><td>$400–$600</td><td>Includes DDoS + WAF</td></tr>
+        <tr><td>Azure Redis Cache</td><td>C3 Premium, 6 GB, zone redundant</td><td>$450–$600</td><td>For session + dashboard cache</td></tr>
+        <tr><td>Azure Functions</td><td>Consumption plan — risk batch, reports</td><td>$150–$250</td><td>Low cost — runs nightly batches</td></tr>
+        <tr><td>Azure Service Bus</td><td>Standard tier, 10M messages/mo</td><td>$100–$200</td><td>Intervention + notification queues</td></tr>
+        <tr><td>Azure Event Hubs</td><td>Standard, 10 partitions, 1TB/day</td><td>$200–$350</td><td>Data ingestion pipeline</td></tr>
+        <tr><td>Azure Cosmos DB</td><td>Serverless — audit trail (100M RU/mo)</td><td>$100–$200</td><td>Append-only audit store</td></tr>
+        <tr><td>Azure Blob Storage</td><td>LRS, 10 TB reports + archives</td><td>$100–$200</td><td>Lifecycle policy: cold after 90 days</td></tr>
+        <tr><td>Azure AD B2C</td><td>50K MAU + 100K auth/mo</td><td>$150–$300</td><td>First 50K MAU free</td></tr>
+        <tr><td>Azure Communication Svc</td><td>Email 500K/mo, SMS 50K/mo</td><td>$200–$400</td><td>Email $0.0001/msg, SMS $0.0075</td></tr>
+        <tr><td>Azure SignalR Service</td><td>Standard, 50K connections</td><td>$50–$100</td><td>In-app real-time notifications</td></tr>
+        <tr><td>Azure Key Vault</td><td>Standard, 10K operations/mo</td><td>$20–$50</td><td>Per-tenant secrets</td></tr>
+        <tr><td>Azure Monitor + App Insights</td><td>100 GB logs/mo ingestion</td><td>$200–$400</td><td>Critical for observability</td></tr>
+        <tr><td>Azure DevOps</td><td>5 users + hosted agents</td><td>$50–$100</td><td>CI/CD pipelines</td></tr>
+        <tr><td>Azure Container Registry</td><td>Standard tier</td><td>$20–$50</td><td>Docker image storage</td></tr>
+        <tr style="background:#dff6dd;font-weight:700"><td>TOTAL ESTIMATED</td><td>—</td><td><strong>$7,490–$11,600/month</strong></td><td>~$5–$7 infrastructure cost per tenant/month</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- 12. IMPLEMENTATION ROADMAP                      -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="card teal">
+    <h2>📅 12. Azure Implementation Roadmap</h2>
+    <div class="roadmap-item">
+      <div class="rp">Phase 1 — Q3 2026</div>
+      <div class="roadmap-content">
+        <h4>Foundation Infrastructure</h4>
+        <p>Provision core Azure services via Bicep IaC: VNet, PostgreSQL, Redis, Blob Storage, Key Vault, AD B2C, APIM, Container Apps environment, Event Hubs, Service Bus. Deploy Tenant Service, Identity Service, Ingestion Service. Set up Azure DevOps CI/CD pipelines and Application Insights.</p>
+      </div>
+    </div>
+    <div class="roadmap-item">
+      <div class="rp">Phase 2 — Q4 2026</div>
+      <div class="roadmap-content">
+        <h4>Core Application Services</h4>
+        <p>Deploy Profile Service, Risk Rules Service, Notification Service, Audit Service. Implement RLS policies across all PostgreSQL tables. Enable Azure Functions for nightly risk batch (UC-08). Deploy React SPA to Azure Static Web Apps. Enable Azure Front Door with WAF.</p>
+      </div>
+    </div>
+    <div class="roadmap-item">
+      <div class="rp">Phase 3 — Q1 2027</div>
+      <div class="roadmap-content">
+        <h4>Advanced Services &amp; Production Hardening</h4>
+        <p>Deploy Intervention Service, Report Service (Azure Functions + Blob), Dashboard Service with Redis caching. Enable Azure SignalR for real-time notifications. Implement Private Endpoints for all data services. Enable zone-redundant PostgreSQL + read replica. Performance test with k6 (500 concurrent users).</p>
+      </div>
+    </div>
+    <div class="roadmap-item">
+      <div class="rp">Phase 4 — Q2 2027</div>
+      <div class="roadmap-content">
+        <h4>EU Region + DR + Compliance</h4>
+        <p>Deploy EU data residency stack in West Europe (GDPR). Configure Azure Front Door geo-routing (EU tenants → West Europe). Set up Cosmos DB multi-region writes for audit trail. Enable PostgreSQL geo-redundant backups. DR runbook testing (failover simulation). SOC2 Type II readiness audit.</p>
+      </div>
+    </div>
+    <div class="roadmap-item">
+      <div class="rp">Phase 5 — Q3 2027+</div>
+      <div class="roadmap-content">
+        <h4>Scale &amp; Advanced Features</h4>
+        <p>Enable Azure Synapse Analytics for advanced reporting (UC-10, UC-11). ML model integration on Azure Machine Learning for risk prediction. Azure API Management developer portal for tenant API key self-service. Implement Azure DDOS Protection Standard. 10,000 tenant load testing.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+<footer>
+  <p>☁️ Azure Cloud System Design | Corporate Learning Progress, Intervention &amp; Compliance Tracking SaaS Platform</p>
+  <p style="margin-top:5px;">Propeller Technothon Challenge | Version 1.0 | Based on Use Case Documentation (PS3_02_Use_Case_Documentation.html)</p>
+</footer>
+</body>
+</html>
