@@ -1,0 +1,50 @@
+As a Propeller Participant team you will need to submit
+
+1. Problem Statement Analysis document. 
+a. What is the problem statement
+b. What is expected 
+c. What is the scope
+d. What is not in the scope.
+e. What is the future scope.
+
+
+2. Use Case Documentation 
+a. User Flows
+b. Actors
+c. Sequence Diagrams
+d. User Restrictions and Rights 
+
+3. Test Case Documentation 
+a. Test Plan
+b. Test Cases
+c. Use case Related Tests 
+d. Functional Requirement Specification
+e. Requirement Traceability Metrix
+
+
+4. High Level Architecture 
+a. Tech Stack
+b. Why This tech Stack
+c. Alternatives
+d. Orchestration Diagram for application components
+e. How will Development, Testing, Deployment, Code Quality Checks will be ensured
+e. CI CD CT Strategy
+
+5. POC 
+a. Working Prototype
+b. Code Repository Link
+c. Readme Documentation
+d. Deployment Instructions
+e. Known Issues and Limitations
+f. Future Improvements
+h. High light every team members contribution - Let them present.
+
+6. Presentation
+a. Problem Statement and work distribution.
+b. Solution Overview
+c. Architecture Overview
+d. Demo of POC
+e. Future Scope
+f. Questions And Answers
+
+

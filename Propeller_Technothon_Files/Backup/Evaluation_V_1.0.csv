@@ -1,0 +1,37 @@
+Step,Criteria,Max Marks,Judge's Marks - Presentation ,Judge's Marks,Suggestions
+Problem Statement Analysis,Clarity of problem statement,2,,,Is the problem clearly defined?
+Problem Statement Analysis,Expectation and scope,2,,,Are expectations and scope well explained?
+Problem Statement Analysis,Out of scope and future scope,2,,,Are boundaries and future directions clear?
+Problem Statement Analysis,Depth of analysis,2,,,Is the analysis thorough and insightful?
+Problem Statement Analysis,Documentation quality,2,,,Is the document well-structured and readable?
+,,,,,
+Use Case Documentation,User flows and actors,2,,,Are user flows and actors clearly described?
+Use Case Documentation,Sequence diagrams,2,,,Are diagrams accurate and helpful?
+Use Case Documentation,User restrictions and rights,2,,,Are restrictions and rights well defined?
+Use Case Documentation,Completeness,2,,,Are all relevant use cases covered?
+Use Case Documentation,Documentation quality,2,,,Is the document clear and professional?
+,,,,,
+Test Case Documentation,Test plan and cases,2,,,Are test plans and cases comprehensive?
+Test Case Documentation,Use case related tests,2,,,Are tests mapped to use cases?
+Test Case Documentation,Functional requirements,2,,,Are functional requirements tested?
+Test Case Documentation,Traceability matrix,2,,,Is traceability matrix present and correct?
+Test Case Documentation,Documentation quality,2,,,Is the document clear and well-organized?
+,,,,,
+High Level Architecture,Tech stack choice,2,,,Is the tech stack appropriate and justified?
+High Level Architecture,Alternatives and rationale,2,,,Are alternatives considered?
+High Level Architecture,Architecture diagrams,2,,,Are diagrams clear and complete?
+High Level Architecture,Dev/Test/Deploy strategy,2,,,"Are strategies for dev, test, deploy explained correctly?"
+High Level Architecture,CI/CD/CT strategy,2,,,Is CI/CD/CT approach well defined?
+,,,,,
+POC,Working prototype,4,,,Is the prototype functional and relevant?
+POC,Code repository and documentation,4,,,Is code accessible and well documented?
+POC,Deployment instructions,3,,,Are deployment steps clear and reproducible?
+POC,Known issues and improvements,3,,,Are issues and future improvements listed?
+POC,Team contribution and presentation,3,,,Is each member's contribution highlighted?
+POC,Overall innovation and quality,3,,,Is the POC innovative and of high quality?
+,,,,,
+Presentation,Problem statement and work distribution,2,,,Is the problem and team roles presented well?
+Presentation,Solution and architecture overview,2,,,Is the solution and architecture explained clearly?
+Presentation,POC demo,2,,,Is the demo effective and smooth?
+Presentation,Future scope,2,,,Is future scope presented?
+Presentation,Q&A,2,,,Are questions answered confidently?

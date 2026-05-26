@@ -1,0 +1,29 @@
+SOFTWARE ARCHITECT CAPABILITIES AND ROLES
+
+KEY CAPABILITIES:
+- System design and architectural pattern knowledge
+- Technology evaluation and selection
+- Code review and quality assurance
+- Performance optimization and scalability planning
+- Security architecture and risk assessment
+- Cloud and infrastructure design
+- API and integration design
+- Data modeling and database architecture
+- Technical leadership and mentoring
+- Communication with stakeholders and teams
+- Documentation and diagramming
+- Problem-solving and critical thinking
+
+ROLES PLAYED:
+- Technical visionary and strategist
+- Bridge between business and development teams
+- Decision maker for technology stack and tools
+- Code quality guardian and standards enforcer
+- Mentor and technical coach
+- Risk identifier and mitigator
+- System performance optimizer
+- Integration and interoperability planner
+- Technical debt manager
+- Innovation driver and research lead
+- Cross-team collaborator and coordinator
+- Technical documentation owner
