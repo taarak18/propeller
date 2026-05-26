@@ -1,0 +1,13 @@
+{
+  "version": "1.0",
+  "createdAt": "2026-05-24T08:32:22.497Z",
+  "sections": [
+    "00-executive-summary",
+    "01-architecture",
+    "02-database",
+    "03-technical-flows",
+    "04-user-journeys",
+    "05-deployment"
+  ],
+  "workspacePath": "file:///d%3A/PSL/2026/Properller/Propeller_Technothon_Files/Problem_Statement_3_Corporate_Learning"
+}
