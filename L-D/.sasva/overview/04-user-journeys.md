@@ -1,283 +1,289 @@
 # User Journeys
 
-# User Journeys — SaaS Multi-Tenant
+# User Journeys — Corporate L&D SaaS Multi-Tenant
 
-## Role Overview (All Tenant Types)
+## Role Overview
 
 ```mermaid
 mindmap
-  root((LearnTrack SaaS))
+  root((LearnTrack Corporate L&D SaaS))
     Platform Admin
-      Manage all tenants
-      Onboard new customers
+      Manage all organisations
+      Onboard new corporate customers
       Monitor platform health
       Manage billing and plans
-    Tenant Admin
-      Configure tenant settings
+    L&D Administrator
+      Configure organisation settings
       Manage users and roles
-      Set up SSO
-      View compliance reports
-    Teacher / L&D Admin
-      View class or team dashboard
-      Review at-risk learners
-      Assign interventions
-      Log session attendance
-    Counsellor
-      Manage caseload
-      Approve interventions
-      Track learner progress
-      Record outcomes
-    Parent / Employee
-      View own progress
-      Track attendance
-      Monitor milestone status
+      Define competency risk rules
+      Generate compliance reports
+    Trainer
+      View team learning dashboard
+      Review at-risk employees
+      Assign remedial training sessions
+      Log coaching session attendance
+    L&D Manager
+      Manage intervention caseload
+      Approve remedial training and coaching
+      Track employee competency progress
+      Record intervention outcomes
+    Employee
+      View own learning profile
+      Track training attendance
+      Monitor competency milestone status
       View active interventions
 ```
 
 ---
 
-## Journey 1 — New Customer Onboards as a SaaS Tenant
+## Journey 1 — New Corporate Customer Onboards as a SaaS Tenant
 
 ```mermaid
 journey
-    title New School or Corporate Signs Up for LearnTrack SaaS
+    title Corporate L&D Team Signs Up for LearnTrack SaaS
     section Discovery
-      Visit learntrack.io marketing site: 5: Prospect
-      Compare Starter Pro Enterprise plans: 4: Prospect
-      Request a demo: 5: Prospect, Sales
+      Visit learntrack.io marketing site: 5: L&D Admin
+      Compare Starter Pro Enterprise plans: 4: L&D Admin
+      Request a demo with L&D use case: 5: L&D Admin, Sales
     section Sign Up
-      Complete online registration form: 5: Admin
-      Select plan and billing cycle: 4: Admin
-      Submit payment details: 4: Admin
+      Complete online organisation registration: 5: L&D Admin
+      Select plan and billing cycle: 4: L&D Admin
+      Submit payment details: 4: L&D Admin
     section Automated Provisioning
-      System creates tenant record: 5: System
+      System creates organisation tenant record: 5: System
       System provisions DB schema: 5: System
-      System seeds default rules and templates: 5: System
-      System creates admin user account: 5: System
+      System seeds default competency risk rules: 5: System
+      System seeds compliance report templates: 5: System
+      System creates L&D Admin account: 5: System
     section Go Live
-      Admin receives welcome email with portal URL: 5: Admin, System
-      Admin logs in for first time: 5: Admin
-      Admin configures branding and timezone: 4: Admin
-      Admin invites teachers and counsellors: 4: Admin
-      First learner data imported: 4: Admin, System
+      L&D Admin receives welcome email with portal URL: 5: L&D Admin, System
+      L&D Admin logs in and configures branding: 4: L&D Admin
+      L&D Admin invites trainers and L&D managers: 4: L&D Admin
+      First employee training data imported from LMS: 4: L&D Admin, System
 ```
 
 ---
 
-## Journey 2 — Platform Admin Manages the SaaS Platform
+## Journey 2 — Trainer Identifies and Acts on an At-Risk Employee
 
 ```mermaid
 journey
-    title Platform Admin Daily Operations
-    section Morning Health Check
-      Login to platform admin console: 5: Platform Admin
-      View tenant count and status summary: 5: Platform Admin
-      Check provisioning jobs in progress: 4: Platform Admin
-      Review system-wide error rate and latency: 4: Platform Admin, System
-    section Tenant Management
-      Review new tenant onboarding requests: 4: Platform Admin
-      Approve and trigger provisioning: 5: Platform Admin, System
-      Handle tenant suspension for non-payment: 3: Platform Admin
-      Process plan upgrade migration job: 4: Platform Admin, System
-    section Billing and Usage
-      Review metered usage per tenant: 4: Platform Admin
-      Generate monthly invoice summary: 4: Platform Admin, System
-      Identify tenants approaching plan limits: 4: Platform Admin, System
-      Send upgrade nudge notifications: 4: System
-```
-
----
-
-## Journey 3 — Tenant Admin Configures Their Environment
-
-```mermaid
-journey
-    title Tenant Admin Sets Up School or Corporate Environment
-    section Initial Setup
-      Login to tenant portal: 5: Tenant Admin
-      Upload school or company logo: 4: Tenant Admin
-      Set timezone locale and academic calendar: 4: Tenant Admin
-      Configure custom domain if Pro or Enterprise: 3: Tenant Admin
-    section User Management
-      Invite teachers trainers and counsellors: 5: Tenant Admin
-      Assign roles to each user: 4: Tenant Admin
-      Configure SSO with identity provider if Enterprise: 3: Tenant Admin
-      Enable parent or employee portal: 4: Tenant Admin
-    section Rule Configuration
-      Review default risk rules seeded by system: 5: Tenant Admin
-      Customise attendance thresholds for organisation: 4: Tenant Admin
-      Test rules against sample learner profiles: 4: Tenant Admin, System
-      Activate rules for live evaluation: 5: Tenant Admin
-    section First Data Import
-      Upload learner roster via CSV: 4: Tenant Admin
-      Connect attendance system API: 3: Tenant Admin
-      Connect assessment system API: 3: Tenant Admin
-      Verify data ingestion and profile generation: 4: Tenant Admin, System
-```
-
----
-
-## Journey 4 — Teacher Identifies and Acts on an At-Risk Learner
-
-```mermaid
-journey
-    title Teacher Acts on At-Risk Alert
+    title Trainer Acts on At-Risk Competency Alert
     section Dashboard Review
-      Login to tenant portal: 5: Teacher
-      View class at-risk summary widget: 5: Teacher
-      Receive HIGH risk alert notification: 4: Teacher, System
-    section Profile Investigation
-      Open at-risk learner profile: 5: Teacher
-      Review attendance trend chart last 30 days: 4: Teacher
-      Review consecutive failing assessments: 4: Teacher
-      Review milestone completion gaps: 3: Teacher
+      Login to LearnTrack portal: 5: Trainer
+      View team at-risk summary widget: 5: Trainer
+      Receive HIGH risk alert for employee: 4: Trainer, System
+    section Employee Profile Review
+      Open at-risk employee learning profile: 5: Trainer
+      Review training attendance trend last 30 days: 4: Trainer
+      Review consecutive failing competency assessments: 4: Trainer
+      Review overdue competency milestones: 3: Trainer
     section Intervention Assignment
-      Select recommended intervention type: 4: Teacher
-      Set schedule frequency and duration: 4: Teacher
-      Submit for counsellor approval: 5: Teacher, System
+      Select intervention type: remedial training session: 4: Trainer
+      Set competency focus schedule and duration: 4: Trainer
+      Submit for L&D Manager approval: 5: Trainer, System
     section Follow-Up
-      Receive approval confirmation: 5: Teacher, System
-      Log each session attendance and notes: 4: Teacher
-      View mid-intervention progress update: 4: Teacher, System
+      Receive approval confirmation from L&D Manager: 5: Trainer, System
+      Log each remedial training session attendance: 4: Trainer
+      Add competency progress notes per session: 3: Trainer
+      View mid-intervention competency score update: 4: Trainer, System
 ```
 
 ---
 
-## Journey 5 — Parent or Employee Monitors Own Progress
+## Journey 3 — L&D Manager Manages Intervention Lifecycle
 
 ```mermaid
 journey
-    title Parent or Employee Uses Self-Service Portal
+    title L&D Manager Approves and Tracks Intervention
+    section Receive Notification
+      Receive pending approval alert for remedial training: 5: System, L&D Manager
+      Review intervention request and employee risk profile: 5: L&D Manager
+      Check employee intervention history: 4: L&D Manager
+    section Approval Decision
+      Approve remedial training and confirm start date: 5: L&D Manager
+      System notifies trainer and employee: 5: System
+      Add employee to L&D Manager caseload: 4: L&D Manager
+    section Monitor Progress
+      View intervention calendar for caseload: 4: L&D Manager
+      Track training session attendance count: 4: L&D Manager
+      Review mid-point competency score metrics: 4: L&D Manager, System
+    section Outcome Recording
+      Mark intervention as completed: 5: L&D Manager
+      Enter post-intervention competency scores and attendance: 4: L&D Manager
+      System calculates improvement percentage: 5: System
+      View intervention effectiveness report: 5: L&D Manager, System
+```
+
+---
+
+## Journey 4 — L&D Administrator Generates Compliance Report
+
+```mermaid
+journey
+    title L&D Admin Produces Regulatory Compliance Report
+    section Preparation
+      Login to LearnTrack admin dashboard: 5: L&D Admin
+      View compliance calendar widget: 5: L&D Admin
+      Check upcoming regulatory submission deadlines: 4: L&D Admin
+    section Report Generation
+      Select compliance report type and template: 5: L&D Admin
+      Set department date range and competency filters: 4: L&D Admin
+      Trigger report generation: 5: L&D Admin
+      System aggregates training and competency data: 5: System
+    section Review and Submit
+      Preview generated PDF compliance report: 4: L&D Admin
+      Verify accuracy of attendance and competency data: 4: L&D Admin
+      Approve and publish to portal: 5: L&D Admin
+      System logs to immutable audit trail: 5: System
+    section Distribution
+      Report emailed to regulatory body or industry authority: 5: System
+      Archive copy stored in object storage: 5: System
+      Confirmation received by L&D Admin: 4: L&D Admin
+```
+
+---
+
+## Journey 5 — Employee Monitors Own Learning Progress
+
+```mermaid
+journey
+    title Employee Uses Self-Service Learning Portal
     section Portal Access
-      Receive portal invitation email: 5: Parent, System
-      Set password and login: 5: Parent
-      View personal dashboard: 5: Parent
+      Receive portal invitation email from L&D Admin: 5: Employee, System
+      Set password and login: 5: Employee
+      View personal learning dashboard: 5: Employee
     section Progress Review
-      View attendance summary current period: 5: Parent
-      See recent assessment scores with subject labels: 5: Parent
-      View milestone completion percentage: 4: Parent
-      Review performance trend chart last 3 months: 4: Parent
+      View training attendance summary for current period: 5: Employee
+      See recent assessment scores by competency: 5: Employee
+      View competency milestone completion percentage: 4: Employee
+      Review learning performance trend last 3 months: 4: Employee
     section Intervention Awareness
-      Receive notification of active intervention: 4: System, Parent
-      View intervention schedule and session count: 4: Parent
-      Read facilitator session notes: 3: Parent
+      Receive notification of active remedial training: 4: System, Employee
+      View remedial training schedule and session count: 4: Employee
+      Read trainer session notes and feedback: 3: Employee
     section Outcome Update
-      View post-intervention improvement charts: 5: Parent, System
-      Acknowledge progress update: 4: Parent
+      View post-intervention competency improvement charts: 5: Employee, System
+      Acknowledge progress update: 4: Employee
+```
+
+---
+
+## Journey 6 — L&D Administrator Configures Competency Risk Rules
+
+```mermaid
+journey
+    title L&D Admin Defines and Activates a New Competency Risk Rule
+    section Rule Design
+      Navigate to Rule Management module: 5: L&D Admin
+      Select Create New Competency Rule: 5: L&D Admin
+      Define rule metadata: name severity applicable departments: 4: L&D Admin
+    section Rule Configuration
+      Set conditions using rule builder UI: 4: L&D Admin
+      Define attendance threshold for training module: 4: L&D Admin
+      Define score threshold for competency assessment: 4: L&D Admin
+      Add composite AND operator for combined risk: 3: L&D Admin
+    section Testing
+      Open rule test sandbox: 4: L&D Admin
+      Load sample employee profiles: 5: L&D Admin, System
+      Review matched employees and false positive rate: 4: L&D Admin
+      Adjust thresholds based on test results: 3: L&D Admin
+    section Activation
+      Save rule as versioned definition: 5: L&D Admin
+      Activate rule for target departments and competencies: 5: L&D Admin
+      System adds rule to active execution set: 5: System
+      Monitor first-run at-risk alerts: 4: L&D Admin, System
 ```
 
 ---
 
 ## Role-Based Dashboard Layouts
 
-### Teacher / L&D Admin Dashboard
+### Trainer Dashboard
 
 ```mermaid
 graph TD
-    subgraph TD["Teacher Dashboard — Tenant: Springfield HS"]
-        W1[Class Summary\nTotal Learners · At-Risk Count · Avg Score]
-        W2[At-Risk Learners List\nSorted by Risk Level with severity badges]
-        W3[Subject Performance\nBar chart by subject]
-        W4[Attendance Heatmap\nClass calendar view]
-        W5[My Active Interventions\nStatus · Sessions remaining]
+    subgraph TD["Trainer Dashboard — e.g. Acme Corp"]
+        W1[Team Summary\nTotal Employees · At-Risk Count · Avg Competency Score]
+        W2[At-Risk Employees List\nSorted by Risk Level with severity badges]
+        W3[Competency Performance\nBar chart by training module]
+        W4[Training Attendance Heatmap\nTeam calendar view]
+        W5[My Active Interventions\nRemedial Training · Coaching — Status + Sessions]
         W6[Recent Alerts\nNotification feed]
     end
-    W2 -->|Click learner| P[Learner Profile\nAttendance · Scores · Milestones · Risk History]
-    W5 -->|Click intervention| I[Intervention Detail\nSchedule · Sessions · Outcomes]
+    W2 -->|Click employee| P[Employee Learning Profile\nAttendance · Scores · Milestones · Risk History]
+    W5 -->|Click intervention| I[Intervention Detail\nSchedule · Sessions · Competency Outcomes]
 ```
 
----
-
-### Tenant Admin Dashboard
+### L&D Administrator Dashboard
 
 ```mermaid
 graph TD
-    subgraph AD["Tenant Admin Dashboard — Tenant: Springfield HS"]
-        A1[Organisation KPIs\nTotal Learners · At-Risk % · Avg Attendance]
+    subgraph AD["L&D Admin Dashboard — Organisation-Wide"]
+        A1[Organisation L&D KPIs\nTotal Employees · At-Risk % · Avg Training Attendance]
         A2[Risk Distribution\nPie: Critical · High · Medium · Low]
-        A3[Intervention Effectiveness\nSuccess rate by type]
-        A4[Compliance Calendar\nUpcoming deadlines · Completion status]
-        A5[Plan Usage Meters\nLearners · Rules · API calls · Storage]
-        A6[User Activity\nActive users last 30 days]
+        A3[Intervention Effectiveness\nRemedial Training vs Coaching success rates]
+        A4[Compliance Calendar\nUpcoming regulatory deadlines · Completion status]
+        A5[Plan Usage Meters\nEmployees · Rules · API calls · Storage]
+        A6[User Activity\nActive trainers and L&D managers last 30 days]
     end
-    A4 -->|Click deadline| RPT[Report Generator]
+    A4 -->|Click deadline| RPT[Compliance Report Generator]
     A5 -->|Approaching limit| UPG[Plan Upgrade Prompt]
 ```
 
----
-
-### Platform Admin Dashboard *(SaaS operator only)*
+### L&D Manager Dashboard
 
 ```mermaid
 graph TD
-    subgraph PA["Platform Admin Console — LearnTrack Operations"]
-        P1[Platform Summary\nTotal Tenants · Active · Suspended · Provisioning]
-        P2[Revenue Dashboard\nMRR · ARR · Churn rate]
-        P3[Infrastructure Health\nAPI latency · Error rate · DB load]
-        P4[Tenant Health Heatmap\nColour-coded by system usage]
-        P5[Provisioning Queue\nPending · In-progress · Failed jobs]
-        P6[Plan Distribution\nStarter · Pro · Enterprise breakdown]
-        P7[Usage Alerts\nTenants near plan limits]
+    subgraph CO["L&D Manager Dashboard"]
+        C1[My Caseload\nActive interventions assigned to me]
+        C2[Pending Approvals\nRemedial training and coaching requests awaiting action]
+        C3[Intervention Calendar\nWeekly schedule view]
+        C4[Effectiveness Summary\nAvg competency improvement % by intervention type]
+        C5[Escalation Queue\nCritical employees requiring immediate action]
     end
-    P4 -->|Click tenant| TD2[Tenant Detail + Usage Breakdown]
-    P5 -->|Click job| JD[Provisioning Job Detail + Logs]
+    C1 -->|Click employee| P2[Employee Profile + Intervention History]
+    C2 -->|Approve or Reject| WF[Approval Workflow]
+```
+
+### Employee Self-Service Portal
+
+```mermaid
+graph TD
+    subgraph EP["Employee Portal"]
+        P1[Training Attendance Summary\nPresent · Absent · Excused this period]
+        P2[Recent Assessment Scores\nLast 5 scores with competency labels]
+        P3[Competency Milestone Progress\nCompletion % by competency area]
+        P4[Learning Performance Trend\nLine chart last 3 months]
+        P5[Active Interventions\nType · Schedule · Sessions remaining]
+        P6[Trainer Feedback\nLatest session notes and comments]
+    end
 ```
 
 ---
 
-## Notification Touch-Points (Multi-Tenant Aware)
+## Notification Touch-Points — Corporate L&D
 
 ```mermaid
 sequenceDiagram
     participant SYS as System
-    participant TEACHER as Teacher
-    participant COUNSELLOR as Counsellor
-    participant ADMIN as Tenant Admin
-    participant PARENT as Parent / Employee
+    participant TRAINER as Trainer
+    participant LDMGR as L&D Manager
+    participant LDADMIN as L&D Administrator
+    participant EMP as Employee
     participant PLATADMIN as Platform Admin
 
-    Note over SYS: All notifications are tenant-scoped
-    SYS->>TEACHER: 🔔 At-risk alert — HIGH risk detected
-    SYS->>COUNSELLOR: 🔔 Intervention pending your approval
-    SYS->>PARENT: 📧 Intervention assigned to your learner
-    SYS->>TEACHER: 🔔 Session reminder — 24 hours before
-    SYS->>COUNSELLOR: 🔔 Intervention complete — record outcomes
-    SYS->>ADMIN: 📊 Weekly at-risk summary report
-    SYS->>ADMIN: ⏰ Compliance deadline reminder — 7 days
-    SYS->>ADMIN: ⚠️ Plan usage at 90 percent — consider upgrading
-    SYS->>PARENT: 📈 Progress update post-intervention
-    SYS->>ADMIN: 🚨 CRITICAL risk escalation — immediate action
+    Note over SYS: All notifications are organisation-scoped
+    SYS->>TRAINER: 🔔 At-risk alert — HIGH competency risk detected
+    SYS->>LDMGR: 🔔 Remedial training pending your approval
+    SYS->>EMP: 📧 Remedial training session assigned to you
+    SYS->>TRAINER: 🔔 Session reminder — 24 hours before training
+    SYS->>LDMGR: 🔔 Intervention complete — record competency outcomes
+    SYS->>LDADMIN: 📊 Weekly at-risk employee summary
+    SYS->>LDADMIN: ⏰ Regulatory compliance deadline — 7 days
+    SYS->>LDADMIN: ⚠️ Plan usage at 90 percent — consider upgrading
+    SYS->>EMP: 📈 Competency improvement update post-intervention
+    SYS->>LDADMIN: 🚨 CRITICAL risk — employee compliance certification at risk
     SYS->>PLATADMIN: 🔴 Tenant provisioning failed — action required
-    SYS->>PLATADMIN: 💳 Tenant payment failed — suspension in 7 days
-    SYS->>PLATADMIN: 📉 Platform error rate exceeded threshold
-```
-
----
-
-## Tenant Self-Service Upgrade Journey
-
-```mermaid
-journey
-    title Tenant Admin Upgrades from Pro to Enterprise
-    section Trigger
-      Receive plan usage alert at 90 percent: 4: Tenant Admin, System
-      Click upgrade prompt on dashboard: 5: Tenant Admin
-    section Plan Comparison
-      View Pro vs Enterprise feature comparison: 5: Tenant Admin
-      Review pricing and ROI calculator: 4: Tenant Admin
-      Select Enterprise annual plan: 5: Tenant Admin
-    section Upgrade Confirmation
-      Confirm billing details: 4: Tenant Admin
-      Submit upgrade request: 5: Tenant Admin
-      Receive upgrade confirmation and migration ETA: 5: Tenant Admin, System
-    section Migration
-      System provisions dedicated database: 5: System
-      System migrates data with zero downtime: 5: System
-      System provisions dedicated K8s namespace: 5: System
-      System enables enterprise feature flags: 5: System
-    section Post-Upgrade
-      Tenant Admin receives completion notification: 5: System, Tenant Admin
-      Configure SSO with identity provider: 4: Tenant Admin
-      Enable ML-based risk scoring: 4: Tenant Admin
-      Set up white-label custom domain: 4: Tenant Admin
+    SYS->>PLATADMIN: 💳 Organisation payment failed — suspension in 7 days
 ```
