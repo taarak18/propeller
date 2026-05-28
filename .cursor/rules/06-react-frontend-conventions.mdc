@@ -1,0 +1,50 @@
+---
+description: React 18 + TypeScript frontend conventions — Vite, shadcn, ApexCharts, WCAG 2.1 AA
+globs: **/*.tsx,**/*.ts
+alwaysApply: false
+---
+
+# React Frontend Conventions
+
+## Stack
+React 18 + TypeScript (strict) + Vite + TanStack Query + shadcn/ui + Tailwind CSS.
+Do not install Angular, Vue, or any conflicting UI framework.
+
+## Component structure
+```
+src/
+  components/    Shared UI components (shadcn wrappers, design system)
+  features/      Feature folders (dashboard/, risk/, interventions/, reports/)
+  hooks/         Custom React hooks (useTenantContext, useRiskProfile, etc.)
+  lib/           API clients, utilities, Protobuf decoders
+  pages/         Route-level page components
+```
+
+## Data fetching
+Use TanStack Query (`useQuery`, `useMutation`) for all server state. Never use `useEffect` + `fetch` manually.
+
+```tsx
+// BAD
+useEffect(() => { fetch('/api/employees').then(...) }, []);
+
+// GOOD
+const { data } = useQuery({ queryKey: ['employees', tenantId], queryFn: fetchEmployees });
+```
+
+## Charting
+Use **ApexCharts** (`react-apexcharts`) as the default. Use D3.js only for custom non-standard visualisations. Do not add Chart.js.
+
+Every chart must have an accessible alternative — either a visible data table or `aria-label` with a summary.
+
+## Accessibility (WCAG 2.1 AA — non-negotiable)
+- Never suppress focus indicators with `outline: none` or `outline: 0` without a visible replacement.
+- Risk badges must use colour + icon + text — never colour alone.
+- All form errors must be associated with the input via `aria-describedby`.
+- All interactive elements must be keyboard operable (Tab / Enter / Space / Arrow keys).
+- Minimum contrast ratio: 4.5:1 for normal text, 3:1 for large text.
+
+## Tenant context
+Read `tenantId` and user roles from a `useTenantContext()` hook that parses the JWT claims stored in session. Never hard-code tenant IDs.
+
+## WebSocket (live alerts)
+Use the `useAtRiskAlerts()` hook that connects via STOMP over WebSocket for live dashboard updates. Fall back to SSE if WebSocket is unavailable.

@@ -1,0 +1,39 @@
+---
+description: Compliance guardrails — GDPR/DPDP/CCPA/PIPEDA scope, data residency, opt-out, human-review gate
+alwaysApply: true
+---
+
+# Compliance Guardrails
+
+## Target compliance regions at GA
+| Region | Regulations |
+|---|---|
+| Europe (EU + UK) | GDPR, UK GDPR, EAA (WCAG 2.1 AA) |
+| United States | SOC 2 Type II, CCPA/CPRA |
+| Canada | PIPEDA, Quebec Law 25 |
+| India | DPDP Act 2023 |
+
+## Automated profiling — opt-out must always be respected
+Risk profiling and at-risk classification constitute **automated decision-making** under GDPR Art.22, CCPA/CPRA, DPDP, and Law 25. The following rules are non-negotiable:
+
+1. `risk_profiling_opt_out = true` → skip risk assessment entirely; log suppression to audit.
+2. CRITICAL and HIGH risk assessments require a human-review acknowledgement before employee notification.
+3. Employee must be able to withdraw consent from the self-service portal at any time.
+
+## Right-to-erasure
+Every domain service must implement an erasure activity callable by the Temporal erasure saga:
+- Overwrite PII fields with anonymised tokens (do not delete rows — audit integrity requires row existence).
+- Confirm completion back to the saga.
+- Do not remove audit log entries — tokenise `before_state`/`after_state` fields instead.
+
+## Data residency
+EU tenants → `eu-west-1` only. India tenants → `ap-south-1` only. Never replicate EU or India tenant data cross-region via Kafka MirrorMaker. The `data_region` field in tenant config is the authoritative control.
+
+## Consent must be recorded before analytics
+Before including an employee in anonymised benchmarking or ML risk scoring, verify the `benchmarking` consent purpose is active in the Consent Service. Read from the Redis consent cache: `consent:{tenant_id}:{employee_id}`.
+
+## Reports must pseudonymise opted-out employees
+Any report generated for a tenant must exclude or pseudonymise employees where `risk_profiling_opt_out = true`. The Reporting Service enforces this; do not bypass it with direct DB queries in ad-hoc scripts.
+
+## DPA required
+Every tenant must have accepted a Data Processing Agreement before employee data is ingested. The Tenant Management Service enforces this at provisioning.

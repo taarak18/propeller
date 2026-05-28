@@ -1,0 +1,53 @@
+---
+description: Spring Boot 3 / Java 21 service conventions — structure, outbox, idempotency, logging
+globs: **/*.java
+alwaysApply: false
+---
+
+# Spring Boot Service Conventions
+
+## Package structure
+```
+com.learntrack.{service}/
+  api/          REST controllers (thin — delegate to application layer)
+  application/  Use cases / application services
+  domain/       Entities, value objects, domain events
+  infra/        JPA repositories, Kafka producers, outbox, external clients
+  config/       Spring configuration classes
+```
+
+## Never publish to Kafka directly
+Always write to the outbox table within the same DB transaction. Debezium handles delivery.
+
+```java
+// BAD
+kafkaTemplate.send("profile.updated", event);
+
+// GOOD — inside @Transactional
+profileRepository.save(profile);
+outboxRepository.save(new OutboxEvent(tenantId, "profile.updated", serialize(event)));
+```
+
+## Idempotency
+All ingest endpoints must check the `Idempotency-Key` header before processing.
+
+```java
+if (ingestionJobRepository.existsByIdempotencyKey(idempotencyKey)) {
+    return ResponseEntity.ok(Map.of("status", "already_processed"));
+}
+```
+
+## Structured logging with OpenTelemetry
+Include `tenant_id`, `trace_id`, and event name in every log statement. Use SLF4J with MDC.
+
+```java
+MDC.put("tenant_id", tenantId);
+MDC.put("event", "profile.updated");
+log.info("Profile rebuilt for employee {}", employeeId);
+```
+
+## Error handling
+Never swallow exceptions. Wrap infrastructure errors in domain exceptions and let the global `@ControllerAdvice` handle HTTP mapping.
+
+## No `@Autowired` on fields
+Use constructor injection only. This makes unit testing straightforward without Spring context.

@@ -1,0 +1,43 @@
+---
+description: Kafka event contracts — outbox-first publish, Protobuf schemas, DLQ, idempotent consumers
+globs: **/*.java,**/*.proto
+alwaysApply: false
+---
+
+# Kafka / Event Contract Rules
+
+## Outbox-first — never publish directly
+
+Application code writes to the `{service}_outbox` table. Debezium reads it and publishes to Kafka. This guarantees exactly-once delivery without distributed transactions.
+
+## Event naming convention
+
+`{domain}.{past-tense-verb}` — all lowercase, hyphen-separated words.
+
+- `data.ingested` · `profile.updated` · `risk.detected` · `risk.escalated` · `risk.resolved`
+- `intervention.assigned` · `intervention.approved` · `intervention.completed`
+- `consent.updated` · `consent.withdrawn` · `erasure.requested` · `erasure.completed`
+- `tenant.provisioned` · `tenant.plan.upgraded`
+
+## Protobuf schema rules
+
+- All event schemas live in `shared/proto/` and are versioned in Confluent Schema Registry.
+- Compatibility mode: `FULL` (backward + forward compatible).
+- Never remove a field — deprecate with a comment and `reserved` tag instead.
+- Every event proto must include `string tenant_id = 1` and `google.protobuf.Timestamp occurred_at`.
+
+## Idempotent consumers
+
+Every Kafka consumer must be idempotent. Use the event's natural ID (e.g. `employee_id + event_type + occurred_at`) as a deduplication key stored in a `processed_events` table.
+
+```java
+if (processedEventRepository.existsByKey(deduplicationKey)) return; // skip duplicate
+```
+
+## DLQ handling
+
+If a consumer throws an unrecoverable exception after 3 retries, it must route the message to the `dlq.{service}.{event-type}` topic. Alert must fire when DLQ depth > 0. Never silently discard a failed message.
+
+## Topic naming
+
+`{service}.{event-type}` for domain events. `cdc.{service}` for Debezium CDC topics. `dlq.{service}.{event-type}` for dead letters. `retry.{service}.{event-type}` for retry topics.

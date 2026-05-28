@@ -1,0 +1,25 @@
+---
+description: Corporate L&D SaaS — project overview, key decisions, non-negotiable boundaries
+alwaysApply: true
+---
+
+# Corporate Learning System — Project Context
+
+**What this is:** Multi-tenant SaaS platform for tracking employee learning progress, identifying at-risk learners, managing interventions, and producing compliance reports. It is NOT a full LMS — it is an aggregation, analytics, and workflow layer on top of existing LMS/HRIS systems.
+
+## Locked technology decisions
+- **Backend:** Spring Boot 3 / Java 21 only. Do not introduce FastAPI, ASP.NET Core, or Node.js backend services.
+- **Frontend:** React 18 + TypeScript + Vite + shadcn/ui + Tailwind CSS. Do not introduce Angular or Vue.
+- **Workflow engine:** Temporal OSS for all multi-step sagas (tenant provisioning, plan upgrades, intervention lifecycle, erasure).
+- **Event bus:** Apache Kafka / AWS MSK with Protobuf + Confluent Schema Registry.
+- **CDC / outbox:** Debezium reads outbox tables — never publish to Kafka directly from application code.
+- **Cloud primary:** AWS. Use abstractions (Spring Cloud AWS, S3-compatible API) for portability.
+
+## Non-negotiable boundaries
+- Every service owns its own database. Never read from another service's DB directly.
+- Ingestion Service owns raw staging only. Employee Profile Service owns curated learning data.
+- All multi-step side effects must run as Temporal workflows with compensation steps.
+- CRITICAL and HIGH risk assessments require a human-review record before employee notification is sent (GDPR Art.22, CCPA automated-profiling compliance).
+
+## Compliance regions at GA
+US (SOC 2, CCPA) · Canada (PIPEDA, Law 25) · Europe (GDPR, EAA) · India (DPDP Act 2023)

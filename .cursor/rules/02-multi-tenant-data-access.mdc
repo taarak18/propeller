@@ -1,0 +1,42 @@
+---
+description: Multi-tenant data access — always include tenant_id, never cross-tenant, RLS enforcement
+alwaysApply: true
+---
+
+# Multi-Tenant Data Access Rules
+
+## Always scope queries by tenant_id
+
+Every DB query must include the `tenant_id` filter. Never write a query that can return rows from multiple tenants.
+
+```java
+// BAD — returns rows from all tenants
+List<Employee> all = employeeRepository.findAll();
+
+// GOOD — always scoped
+List<Employee> scoped = employeeRepository.findByTenantId(tenantId);
+```
+
+## Tenant context resolution
+
+Read tenant context from the request header `X-Tenant-ID` (set by Kong after JWT validation). Never resolve tenant from user input.
+
+```java
+String tenantId = request.getHeader("X-Tenant-ID"); // set by Kong gateway
+// Then set on DB connection:
+entityManager.createNativeQuery("SET app.current_tenant_id = :t").setParameter("t", tenantId).executeUpdate();
+```
+
+## Schema routing (Pro tier)
+
+For Pro tenants, switch `search_path` before any query. Use a request-scoped interceptor — do not rely on callers to remember.
+
+## Never cross service DB boundaries
+
+- Ingestion Service reads/writes `ingestion-db` only.
+- Employee Profile Service reads/writes `profile-db` only.
+- If you need data from another service, consume its Kafka events or call its REST API.
+
+## Redis keyspace prefix
+
+All Redis keys must be prefixed: `{entity}:{tenant_id}:{...}`. Example: `profile:tenant_acme_corp:emp_123`.

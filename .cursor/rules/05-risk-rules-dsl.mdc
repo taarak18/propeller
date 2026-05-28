@@ -1,0 +1,49 @@
+---
+description: Risk rules DSL — JSON schema, required fields, human-review flag for CRITICAL/HIGH rules
+globs: **/rules/**/*.json,**/rules/**/*.yaml,**/rules/**/*.yml
+alwaysApply: false
+---
+
+# Risk Rules DSL
+
+All competency risk rules must conform to the corporate L&D JSON DSL schema. Rules are stored in the `rules-db` and loaded by the Risk Engine Service at runtime.
+
+## Required fields
+
+```json
+{
+  "ruleId": "RISK_CORP_XXX",
+  "ruleName": "Human-readable name",
+  "description": "Business intent for L&D admins and auditors",
+  "severity": "CRITICAL|HIGH|MEDIUM|LOW",
+  "priority": 10,
+  "enabled": true,
+  "version": "1.0",
+  "effectiveFrom": "2026-01-01",
+  "conditions": {
+    "operator": "AND|OR",
+    "criteria": [
+      { "metric": "attendance_percentage", "period": "30_days", "operator": "less_than", "value": 75 }
+    ]
+  },
+  "actions": {
+    "setRiskLevel": "HIGH",
+    "riskTag": ["ATTENDANCE_RISK"],
+    "alert": ["employee", "manager", "ld_admin"],
+    "intervention": ["remedial_training"],
+    "requireHumanReview": false
+  }
+}
+```
+
+## Human-review requirement
+
+`requireHumanReview` **must be `true`** for any rule with `severity: CRITICAL` or `severity: HIGH`. This is mandatory for GDPR Art.22, CCPA, and DPDP automated-profiling compliance. A Risk Review record must be created and acknowledged by a Trainer or L&D Manager before employee notifications are dispatched.
+
+## Metric names
+
+Use only the approved metric names from `02-database.md`: `attendance_percentage`, `assessment_score`, `consecutive_assessment_failures`, `score_trend_decline_percent`, `milestone_status`, `days_milestone_overdue`, `days_to_compliance_deadline`, `days_since_intervention_closed`, `post_intervention_score_improved`, `certification_days_to_expiry`.
+
+## Versioning
+
+Every rule change increments `version`. Old versions are retained in `risk_rule_versions` for audit. Never delete a rule — set `enabled: false` and record an `effectiveTo` date.

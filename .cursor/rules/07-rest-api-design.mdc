@@ -1,0 +1,51 @@
+---
+description: REST API design — Idempotency-Key, OpenAPI, error shape, tenant header forwarding
+globs: **/*Controller.java,**/*Resource.java
+alwaysApply: false
+---
+
+# REST API Design Conventions
+
+## Versioning
+All APIs are versioned: `/api/v1/{resource}`. Bump to `v2` for breaking changes; maintain `v1` until all tenants migrate.
+
+## Idempotency-Key header
+All POST endpoints that create or mutate state **must** accept and honour the `Idempotency-Key` header. Return `200 Already Processed` for duplicate keys.
+
+```java
+@PostMapping("/ingest/training-attendance")
+public ResponseEntity<?> ingest(
+    @RequestHeader("Idempotency-Key") String idempotencyKey,
+    @RequestHeader("X-Tenant-ID") String tenantId,
+    @RequestBody @Valid TrainingAttendanceBatch batch) { ... }
+```
+
+## Standard error response shape
+```json
+{
+  "status": 422,
+  "error": "VALIDATION_ERROR",
+  "message": "attendance_percentage must be between 0 and 100",
+  "traceId": "abc123",
+  "tenantId": "tenant_acme_corp",
+  "timestamp": "2026-05-28T08:00:00Z"
+}
+```
+
+## OpenAPI annotations
+Every controller method must have `@Operation(summary = "...")` and `@ApiResponse` annotations. The API spec is published automatically to the Kong Developer Portal.
+
+## Tenant headers
+Never read `tenantId` from the request body or path. Always read from `X-Tenant-ID` header set by Kong. Reject requests missing this header with `400 Bad Request`.
+
+## HTTP status codes
+- `200` — idempotent duplicate or successful read
+- `201` — resource created
+- `202` — async work accepted (ingest, report generation, erasure requests)
+- `422` — validation failure (include `errors[]` array)
+- `409` — conflict (e.g. duplicate rule name within tenant)
+- `429` — rate limit exceeded (include `Retry-After` header)
+- `503` — circuit breaker open (include `Retry-After`)
+
+## Pagination
+All list endpoints must support `?page=0&size=20&sort=createdAt,desc`. Never return unbounded lists.

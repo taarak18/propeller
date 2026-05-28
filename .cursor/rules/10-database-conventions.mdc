@@ -1,0 +1,56 @@
+---
+description: Database conventions — per-service DB, outbox table required, index conventions, no cross-service joins
+globs: **/*.sql,**/*Repository.java,**/*Entity.java
+alwaysApply: false
+---
+
+# Database Conventions
+
+## Per-service database isolation
+Each service owns exactly one database. Never add a foreign key or a JPA relationship that crosses service boundaries.
+
+| Service | Owns |
+|---|---|
+| Ingestion | `ingestion-db` — raw staging tables only |
+| Employee Profile | `profile-db` — curated `training_attendance`, `assessment_records`, `employee_milestone_progress` |
+| Risk Engine | `risk-db` — `risk_assessments`, `risk_reviews` |
+| Rule Management | `rules-db` |
+| Intervention | `intervention-db` |
+| Reporting | `reporting-db` — CDC-fed read model, never written by domain services |
+| Consent | `consent-db` — `consents`, `data_erasure_requests` |
+| Audit | `audit-db` — append-only `audit_log` |
+
+## Outbox table — required in every service that publishes events
+```sql
+CREATE TABLE {service}_outbox (
+    outbox_id     BIGSERIAL PRIMARY KEY,
+    tenant_id     VARCHAR   NOT NULL,
+    aggregate_id  VARCHAR   NOT NULL,
+    event_type    VARCHAR   NOT NULL,
+    payload       BYTEA     NOT NULL,  -- Protobuf-serialised
+    created_at    TIMESTAMP NOT NULL DEFAULT now(),
+    published_at  TIMESTAMP
+);
+CREATE INDEX idx_{service}_outbox_unpublished ON {service}_outbox (published_at)
+    WHERE published_at IS NULL;
+```
+
+## Required indexes
+Every table with a `tenant_id` column must have a composite index `(tenant_id, ...)`. See `architecture/02-database.md` for the full index list.
+
+## Idempotency key uniqueness
+```sql
+CREATE UNIQUE INDEX idx_ingest_idempotency ON ingestion_jobs (tenant_id, idempotency_key);
+```
+
+## Naming conventions
+- Tables: `snake_case`, plural nouns — `risk_assessments`, `training_attendance`
+- PKs: `{table_singular}_id` — `risk_id`, `attendance_id`
+- Timestamps: `created_at`, `updated_at` on every table
+- Soft deletes: use `status` column — never hard-delete domain records
+
+## Migrations
+Use Flyway. Migration files named `V{n}__{description}.sql`. Never edit an existing migration — create a new one.
+
+## Reporting DB is read-only to application code
+The `reporting-db` is populated exclusively by the CDC Debezium consumer. Application services must never write to it directly.

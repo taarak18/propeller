@@ -1,0 +1,48 @@
+---
+description: Security & PII — no secrets in code, encrypt PII columns, consent check, erasure-aware queries
+globs: **/*.java
+alwaysApply: false
+---
+
+# Security & PII Rules
+
+## No secrets in code or config files
+Never commit passwords, API keys, Vault tokens, or AWS credentials to source control.
+Always read from Vault (via Spring Cloud Vault) or AWS Secrets Manager at startup.
+
+```java
+// BAD
+String dbPassword = "mypassword123";
+
+// GOOD — injected from Vault
+@Value("${spring.datasource.password}")
+private String dbPassword;
+```
+
+## PII column encryption
+The following fields are PII and must be encrypted at rest using Vault transit (envelope encryption):
+`work_email`, `work_phone`, `first_name`, `last_name`, `date_of_birth`.
+
+Use a `@Convert(converter = EncryptedStringConverter.class)` JPA converter — do not roll custom encryption inline.
+
+## Consent check before risk profiling
+Before executing risk assessment for an employee, check the `risk_profiling_opt_out` flag from the employee profile or the Consent Service cache.
+
+```java
+if (employee.isRiskProfilingOptOut()) {
+    auditService.logSuppression(tenantId, employeeId, "risk_profiling_opt_out");
+    return; // skip — do not classify as at-risk
+}
+```
+
+## Human-review gate before CRITICAL/HIGH notification
+Never dispatch an employee notification for CRITICAL or HIGH risk without a confirmed `RISK_REVIEWS` record. The notification service checks for this; the risk engine must not bypass it.
+
+## Erasure-aware queries
+Any query that reads employee PII must check `employees.erasure_status != 'COMPLETED'` or use a view that excludes erased employees. Erased employees have tokenised PII fields.
+
+## mTLS between services
+Service-to-service calls go through Istio service mesh (mTLS STRICT). Do not add HTTP clients that bypass the mesh by calling pod IPs directly.
+
+## Audit logging
+Every state-changing operation must publish an event to the Audit Service via Kafka. Include `actor_id`, `actor_role`, `resource_type`, `resource_id`, `before_state`, `after_state`.
