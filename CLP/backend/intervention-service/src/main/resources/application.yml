@@ -1,0 +1,37 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: intervention-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/learntrack}
+    username: ${SPRING_DATASOURCE_USERNAME:learntrack}
+    password: ${SPRING_DATASOURCE_PASSWORD:learntrack}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        default_schema: intervention
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: intervention-svc
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+learntrack:
+  jwt:
+    secret: ${LEARNTRACK_JWT_SECRET:learntrack-poc-dev-secret-change-me-please-32b}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
