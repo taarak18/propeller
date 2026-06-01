@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LearnTrack CLP — SME Demo & Training Deck</title>
+<style>
+  :root {
+    --brand-dark:   #0f172a;
+    --brand-navy:   #1e3a5f;
+    --brand-blue:   #1d4ed8;
+    --brand-indigo: #4f46e5;
+    --brand-teal:   #0891b2;
+    --brand-green:  #059669;
+    --brand-amber:  #d97706;
+    --brand-red:    #dc2626;
+    --brand-light:  #f0f4ff;
+    --text-muted:   #64748b;
+    --card-bg:      #ffffff;
+    --slide-bg:     #f8fafc;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #0f172a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ── DECK SHELL ── */
+  #deck {
+    width: 1100px;
+    height: 640px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 40px 80px rgba(0,0,0,.6);
+  }
+
+  /* ── SLIDES ── */
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    background: var(--slide-bg);
+    overflow: hidden;
+  }
+  .slide.active { display: flex; }
+
+  /* slide entrance animation */
+  .slide.enter { animation: slideIn .35s ease forwards; }
+  .slide.exit  { animation: slideOut .35s ease forwards; }
+  @keyframes slideIn  { from { opacity:0; transform:translateX(40px); } to { opacity:1; transform:translateX(0); } }
+  @keyframes slideOut { from { opacity:1; transform:translateX(0); }   to { opacity:0; transform:translateX(-40px); } }
+
+  /* ── COMMON LAYOUT HELPERS ── */
+  .slide-header {
+    padding: 28px 52px 16px;
+    border-bottom: 3px solid var(--brand-blue);
+    background: linear-gradient(135deg, var(--brand-navy) 0%, #1e40af 100%);
+    color: #fff;
+  }
+  .slide-header h2 { font-size: 1.55rem; font-weight: 700; letter-spacing: -.3px; }
+  .slide-header p  { font-size: .85rem; opacity: .75; margin-top: 4px; }
+
+  .slide-body {
+    flex: 1;
+    padding: 28px 52px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .cols { display: flex; gap: 20px; flex: 1; }
+  .col  { flex: 1; display: flex; flex-direction: column; gap: 14px; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 16px 20px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 6px rgba(0,0,0,.05);
+  }
+  .card h4  { font-size: .85rem; font-weight: 700; color: var(--brand-navy); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .5px; }
+  .card p, .card li { font-size: .82rem; color: #374151; line-height: 1.55; }
+  .card ul  { padding-left: 16px; }
+  .card li  { margin-bottom: 4px; }
+
+  .card.accent-blue   { border-left: 4px solid var(--brand-blue); }
+  .card.accent-teal   { border-left: 4px solid var(--brand-teal); }
+  .card.accent-green  { border-left: 4px solid var(--brand-green); }
+  .card.accent-amber  { border-left: 4px solid var(--brand-amber); }
+  .card.accent-indigo { border-left: 4px solid var(--brand-indigo); }
+  .card.accent-red    { border-left: 4px solid var(--brand-red); }
+
+  /* ── BADGES ── */
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+  }
+  .badge-critical { background:#fee2e2; color:#991b1b; }
+  .badge-high     { background:#ffedd5; color:#9a3412; }
+  .badge-medium   { background:#fef9c3; color:#854d0e; }
+  .badge-low      { background:#dcfce7; color:#166534; }
+  .badge-blue     { background:#dbeafe; color:#1e40af; }
+  .badge-indigo   { background:#e0e7ff; color:#3730a3; }
+  .badge-teal     { background:#cffafe; color:#0e7490; }
+  .badge-green    { background:#dcfce7; color:#166534; }
+
+  /* ── TABLE ── */
+  table { width:100%; border-collapse: collapse; font-size: .78rem; }
+  th { background: var(--brand-navy); color: #fff; padding: 8px 12px; text-align: left; font-weight: 600; font-size: .75rem; letter-spacing:.3px; }
+  td { padding: 7px 12px; border-bottom: 1px solid #e2e8f0; color: #374151; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #f8fafc; }
+
+  /* ── FLOW DIAGRAM ── */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .flow-box {
+    background: var(--card-bg);
+    border: 2px solid var(--brand-blue);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: .75rem;
+    font-weight: 600;
+    color: var(--brand-navy);
+    text-align: center;
+    min-width: 90px;
+    line-height: 1.3;
+  }
+  .flow-box.highlight { background: var(--brand-blue); color: #fff; border-color: var(--brand-blue); }
+  .flow-box.warn      { background: #fef3c7; border-color: var(--brand-amber); color: #92400e; }
+  .flow-box.success   { background: #d1fae5; border-color: var(--brand-green); color: #065f46; }
+  .flow-arrow {
+    font-size: 1.2rem;
+    color: var(--brand-blue);
+    padding: 0 4px;
+    font-weight: 700;
+  }
+
+  /* ── STAT KPI ── */
+  .kpi-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; }
+  .kpi {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 14px 12px;
+    text-align: center;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 4px rgba(0,0,0,.04);
+  }
+  .kpi .kpi-val  { font-size: 1.8rem; font-weight: 800; color: var(--brand-blue); }
+  .kpi .kpi-lbl  { font-size: .68rem; color: var(--text-muted); margin-top: 4px; line-height: 1.3; }
+
+  /* ── TIMELINE ── */
+  .timeline { display: flex; gap: 0; align-items: flex-start; }
+  .phase {
+    flex: 1;
+    text-align: center;
+    position: relative;
+  }
+  .phase::after {
+    content: '';
+    position: absolute;
+    top: 18px; right: 0;
+    width: 50%; height: 3px;
+    background: #cbd5e1;
+  }
+  .phase:last-child::after { display: none; }
+  .phase-dot {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--brand-blue);
+    color: #fff;
+    font-size: .8rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 8px;
+    position: relative; z-index: 1;
+  }
+  .phase-title { font-size: .72rem; font-weight: 700; color: var(--brand-navy); }
+  .phase-weeks { font-size: .66rem; color: var(--text-muted); margin-top: 3px; }
+  .phase-items { font-size: .64rem; color: #475569; margin-top: 6px; line-height: 1.5; }
+
+  /* ── EVENT CHAIN ── */
+  .event-chain { display: flex; align-items: center; gap: 0; overflow-x: auto; padding: 8px 0; }
+  .ev-svc {
+    background: var(--brand-navy);
+    color: #fff;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: .72rem;
+    font-weight: 700;
+    text-align: center;
+    white-space: nowrap;
+    line-height: 1.4;
+  }
+  .ev-event {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 4px;
+  }
+  .ev-event .ev-arrow { font-size: 1.3rem; color: var(--brand-indigo); }
+  .ev-event .ev-label { font-size: .62rem; color: var(--brand-indigo); font-weight: 600; white-space: nowrap; background:#eef2ff; padding:1px 6px; border-radius:4px; }
+
+  /* ── ROLE PILL ── */
+  .role-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #e0e7ff; color: #3730a3;
+    border-radius: 20px; padding: 4px 12px;
+    font-size: .75rem; font-weight: 700;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .pbar-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .pbar-label { font-size: .75rem; color: #374151; min-width: 140px; }
+  .pbar-track { flex:1; background:#e2e8f0; border-radius:4px; height:8px; }
+  .pbar-fill  { height:8px; border-radius:4px; background: var(--brand-blue); }
+  .pbar-pct   { font-size: .72rem; color: var(--text-muted); min-width: 36px; text-align:right; }
+
+  /* ── CONTROLS ── */
+  #controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 16px;
+  }
+  .ctrl-btn {
+    background: rgba(255,255,255,.12);
+    border: 2px solid rgba(255,255,255,.3);
+    color: #fff;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: .9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+    letter-spacing: .2px;
+  }
+  .ctrl-btn:hover { background: rgba(255,255,255,.22); border-color: rgba(255,255,255,.55); }
+  .ctrl-btn:disabled { opacity: .3; cursor: default; }
+
+  #slide-counter { color: rgba(255,255,255,.7); font-size: .85rem; min-width: 80px; text-align:center; }
+
+  /* progress strip */
+  #progress-strip {
+    width: 1100px;
+    height: 4px;
+    background: rgba(255,255,255,.15);
+    border-radius: 2px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+  #progress-fill {
+    height: 4px;
+    background: linear-gradient(90deg, #60a5fa, #818cf8);
+    border-radius: 2px;
+    transition: width .35s ease;
+  }
+
+  /* ── SLIDE 1 — TITLE ── */
+  #s1 {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #1d4ed8 100%);
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+  }
+  #s1 .title-logo {
+    width: 70px; height: 70px;
+    background: rgba(255,255,255,.15);
+    border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+    margin: 0 auto 20px;
+    border: 2px solid rgba(255,255,255,.25);
+  }
+  #s1 h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.1; margin-bottom: 10px; }
+  #s1 h1 span { color: #93c5fd; }
+  #s1 .sub { font-size: 1.1rem; opacity: .75; max-width: 600px; margin: 0 auto 28px; line-height: 1.5; }
+  #s1 .pills { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
+  #s1 .pill {
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .3px;
+  }
+  #s1 .meta { font-size: .78rem; opacity: .5; }
+
+  /* ── SLIDE 2 — AGENDA ── */
+  .agenda-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 14px;
+  }
+  .agenda-item {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 16px;
+    border: 1px solid #e2e8f0;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .agenda-num {
+    min-width: 30px; height: 30px;
+    background: var(--brand-blue);
+    color: #fff;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .8rem; font-weight: 700;
+  }
+  .agenda-text h5 { font-size: .82rem; font-weight: 700; color: var(--brand-navy); margin-bottom: 3px; }
+  .agenda-text p  { font-size: .72rem; color: var(--text-muted); }
+
+  /* ── SLIDE 4 — ARCHITECTURE DIAGRAM ── */
+  .arch-diagram {
+    display: grid;
+    grid-template-columns: 160px 1fr 160px;
+    gap: 12px;
+    align-items: center;
+  }
+  .arch-col { display: flex; flex-direction: column; gap: 10px; }
+  .arch-svc {
+    background: var(--card-bg);
+    border: 2px solid var(--brand-blue);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: .72rem;
+    font-weight: 700;
+    color: var(--brand-navy);
+    text-align: center;
+    line-height: 1.3;
+  }
+  .arch-svc.infra { border-color: var(--brand-teal); }
+  .arch-center {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+  .arch-kafka {
+    grid-column: 1 / -1;
+    background: linear-gradient(90deg, #1e3a5f, #1d4ed8);
+    color: #fff;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: .75rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 4px;
+  }
+
+  /* check mark list */
+  .check-list { list-style: none; padding: 0; }
+  .check-list li { display: flex; gap: 8px; font-size: .8rem; color: #374151; margin-bottom: 7px; line-height: 1.4; }
+  .check-list li::before { content: '✓'; color: var(--brand-green); font-weight: 800; min-width: 14px; }
+
+  /* ── RISK SCORE METER ── */
+  .risk-meter { display: flex; flex-direction: column; gap: 6px; }
+  .risk-row { display: flex; align-items: center; gap: 10px; }
+  .risk-label { font-size: .75rem; font-weight: 600; min-width: 70px; }
+  .risk-track { flex:1; background:#e2e8f0; border-radius:4px; height:10px; }
+  .risk-fill   { height:10px; border-radius:4px; }
+  .risk-score  { font-size: .72rem; color: var(--text-muted); min-width: 30px; text-align:right; }
+
+  /* ── INTERVENTION STATES ── */
+  .state-machine { display: flex; align-items: center; gap: 0; flex-wrap: wrap; justify-content: center; }
+  .state {
+    background: var(--card-bg);
+    border: 2px solid var(--brand-indigo);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: .72rem;
+    font-weight: 700;
+    color: var(--brand-indigo);
+    text-align: center;
+  }
+  .state.active-s { background: #dbeafe; border-color: var(--brand-blue); color: var(--brand-blue); }
+  .state.done-s   { background: #d1fae5; border-color: var(--brand-green); color: #065f46; }
+  .state.warn-s   { background: #fef3c7; border-color: var(--brand-amber); color: #92400e; }
+  .state-arrow    { font-size: 1rem; color: #94a3b8; padding: 0 4px; }
+
+  /* demo step list */
+  .demo-steps { list-style: none; padding: 0; }
+  .demo-steps li {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 10px 14px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border: 1px solid #e2e8f0;
+    font-size: .8rem;
+    color: #374151;
+  }
+  .step-num {
+    min-width: 26px; height: 26px;
+    background: var(--brand-indigo);
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .72rem; font-weight: 700;
+  }
+  .step-text strong { display:block; color: var(--brand-navy); font-size:.82rem; margin-bottom:2px; }
+
+  /* plan table */
+  .plan-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+  .plan-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+    overflow: hidden;
+  }
+  .plan-card.featured { border-color: var(--brand-blue); }
+  .plan-header {
+    padding: 14px;
+    background: #f8fafc;
+    text-align: center;
+  }
+  .plan-card.featured .plan-header { background: linear-gradient(135deg, var(--brand-navy), var(--brand-blue)); color:#fff; }
+  .plan-name { font-size: .9rem; font-weight: 800; color: var(--brand-navy); }
+  .plan-card.featured .plan-name { color:#fff; }
+  .plan-tag  { font-size: .68rem; color: var(--text-muted); margin-top:2px; }
+  .plan-card.featured .plan-tag  { color:rgba(255,255,255,.7); }
+  .plan-body { padding: 12px 14px; }
+  .plan-row  { display:flex; justify-content:space-between; font-size:.73rem; padding:4px 0; border-bottom:1px solid #f1f5f9; }
+  .plan-row:last-child { border:none; }
+  .plan-row span:first-child { color:#64748b; }
+  .plan-row span:last-child  { color: var(--brand-navy); font-weight:600; }
+
+  /* compliance flags */
+  .compliance-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+  .comp-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    padding: 14px 18px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .comp-flag { font-size: 2rem; }
+  .comp-info h5 { font-size: .82rem; font-weight: 700; color: var(--brand-navy); margin-bottom: 4px; }
+  .comp-info p  { font-size: .72rem; color: #64748b; line-height: 1.5; }
+  .comp-tags { display:flex; gap:4px; flex-wrap:wrap; margin-top:6px; }
+
+  /* tech stack */
+  .stack-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+  .stack-item {
+    background: var(--card-bg);
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: .73rem;
+  }
+  .stack-cat { font-size: .65rem; font-weight: 700; color: var(--brand-blue); text-transform:uppercase; letter-spacing:.4px; margin-bottom:4px; }
+  .stack-name { font-weight: 700; color: var(--brand-navy); font-size: .78rem; }
+  .stack-note { font-size: .65rem; color: var(--text-muted); margin-top:3px; }
+
+  /* perf targets */
+  .perf-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
+  .perf-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 9px 14px;
+    border: 1px solid #e2e8f0;
+    font-size: .77rem;
+  }
+  .perf-metric { color: #374151; }
+  .perf-target { font-weight: 700; color: var(--brand-green); }
+
+  /* highlight quote */
+  .callout {
+    background: linear-gradient(135deg, #eff6ff, #e0e7ff);
+    border-left: 4px solid var(--brand-blue);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: .85rem;
+    color: var(--brand-navy);
+    font-style: italic;
+    line-height: 1.6;
+  }
+  .callout strong { font-style: normal; color: var(--brand-blue); }
+
+  /* tag row */
+  .tag-row { display:flex; gap:6px; flex-wrap:wrap; }
+  .tag { background:#f1f5f9; color:#475569; border-radius:6px; padding:3px 9px; font-size:.7rem; font-weight:600; }
+
+  /* ── LAST SLIDE ── */
+  #s18 {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 60%, #312e81 100%);
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+  }
+  #s18 h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 16px; }
+  #s18 h2 span { color: #93c5fd; }
+  #s18 p { font-size: 1rem; opacity: .75; max-width: 560px; margin: 0 auto 28px; line-height: 1.6; }
+  #s18 .contact-grid { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+  #s18 .contact-box {
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 10px;
+    padding: 14px 22px;
+    font-size: .82rem;
+    min-width: 180px;
+  }
+  #s18 .contact-box h6 { font-size: .7rem; opacity:.6; text-transform:uppercase; letter-spacing:.4px; margin-bottom:5px; }
+</style>
+</head>
+<body>
+
+<div id="deck">
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 1 — TITLE
+  ══════════════════════════════════════════ -->
+  <div class="slide active" id="s1">
+    <div class="title-logo">📊</div>
+    <h1><span>LearnTrack</span> CLP</h1>
+    <p class="sub">Corporate Learning Progress, Intervention &amp; Compliance Tracking System — SME Demo &amp; Training Overview</p>
+    <div class="pills">
+      <span class="pill">🏢 Multi-Tenant SaaS</span>
+      <span class="pill">⚡ Event-Driven</span>
+      <span class="pill">🛡️ GDPR / CCPA / DPDP / PIPEDA</span>
+      <span class="pill">☁️ AWS · Kubernetes</span>
+      <span class="pill">🔬 POC Live</span>
+    </div>
+    <p class="meta">Prepared for SME Team · Demo &amp; Training Session · v2.0 Architecture</p>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 2 — AGENDA
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s2">
+    <div class="slide-header">
+      <h2>📋 Agenda</h2>
+      <p>What we'll cover in this session</p>
+    </div>
+    <div class="slide-body">
+      <div class="agenda-grid">
+        <div class="agenda-item">
+          <div class="agenda-num">1</div>
+          <div class="agenda-text"><h5>Problem Statement</h5><p>Why this platform exists and what pain it solves</p></div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-num">2</div>
+          <div class="agenda-text"><h5>Solution Overview</h5><p>What LearnTrack CLP does and how it delivers value</p></div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-num">3</div>
+          <div class="agenda-text"><h5>System Architecture</h5><p>6 microservices, Kafka event bus, multi-tenancy</p></div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-num">4</div>
+          <div class="agenda-text"><h5>Core Value Chain</h5><p>Ingest → Profile → Risk → Intervention → Report</p></div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-num">5</div>
+          <div class="agenda-text"><h5>Risk Engine &amp; Human-Review Gate</h5><p>Rule-based classification &amp; GDPR Art.22 compliance</p></div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-num">6</div>
+          <div class="agenda-text"><h5>Intervention Lifecycle</h5><p>State machine: Recommended → Active → Completed</p></div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-num">7</div>
+          <div class="agenda-text"><h5>Consent &amp; Compliance</h5><p>Opt-out, Right-to-Erasure, pseudonymisation</p></div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-num">8</div>
+          <div class="agenda-text"><h5>User Roles &amp; Dashboards</h5><p>Trainer, L&amp;D Admin, L&amp;D Manager, Employee</p></div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-num">9</div>
+          <div class="agenda-text"><h5>Tech Stack, Plans &amp; Roadmap</h5><p>Infrastructure, subscription tiers, delivery phases</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 3 — PROBLEM STATEMENT
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s3">
+    <div class="slide-header">
+      <h2>⚠️ The Problem We're Solving</h2>
+      <p>Why fragmented L&amp;D data is a compliance and business risk</p>
+    </div>
+    <div class="slide-body">
+      <div class="cols">
+        <div class="col">
+          <div class="card accent-red">
+            <h4>🔴 Fragmented Learning Data</h4>
+            <ul>
+              <li>Training attendance lives in the LMS</li>
+              <li>Assessment scores are in a separate system</li>
+              <li>Competency milestones are tracked in spreadsheets</li>
+              <li>No single view of an employee's learning health</li>
+            </ul>
+          </div>
+          <div class="card accent-amber">
+            <h4>🟡 Reactive — Not Proactive</h4>
+            <ul>
+              <li>At-risk employees identified only after compliance failure</li>
+              <li>No early-warning mechanism (4–6 weeks too late)</li>
+              <li>Interventions are ad hoc, not tracked systematically</li>
+              <li>No measurable outcome recording</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card accent-blue">
+            <h4>🔵 Compliance Reporting Burden</h4>
+            <ul>
+              <li>Manual report assembly for GDPR, CCPA, DPDP, PIPEDA</li>
+              <li>No audit trail for automated profiling decisions</li>
+              <li>No consent management — legal exposure</li>
+              <li>Right-to-erasure requests handled manually</li>
+            </ul>
+          </div>
+          <div class="callout">
+            <strong>The cost:</strong> Organisations lose 4–6 weeks of remediation time, face regulatory fines, and cannot prove due diligence when an employee fails certification — all because their L&amp;D data is siloed.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 4 — SOLUTION OVERVIEW
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s4">
+    <div class="slide-header">
+      <h2>💡 Solution — What LearnTrack CLP Is</h2>
+      <p>A lightweight aggregation, analytics and workflow SaaS layer on top of existing systems</p>
+    </div>
+    <div class="slide-body">
+      <div class="cols">
+        <div class="col" style="flex:1.1">
+          <div class="card accent-blue">
+            <h4>Not a Full LMS — A Smart L&amp;D Intelligence Layer</h4>
+            <ul class="check-list">
+              <li>Consolidates attendance, scores &amp; milestones from any existing LMS / HRIS</li>
+              <li>Builds a unified, curated learning profile per employee</li>
+              <li>Configurable rule engine detects at-risk learners automatically</li>
+              <li>Manages the full intervention lifecycle with SLA tracking</li>
+              <li>Produces compliance-ready reports with a full audit trail</li>
+              <li>Handles consent, opt-out and right-to-erasure across all regions</li>
+            </ul>
+          </div>
+          <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr); gap:10px">
+            <div class="kpi"><div class="kpi-val">4–6wk</div><div class="kpi-lbl">Earlier at-risk detection</div></div>
+            <div class="kpi"><div class="kpi-val">70%</div><div class="kpi-lbl">Intervention improvement target</div></div>
+            <div class="kpi"><div class="kpi-val">+25%</div><div class="kpi-lbl">Training completion YoY</div></div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card accent-teal">
+            <h4>👥 Who Uses It</h4>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">
+              <span class="badge badge-blue">Corporates (L&amp;D, HR, Compliance)</span>
+              <span class="badge badge-indigo">Regulated Industries (BFSI, Pharma, Manufacturing)</span>
+              <span class="badge badge-teal">Training Providers (Multi-client)</span>
+            </div>
+          </div>
+          <div class="card accent-green">
+            <h4>🌍 Delivered As SaaS — Multi-Tenant</h4>
+            <ul class="check-list">
+              <li>New organisation live in &lt; 5 minutes (automated provisioning)</li>
+              <li>Starter · Pro · Enterprise subscription tiers</li>
+              <li>AWS primary — cloud-agnostic abstractions</li>
+              <li>99.5% – 99.9% SLA depending on plan</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 5 — SYSTEM ARCHITECTURE
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s5">
+    <div class="slide-header">
+      <h2>🏗️ System Architecture — 6 Microservices</h2>
+      <p>Each service owns its database; all cross-service communication flows through Kafka</p>
+    </div>
+    <div class="slide-body">
+      <div class="cols" style="gap:16px">
+        <div class="col" style="flex:1.5">
+          <div style="background:var(--card-bg);border-radius:10px;padding:16px;border:1px solid #e2e8f0;">
+            <div class="arch-kafka">⚡ Apache Kafka (Event Bus) — Tenant-Scoped Topics</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px">
+              <div class="arch-svc" style="background:#eff6ff">📥 Ingestion<br/><small style="font-weight:400;font-size:.65rem">Port 8081</small></div>
+              <div class="arch-svc" style="background:#f0fdf4">👤 Profile<br/><small style="font-weight:400;font-size:.65rem">Port 8082</small></div>
+              <div class="arch-svc" style="background:#fef3c7">⚠️ Risk Engine<br/><small style="font-weight:400;font-size:.65rem">Port 8083</small></div>
+              <div class="arch-svc" style="background:#ede9fe">🎯 Intervention<br/><small style="font-weight:400;font-size:.65rem">Port 8084</small></div>
+              <div class="arch-svc" style="background:#fff1f2">🔒 Consent<br/><small style="font-weight:400;font-size:.65rem">Port 8085</small></div>
+              <div class="arch-svc" style="background:#ecfdf5">📊 Reporting<br/><small style="font-weight:400;font-size:.65rem">Port 8086</small></div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px">
+              <div class="arch-svc infra" style="font-weight:500;font-size:.68rem;padding:6px 8px;">🐘 PostgreSQL<br/>Schema-per-service</div>
+              <div class="arch-svc infra" style="font-weight:500;font-size:.68rem;padding:6px 8px;">🚦 Redis Cache<br/>Tenant ctx · Rules</div>
+              <div class="arch-svc infra" style="font-weight:500;font-size:.68rem;padding:6px 8px;">⚛️ React Frontend<br/>ld-insights app</div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card accent-blue">
+            <h4>Key Architecture Decisions</h4>
+            <ul class="check-list">
+              <li>Schema-per-service isolation (no cross-schema reads)</li>
+              <li>Transactional Outbox + CDC for exactly-once delivery</li>
+              <li>Multi-tenant via <code>tenant_id</code> on every DB row &amp; Kafka event</li>
+              <li>Human-review gate on automated profiling (GDPR Art.22)</li>
+              <li>Temporal workflows for durable saga orchestration</li>
+            </ul>
+          </div>
+          <div class="card accent-teal">
+            <h4>POC Simplifications</h4>
+            <ul style="padding-left:14px">
+              <li style="font-size:.75rem;margin-bottom:4px;">Outbox + poller → <em>Production: Debezium CDC</em></li>
+              <li style="font-size:.75rem;margin-bottom:4px;">In-service state machine → <em>Production: Temporal</em></li>
+              <li style="font-size:.75rem;margin-bottom:4px;">Dev HS256 JWT → <em>Production: Kong/JWKS/SSO</em></li>
+              <li style="font-size:.75rem;">Single DB (schemas) → <em>Production: DB-per-service</em></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 6 — VALUE CHAIN
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s6">
+    <div class="slide-header">
+      <h2>⛓️ The Core Value Chain — End-to-End Event Flow</h2>
+      <p>Raw training data flows automatically through the pipeline to insights and action</p>
+    </div>
+    <div class="slide-body">
+      <div class="card" style="padding:20px 24px">
+        <div class="event-chain">
+          <div class="ev-svc" style="background:#1e3a5f">LMS / HRIS<br/><small style="font-weight:400;opacity:.8">Training Data</small></div>
+          <div class="ev-event"><span class="ev-arrow">→</span><span class="ev-label">POST /ingest</span></div>
+
+          <div class="ev-svc" style="background:#1d4ed8">📥 Ingestion<br/><small style="font-weight:400;opacity:.8">Validate &amp; Stage</small></div>
+          <div class="ev-event"><span class="ev-arrow">→</span><span class="ev-label">data.ingested</span></div>
+
+          <div class="ev-svc" style="background:#059669">👤 Profile<br/><small style="font-weight:400;opacity:.8">Aggregate Metrics</small></div>
+          <div class="ev-event"><span class="ev-arrow">→</span><span class="ev-label">profile.updated</span></div>
+
+          <div class="ev-svc" style="background:#d97706">⚠️ Risk Engine<br/><small style="font-weight:400;opacity:.8">Run Rules</small></div>
+          <div class="ev-event"><span class="ev-arrow">→</span><span class="ev-label">risk.detected</span></div>
+
+          <div class="ev-svc" style="background:#7c3aed">🎯 Intervention<br/><small style="font-weight:400;opacity:.8">Auto-Recommend</small></div>
+          <div class="ev-event"><span class="ev-arrow">→</span><span class="ev-label">intervention.assigned</span></div>
+
+          <div class="ev-svc" style="background:#0891b2">📊 Reporting<br/><small style="font-weight:400;opacity:.8">CDC Aggregates</small></div>
+        </div>
+      </div>
+
+      <div class="cols">
+        <div class="col">
+          <div class="card accent-blue">
+            <h4>📥 Ingestion Service</h4>
+            <ul class="check-list">
+              <li>Accepts training attendance, assessment scores, milestones</li>
+              <li>Idempotent — <code>Idempotency-Key</code> prevents duplicates</li>
+              <li>Publishes <code>data.ingested</code> via Outbox → Kafka</li>
+            </ul>
+          </div>
+          <div class="card accent-green">
+            <h4>👤 Profile Service</h4>
+            <ul class="check-list">
+              <li>Builds curated employee learning profile</li>
+              <li>Computes: Attendance %, Avg Score, Score Trend, Milestone %</li>
+              <li>Publishes <code>profile.updated</code> snapshot to Kafka</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card accent-amber">
+            <h4>⚠️ Risk Engine</h4>
+            <ul class="check-list">
+              <li>Evaluates configurable JSON rules against profile snapshot</li>
+              <li>Classifies: Critical / High / Medium / Low</li>
+              <li>Critical &amp; High → human-review gate (GDPR Art.22)</li>
+            </ul>
+          </div>
+          <div class="card accent-teal">
+            <h4>📊 Reporting Service</h4>
+            <ul class="check-list">
+              <li>CDC-fed read model (no polling — always fresh)</li>
+              <li>Consumes all domain events to build aggregates</li>
+              <li>Dashboard KPIs + compliance report generation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 7 — RISK ENGINE
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s7">
+    <div class="slide-header">
+      <h2>⚠️ Risk Engine &amp; Human-Review Gate</h2>
+      <p>Configurable rule-based classification with mandatory human oversight for GDPR Article 22</p>
+    </div>
+    <div class="slide-body">
+      <div class="cols">
+        <div class="col">
+          <div class="card accent-amber">
+            <h4>Risk Scoring &amp; Classification</h4>
+            <div class="risk-meter" style="margin-top:8px">
+              <div class="risk-row">
+                <span class="risk-label"><span class="badge badge-critical">CRITICAL</span></span>
+                <div class="risk-track"><div class="risk-fill" style="background:#dc2626;width:90%"></div></div>
+                <span class="risk-score">85+</span>
+              </div>
+              <div class="risk-row">
+                <span class="risk-label"><span class="badge badge-high">HIGH</span></span>
+                <div class="risk-track"><div class="risk-fill" style="background:#f97316;width:72%"></div></div>
+                <span class="risk-score">65–84</span>
+              </div>
+              <div class="risk-row">
+                <span class="risk-label"><span class="badge badge-medium">MEDIUM</span></span>
+                <div class="risk-track"><div class="risk-fill" style="background:#eab308;width:48%"></div></div>
+                <span class="risk-score">40–64</span>
+              </div>
+              <div class="risk-row">
+                <span class="risk-label"><span class="badge badge-low">LOW</span></span>
+                <div class="risk-track"><div class="risk-fill" style="background:#22c55e;width:25%"></div></div>
+                <span class="risk-score">&lt; 40</span>
+              </div>
+            </div>
+          </div>
+          <div class="card accent-blue">
+            <h4>Configurable Rule Example</h4>
+            <pre style="background:#f8fafc;padding:10px;border-radius:6px;font-size:.68rem;overflow:auto;color:#1e293b;border:1px solid #e2e8f0">{ "operator": "AND",
+  "criteria": [
+    { "metric": "training_attendance_percentage",
+      "operator": "less_than",
+      "value": 80 },
+    { "metric": "competency_average_score",
+      "operator": "less_than",
+      "value": 65 }
+  ]
+}</pre>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card accent-red">
+            <h4>🔒 Human-Review Gate (GDPR Art.22)</h4>
+            <ul class="check-list">
+              <li>All CRITICAL &amp; HIGH assessments flagged <code>requiresHumanReview = true</code></li>
+              <li>Employee is NOT notified until a Trainer/L&amp;D Manager reviews</li>
+              <li>Reviewer must: <strong>Confirm</strong>, <strong>Override</strong>, or <strong>Dismiss</strong></li>
+              <li>Decision + reviewer identity logged to immutable audit trail</li>
+              <li>48-hour SLA — Temporal timer escalates to L&amp;D Admin if breached</li>
+            </ul>
+          </div>
+          <div class="card accent-teal">
+            <h4>Consent Opt-Out Integration</h4>
+            <ul class="check-list">
+              <li>Employee withdraws <code>risk_profiling</code> consent via Settings</li>
+              <li><code>consent.withdrawn</code> event → Risk Engine skips assessments</li>
+              <li>Employee drops off the at-risk list immediately</li>
+              <li>Pseudonymised as <code>REDACTED-…</code> in compliance reports</li>
+            </ul>
+          </div>
+          <div class="card" style="background:#fef3c7;border:1px solid #fde68a">
+            <h4 style="color:#92400e">⚙️ Rule Management</h4>
+            <p style="font-size:.78rem;color:#78350f">L&amp;D Admins create rules via UI → test on sample profiles → activate. Redis cache invalidated instantly. Available metrics: attendance %, avg score, score trend, milestone completion %, days since progress.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 8 — INTERVENTION LIFECYCLE
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s8">
+    <div class="slide-header">
+      <h2>🎯 Intervention Lifecycle — State Machine</h2>
+      <p>From auto-recommendation to outcome measurement — fully tracked with SLA enforcement</p>
+    </div>
+    <div class="slide-body">
+      <div class="card" style="padding:16px 20px">
+        <h4 style="font-size:.8rem;color:var(--brand-navy);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px">Intervention State Machine</h4>
+        <div class="state-machine">
+          <div class="state">📋 RECOMMENDED<br/><small style="font-weight:400">Auto-created by system</small></div>
+          <span class="state-arrow">→</span>
+          <div class="state warn-s">⏳ PENDING_APPROVAL<br/><small style="font-weight:400">Awaiting L&amp;D Manager</small></div>
+          <span class="state-arrow">→</span>
+          <div class="state active-s">▶ ACTIVE<br/><small style="font-weight:400">Sessions in progress</small></div>
+          <span class="state-arrow">→</span>
+          <div class="state done-s">✅ COMPLETED<br/><small style="font-weight:400">Outcomes recorded</small></div>
+          <span class="state-arrow">→</span>
+          <div class="state done-s" style="background:#d1fae5;border-color:var(--brand-green)">📈 EVALUATED<br/><small style="font-weight:400">Effectiveness measured</small></div>
+        </div>
+        <div style="margin-top:10px;display:flex;gap:10px;font-size:.72rem;color:#64748b">
+          <span>⚡ PENDING_APPROVAL exceeds 48h → <strong>ESCALATED</strong> (Temporal timer)</span>
+          <span>&nbsp;|&nbsp;</span>
+          <span>ACTIVE can move to <strong>CANCELLED</strong> if dismissed</span>
+        </div>
+      </div>
+
+      <div class="cols">
+        <div class="col">
+          <div class="card accent-indigo">
+            <h4>Intervention Types</h4>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
+              <span class="badge badge-blue">Remedial Training</span>
+              <span class="badge badge-indigo">1:1 Coaching</span>
+              <span class="badge badge-teal">Group Mentoring</span>
+              <span class="badge badge-green">Self-paced Module</span>
+            </div>
+          </div>
+          <div class="card accent-blue">
+            <h4>Who Does What</h4>
+            <ul style="padding-left:14px">
+              <li style="font-size:.77rem;margin-bottom:5px;"><strong>Trainer:</strong> Creates intervention, logs sessions, marks complete</li>
+              <li style="font-size:.77rem;margin-bottom:5px;"><strong>L&amp;D Manager:</strong> Approves or rejects, reviews escalations</li>
+              <li style="font-size:.77rem;"><strong>Employee:</strong> Notified after review, sees schedule &amp; notes</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card accent-green">
+            <h4>Outcome Measurement</h4>
+            <ul class="check-list">
+              <li>Pre-intervention competency score recorded at creation</li>
+              <li>Post-intervention score recorded at completion</li>
+              <li>System calculates <strong>improvement %</strong> automatically</li>
+              <li><code>intervention.completed</code> event → Risk Engine re-evaluates employee</li>
+              <li>Dashboard "Active Interventions" KPI updates live</li>
+            </ul>
+          </div>
+          <div class="card accent-teal">
+            <h4>SLA &amp; Escalation</h4>
+            <ul class="check-list">
+              <li>48-hour approval SLA enforced via Temporal timer</li>
+              <li>SLA breach → <code>intervention.escalated</code> event</li>
+              <li>L&amp;D Admin alerted immediately for Critical cases</li>
+              <li>Escalations visible in L&amp;D Manager Escalation Queue</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 9 — CONSENT & COMPLIANCE
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s9">
+    <div class="slide-header">
+      <h2>🔒 Consent Management &amp; Compliance</h2>
+      <p>Built-in privacy compliance across GDPR, CCPA, DPDP and PIPEDA from day one</p>
+    </div>
+    <div class="slide-body">
+      <div class="cols">
+        <div class="col">
+          <div class="compliance-grid">
+            <div class="comp-card">
+              <span class="comp-flag">🇪🇺</span>
+              <div class="comp-info">
+                <h5>GDPR / UK GDPR</h5>
+                <p>Art.22 human-review gate, Right-to-Erasure (Art.17), consent &amp; opt-out, DPA signing</p>
+                <div class="comp-tags">
+                  <span class="badge badge-blue">EU</span>
+                  <span class="badge badge-blue">UK</span>
+                </div>
+              </div>
+            </div>
+            <div class="comp-card">
+              <span class="comp-flag">🇺🇸</span>
+              <div class="comp-info">
+                <h5>CCPA / CPRA</h5>
+                <p>Automated-profiling opt-out, right-to-delete, SOC 2 Type II controls</p>
+                <div class="comp-tags">
+                  <span class="badge badge-indigo">US</span>
+                  <span class="badge badge-indigo">SOC2</span>
+                </div>
+              </div>
+            </div>
+            <div class="comp-card">
+              <span class="comp-flag">🇮🇳</span>
+              <div class="comp-info">
+                <h5>DPDP Act 2023</h5>
+                <p>Consent obligations, erasure rights, data residency pinning to <code>ap-south-1</code></p>
+                <div class="comp-tags">
+                  <span class="badge badge-teal">India</span>
+                </div>
+              </div>
+            </div>
+            <div class="comp-card">
+              <span class="comp-flag">🇨🇦</span>
+              <div class="comp-info">
+                <h5>PIPEDA / Québec Law 25</h5>
+                <p>Privacy consent, algorithmic transparency, enhanced rights for Québec residents</p>
+                <div class="comp-tags">
+                  <span class="badge badge-green">Canada</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card accent-red">
+            <h4>Consent Purposes Managed</h4>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">
+              <span class="badge badge-blue">risk_profiling</span>
+              <span class="badge badge-indigo">anonymised_benchmarking</span>
+              <span class="badge badge-teal">ml_scoring</span>
+              <span class="badge badge-green">trainer_notes</span>
+              <span class="badge badge-high" style="background:#ffedd5;color:#9a3412">third_party_sharing</span>
+            </div>
+          </div>
+          <div class="card accent-indigo">
+            <h4>🗑️ Right-to-Erasure Saga (Temporal)</h4>
+            <ul class="check-list">
+              <li>Employee submits erasure request via self-service portal</li>
+              <li>Temporal saga anonymises PII across all 6 services</li>
+              <li>Pseudonymises employee in all generated reports</li>
+              <li>Audit log entries retained (legally required) but de-linked</li>
+              <li>Signed deletion certificate generated and emailed</li>
+              <li>Target completion: <strong>72 hours</strong> (regulated max: 30 days)</li>
+            </ul>
+          </div>
+          <div class="card accent-green">
+            <h4>Immutable Audit Trail</h4>
+            <p style="font-size:.78rem;">Hash-chained audit log stored in S3 with Object Lock (WORM). Every consent decision, review action, and erasure event is tamper-proof. Full traceability for regulatory inspection.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 10 — USER ROLES & DASHBOARDS
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s10">
+    <div class="slide-header">
+      <h2>👥 User Roles &amp; Role-Based Dashboards</h2>
+      <p>Each role sees exactly the data and actions they need — nothing more</p>
+    </div>
+    <div class="slide-body">
+      <div class="cols">
+        <div class="col">
+          <div class="card accent-blue">
+            <h4>🧑‍🏫 Trainer Dashboard</h4>
+            <ul style="padding-left:14px">
+              <li style="font-size:.76rem;margin-bottom:3px">Team at-risk summary (live WebSocket updates)</li>
+              <li style="font-size:.76rem;margin-bottom:3px">Pending human-review queue (GDPR gate)</li>
+              <li style="font-size:.76rem;margin-bottom:3px">Employee learning profiles: attendance, scores, milestones</li>
+              <li style="font-size:.76rem;margin-bottom:3px">Active interventions &amp; session logging</li>
+              <li style="font-size:.76rem">Competency performance charts (by module)</li>
+            </ul>
+          </div>
+          <div class="card accent-indigo">
+            <h4>🏢 L&amp;D Administrator Dashboard</h4>
+            <ul style="padding-left:14px">
+              <li style="font-size:.76rem;margin-bottom:3px">Org-wide KPIs: Compliance %, at-risk count, attendance trend</li>
+              <li style="font-size:.76rem;margin-bottom:3px">Risk distribution donut chart (Critical/High/Medium/Low)</li>
+              <li style="font-size:.76rem;margin-bottom:3px">Compliance calendar — upcoming regulatory deadlines</li>
+              <li style="font-size:.76rem;margin-bottom:3px">Consent coverage &amp; erasure request tracking</li>
+              <li style="font-size:.76rem">Rule management &amp; report generation</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card accent-amber">
+            <h4>📋 L&amp;D Manager Dashboard</h4>
+            <ul style="padding-left:14px">
+              <li style="font-size:.76rem;margin-bottom:3px">Intervention caseload &amp; approval queue</li>
+              <li style="font-size:.76rem;margin-bottom:3px">Intervention calendar — weekly schedule</li>
+              <li style="font-size:.76rem;margin-bottom:3px">Escalation queue (SLA-breached interventions)</li>
+              <li style="font-size:.76rem;margin-bottom:3px">Effectiveness summary: avg improvement % by type</li>
+              <li style="font-size:.76rem">Approve / Reject with full employee risk profile context</li>
+            </ul>
+          </div>
+          <div class="card accent-green">
+            <h4>🙋 Employee Self-Service Portal</h4>
+            <ul style="padding-left:14px">
+              <li style="font-size:.76rem;margin-bottom:3px">Own training attendance summary</li>
+              <li style="font-size:.76rem;margin-bottom:3px">Assessment scores &amp; competency milestone progress</li>
+              <li style="font-size:.76rem;margin-bottom:3px">Active interventions: schedule &amp; trainer notes</li>
+              <li style="font-size:.76rem;margin-bottom:3px"><strong>Privacy Preferences</strong>: manage consents</li>
+              <li style="font-size:.76rem">Request data erasure &amp; download deletion certificate</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:4px">
+        <strong>WCAG 2.1 AA</strong> — All portals are accessible: keyboard navigable, screen-reader compatible, colour-blind safe badges (colour + icon + text), ARIA live regions for at-risk alerts.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 11 — POC DEMO WALKTHROUGH
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s11">
+    <div class="slide-header">
+      <h2>🔬 POC Demo — Live Stack Walkthrough</h2>
+      <p>6 Spring Boot microservices + React frontend wired over Kafka — running right now</p>
+    </div>
+    <div class="slide-body">
+      <div class="cols">
+        <div class="col">
+          <ol class="demo-steps">
+            <li>
+              <div class="step-num">1</div>
+              <div class="step-text"><strong>Multi-Tenant Login (RBAC)</strong>Dev-login → pick <em>Acme Corp</em> + <em>LD_ADMIN</em>. JWT minted; all API calls scoped to <code>tenant_acme_corp</code>. Switch to Globex to show isolation.</div>
+            </li>
+            <li>
+              <div class="step-num">2</div>
+              <div class="step-text"><strong>Dashboard — CDC Read Model</strong>Org compliance 92%, 6 awaiting review, 15 active interventions — all built by Reporting Service consuming Kafka events. Zero manual refresh.</div>
+            </li>
+            <li>
+              <div class="step-num">3</div>
+              <div class="step-text"><strong>At-Risk Monitor</strong>6 learners flagged: 1 Critical, 3 High, 2 Medium. Click any learner → full learning profile (attendance, scores, milestones, metrics).</div>
+            </li>
+            <li>
+              <div class="step-num">4</div>
+              <div class="step-text"><strong>Human-Review Gate</strong>Confirm / Override / Dismiss a Critical assessment. Watch <em>awaiting review</em> KPI drop on the dashboard in real time.</div>
+            </li>
+          </ol>
+        </div>
+        <div class="col">
+          <ol class="demo-steps" start="5">
+            <li>
+              <div class="step-num">5</div>
+              <div class="step-text"><strong>Intervention Lifecycle</strong>Approve a Recommended intervention → Active → log sessions → Complete with pre/post scores. Dashboard "Active Interventions" updates live.</div>
+            </li>
+            <li>
+              <div class="step-num">6</div>
+              <div class="step-text"><strong>Live Ingestion Demo</strong>Re-run ingest with a failing assessment for a healthy employee. Watch a NEW at-risk learner appear after the event propagates through the pipeline.</div>
+            </li>
+            <li>
+              <div class="step-num">7</div>
+              <div class="step-text"><strong>Consent Opt-Out + Report Pseudonymisation</strong>Settings → withdraw <code>risk_profiling</code> consent. Employee drops off at-risk list. Generate report → employee is <code>REDACTED-…</code> in CSV download.</div>
+            </li>
+          </ol>
+          <div class="card" style="background:#f0fdf4;border:1px solid #bbf7d0;margin-top:4px">
+            <h4 style="color:#065f46">✅ What the POC Proves</h4>
+            <p style="font-size:.76rem;color:#166534">All architecture patterns are feasible: multi-tenant isolation, event-driven pipeline, human-review gate, consent opt-out, CDC read model, idempotent ingestion — all running together on one <code>docker compose up</code>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 12 — TECHNOLOGY STACK
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s12">
+    <div class="slide-header">
+      <h2>🛠️ Technology Stack</h2>
+      <p>Cloud-agnostic design — AWS primary, Azure/GCP portable</p>
+    </div>
+    <div class="slide-body">
+      <div class="stack-grid">
+        <div class="stack-item"><div class="stack-cat">Backend</div><div class="stack-name">Spring Boot 3 / Java 21</div><div class="stack-note">6 microservices, sole primary backend</div></div>
+        <div class="stack-item"><div class="stack-cat">Frontend</div><div class="stack-name">React 18 + Vite + TypeScript</div><div class="stack-note">TanStack Query · shadcn/ui · Tailwind CSS</div></div>
+        <div class="stack-item"><div class="stack-cat">Event Bus</div><div class="stack-name">Apache Kafka (AWS MSK)</div><div class="stack-note">Tenant-scoped topics · Protobuf schemas</div></div>
+        <div class="stack-item"><div class="stack-cat">Workflow Engine</div><div class="stack-name">Temporal OSS</div><div class="stack-note">Provisioning · Intervention · Erasure sagas</div></div>
+        <div class="stack-item"><div class="stack-cat">Database</div><div class="stack-name">PostgreSQL 16+</div><div class="stack-note">Schema-per-service isolation, JSONB rules</div></div>
+        <div class="stack-item"><div class="stack-cat">Cache</div><div class="stack-name">Redis 7 (ElastiCache)</div><div class="stack-note">Tenant context · Rules cache · Sessions</div></div>
+        <div class="stack-item"><div class="stack-cat">CDC / Outbox</div><div class="stack-name">Debezium + Outbox Pattern</div><div class="stack-note">Exactly-once delivery via PostgreSQL CDC</div></div>
+        <div class="stack-item"><div class="stack-cat">API Gateway</div><div class="stack-name">Kong Gateway OSS</div><div class="stack-note">JWKS-local JWT · Rate limiting · Feature flags</div></div>
+        <div class="stack-item"><div class="stack-cat">Service Mesh</div><div class="stack-name">Istio on EKS</div><div class="stack-note">mTLS · Circuit breakers · Traffic splitting</div></div>
+        <div class="stack-item"><div class="stack-cat">Secrets / KMS</div><div class="stack-name">HashiCorp Vault + AWS KMS</div><div class="stack-note">Per-tenant DEK · Envelope encryption</div></div>
+        <div class="stack-item"><div class="stack-cat">Observability</div><div class="stack-name">OpenTelemetry → Grafana</div><div class="stack-note">Metrics (Prometheus) · Traces (Tempo) · Logs (Loki)</div></div>
+        <div class="stack-item"><div class="stack-cat">CI/CD</div><div class="stack-name">GitHub Actions + ArgoCD</div><div class="stack-note">GitOps: dev → test → staging → prod</div></div>
+      </div>
+      <div class="tag-row" style="margin-top:10px">
+        <span class="tag">AWS EKS</span>
+        <span class="tag">S3 Object Lock</span>
+        <span class="tag">Amazon SES</span>
+        <span class="tag">Confluent Schema Registry</span>
+        <span class="tag">Unleash Feature Flags</span>
+        <span class="tag">Sentry Error Tracking</span>
+        <span class="tag">Stripe Billing</span>
+        <span class="tag">pgBackRest + Velero</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 13 — SUBSCRIPTION PLANS
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s13">
+    <div class="slide-header">
+      <h2>💳 Subscription Plans</h2>
+      <p>Three tiers to match every organisation's scale and compliance needs</p>
+    </div>
+    <div class="slide-body">
+      <div class="plan-grid">
+        <div class="plan-card">
+          <div class="plan-header">
+            <div class="plan-name">⭐ Starter</div>
+            <div class="plan-tag">Up to 500 employees</div>
+          </div>
+          <div class="plan-body">
+            <div class="plan-row"><span>DB Isolation</span><span>Row-level (Shared)</span></div>
+            <div class="plan-row"><span>Custom Rules</span><span>5</span></div>
+            <div class="plan-row"><span>Notifications</span><span>Email only</span></div>
+            <div class="plan-row"><span>Reports</span><span>Standard</span></div>
+            <div class="plan-row"><span>API Access</span><span>❌</span></div>
+            <div class="plan-row"><span>White-label</span><span>❌</span></div>
+            <div class="plan-row"><span>SSO</span><span>❌</span></div>
+            <div class="plan-row"><span>SLA</span><span>99.5%</span></div>
+          </div>
+        </div>
+        <div class="plan-card featured">
+          <div class="plan-header">
+            <div class="plan-name">🚀 Pro</div>
+            <div class="plan-tag">Up to 5,000 employees</div>
+          </div>
+          <div class="plan-body">
+            <div class="plan-row"><span>DB Isolation</span><span>Schema-per-tenant</span></div>
+            <div class="plan-row"><span>Custom Rules</span><span>50</span></div>
+            <div class="plan-row"><span>Notifications</span><span>Email + SMS + In-app</span></div>
+            <div class="plan-row"><span>Reports</span><span>Custom templates</span></div>
+            <div class="plan-row"><span>API Access</span><span>✅ (rate-limited)</span></div>
+            <div class="plan-row"><span>White-label</span><span>✅</span></div>
+            <div class="plan-row"><span>SSO</span><span>❌</span></div>
+            <div class="plan-row"><span>SLA</span><span>99.5%</span></div>
+          </div>
+        </div>
+        <div class="plan-card">
+          <div class="plan-header">
+            <div class="plan-name">🏛️ Enterprise</div>
+            <div class="plan-tag">Unlimited employees</div>
+          </div>
+          <div class="plan-body">
+            <div class="plan-row"><span>DB Isolation</span><span>Dedicated DB</span></div>
+            <div class="plan-row"><span>Custom Rules</span><span>Unlimited</span></div>
+            <div class="plan-row"><span>Notifications</span><span>All + WebSocket</span></div>
+            <div class="plan-row"><span>Reports</span><span>Full compliance suite</span></div>
+            <div class="plan-row"><span>API Access</span><span>✅ (dedicated quota)</span></div>
+            <div class="plan-row"><span>White-label</span><span>✅ + Custom domain</span></div>
+            <div class="plan-row"><span>SSO / SAML</span><span>✅</span></div>
+            <div class="plan-row"><span>SLA</span><span>99.9%</span></div>
+          </div>
+        </div>
+        <div class="plan-card" style="border-color:transparent;background:transparent;display:flex;flex-direction:column;gap:10px">
+          <div class="card accent-green" style="flex:1">
+            <h4>✅ All Plans Include</h4>
+            <ul class="check-list">
+              <li>Consent management &amp; opt-out</li>
+              <li>Right-to-erasure API</li>
+              <li>WCAG 2.1 AA accessibility</li>
+              <li>Immutable audit trail</li>
+              <li>Human-review gate</li>
+            </ul>
+          </div>
+          <div class="card accent-blue" style="flex:1">
+            <h4>📈 Usage-Based Billing</h4>
+            <p style="font-size:.76rem;">Metered via Stripe. Plan usage meters visible in Admin Dashboard. Automatic upgrade prompt at 90% limit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 14 — PERFORMANCE TARGETS
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s14">
+    <div class="slide-header">
+      <h2>⚡ Performance &amp; SLA Targets</h2>
+      <p>Production-grade targets designed for enterprise-scale regulated workloads</p>
+    </div>
+    <div class="slide-body">
+      <div class="cols">
+        <div class="col">
+          <div class="perf-grid">
+            <div class="perf-row"><span class="perf-metric">API Response Time (P95)</span><span class="perf-target">&lt; 200 ms</span></div>
+            <div class="perf-row"><span class="perf-metric">Dashboard Load Time</span><span class="perf-target">&lt; 2 s</span></div>
+            <div class="perf-row"><span class="perf-metric">Employee Profile Generation</span><span class="perf-target">&lt; 500 ms</span></div>
+            <div class="perf-row"><span class="perf-metric">Risk Engine Batch (1,000 employees)</span><span class="perf-target">&lt; 2 min</span></div>
+            <div class="perf-row"><span class="perf-metric">Compliance Report Generation</span><span class="perf-target">&lt; 30 s</span></div>
+            <div class="perf-row"><span class="perf-metric">Tenant Provisioning (Temporal)</span><span class="perf-target">&lt; 5 min</span></div>
+            <div class="perf-row"><span class="perf-metric">Training Data Sync Latency</span><span class="perf-target">&lt; 1 hour</span></div>
+            <div class="perf-row"><span class="perf-metric">Tenant Context Resolution (cached)</span><span class="perf-target">&lt; 5 ms</span></div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card accent-blue">
+            <h4>Right-to-Erasure SLA</h4>
+            <div class="pbar-wrap"><span class="pbar-label">Target completion</span><div class="pbar-track"><div class="pbar-fill" style="width:30%;background:var(--brand-green)"></div></div><span class="pbar-pct">72 hrs</span></div>
+            <div class="pbar-wrap"><span class="pbar-label">Regulated maximum</span><div class="pbar-track"><div class="pbar-fill" style="width:100%;background:#e2e8f0"></div></div><span class="pbar-pct">30 days</span></div>
+          </div>
+          <div class="card accent-red">
+            <h4>Availability SLA</h4>
+            <div class="pbar-wrap"><span class="pbar-label">Enterprise (99.9%)</span><div class="pbar-track"><div class="pbar-fill" style="width:99.9%;background:var(--brand-green)"></div></div><span class="pbar-pct">99.9%</span></div>
+            <div class="pbar-wrap"><span class="pbar-label">Pro / Starter (99.5%)</span><div class="pbar-track"><div class="pbar-fill" style="width:99.5%;background:var(--brand-blue)"></div></div><span class="pbar-pct">99.5%</span></div>
+          </div>
+          <div class="card accent-amber">
+            <h4>DLQ Alert Threshold</h4>
+            <p style="font-size:.78rem;">Any message in a Dead Letter Queue (depth &gt; 0) triggers a PagerDuty alert within <strong>5 minutes</strong>. Ensures no silent event loss in the pipeline.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 15 — DELIVERY TIMELINE
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s15">
+    <div class="slide-header">
+      <h2>🗓️ Delivery Timeline — 20 Weeks to Production</h2>
+      <p>Five structured phases from infrastructure foundations to full compliance go-live</p>
+    </div>
+    <div class="slide-body">
+      <div class="timeline" style="gap:10px;margin-bottom:20px">
+        <div class="phase">
+          <div class="phase-dot">1</div>
+          <div class="phase-title">Foundation</div>
+          <div class="phase-weeks">Weeks 1–4</div>
+          <div class="phase-items">Tenant provisioning (Temporal)<br/>Auth (JWKS)<br/>DB isolation<br/>Kafka + outbox</div>
+        </div>
+        <div class="phase">
+          <div class="phase-dot" style="background:var(--brand-teal)">2</div>
+          <div class="phase-title">Core Services</div>
+          <div class="phase-weeks">Weeks 5–8</div>
+          <div class="phase-items">Ingestion adapters<br/>Employee Profile Service<br/>Risk Engine<br/>Rule Management</div>
+        </div>
+        <div class="phase">
+          <div class="phase-dot" style="background:var(--brand-indigo)">3</div>
+          <div class="phase-title">Workflows</div>
+          <div class="phase-weeks">Weeks 9–12</div>
+          <div class="phase-items">Intervention Service (Temporal)<br/>Consent Service<br/>Notification + WebSocket<br/>Human-review gate</div>
+        </div>
+        <div class="phase">
+          <div class="phase-dot" style="background:var(--brand-amber)">4</div>
+          <div class="phase-title">Compliance Layer</div>
+          <div class="phase-weeks">Weeks 13–16</div>
+          <div class="phase-items">Compliance Reporting (CDC)<br/>Audit Service (hash-chained)<br/>S3 Object Lock<br/>Role-based dashboards</div>
+        </div>
+        <div class="phase">
+          <div class="phase-dot" style="background:var(--brand-green)">5</div>
+          <div class="phase-title">Go-Live</div>
+          <div class="phase-weeks">Weeks 17–20</div>
+          <div class="phase-items">Right-to-erasure saga<br/>GDPR/DPDP/CCPA/PIPEDA<br/>WCAG 2.1 AA<br/>Load + pen testing</div>
+        </div>
+      </div>
+
+      <div class="cols">
+        <div class="col">
+          <div class="card accent-blue">
+            <h4>POC Status Today</h4>
+            <div class="pbar-wrap" style="margin-top:6px"><span class="pbar-label" style="min-width:180px">All 6 microservices</span><div class="pbar-track"><div class="pbar-fill" style="width:100%"></div></div><span class="pbar-pct">✅ Done</span></div>
+            <div class="pbar-wrap"><span class="pbar-label" style="min-width:180px">React frontend (8 pages)</span><div class="pbar-track"><div class="pbar-fill" style="width:100%"></div></div><span class="pbar-pct">✅ Done</span></div>
+            <div class="pbar-wrap"><span class="pbar-label" style="min-width:180px">Full event pipeline</span><div class="pbar-track"><div class="pbar-fill" style="width:100%"></div></div><span class="pbar-pct">✅ Done</span></div>
+            <div class="pbar-wrap"><span class="pbar-label" style="min-width:180px">Seed data &amp; demo script</span><div class="pbar-track"><div class="pbar-fill" style="width:100%"></div></div><span class="pbar-pct">✅ Done</span></div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card accent-green">
+            <h4>Future Scope (Post GA)</h4>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">
+              <span class="badge badge-blue">P1: E-signature (21 CFR Part 11)</span>
+              <span class="badge badge-indigo">P1: Developer Portal (Stoplight)</span>
+              <span class="badge badge-teal">P2: ClickHouse OLAP Analytics</span>
+              <span class="badge badge-green">P2: ML Risk Scoring (MLflow)</span>
+              <span class="badge badge-high" style="background:#ffedd5;color:#9a3412">P2: Cross-tenant benchmarks</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 16 — KEY CAPABILITIES SUMMARY
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s16">
+    <div class="slide-header">
+      <h2>✨ Key Capabilities at a Glance</h2>
+      <p>Everything the platform delivers out of the box</p>
+    </div>
+    <div class="slide-body">
+      <div class="cols">
+        <div class="col">
+          <div class="card accent-blue">
+            <h4>📊 Data &amp; Intelligence</h4>
+            <ul class="check-list">
+              <li>Multi-source data ingestion (REST + CSV) from any LMS/HRIS</li>
+              <li>Curated learning profile: attendance %, scores, trends, milestones</li>
+              <li>Configurable JSON rule engine — 5 to unlimited rules by plan</li>
+              <li>4-level risk classification with weighted scoring</li>
+              <li>CDC-fed reporting read model — always fresh, zero polling</li>
+            </ul>
+          </div>
+          <div class="card accent-teal">
+            <h4>🔁 Workflow Automation</h4>
+            <ul class="check-list">
+              <li>Auto-recommended interventions on risk detection</li>
+              <li>Approval workflow with 48h SLA enforcement</li>
+              <li>Session logging &amp; outcome measurement</li>
+              <li>Temporal durable sagas: provisioning, plan upgrade, erasure</li>
+              <li>Automated escalation on SLA breach</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card accent-indigo">
+            <h4>🔒 Compliance &amp; Privacy</h4>
+            <ul class="check-list">
+              <li>GDPR Art.22 human-review gate on automated profiling</li>
+              <li>Per-purpose consent management with full audit history</li>
+              <li>Right-to-erasure saga — 72hr target, signed certificate</li>
+              <li>Pseudonymisation in reports for opted-out employees</li>
+              <li>Immutable hash-chained audit log (S3 Object Lock)</li>
+            </ul>
+          </div>
+          <div class="card accent-green">
+            <h4>🏢 Multi-Tenancy &amp; Scale</h4>
+            <ul class="check-list">
+              <li>Row-level / schema / dedicated DB isolation by plan</li>
+              <li>Automated tenant onboarding &lt; 5 minutes</li>
+              <li>Per-tenant KMS encryption keys (Vault + AWS KMS)</li>
+              <li>Data residency pinning (EU: eu-west-1, India: ap-south-1)</li>
+              <li>Feature flags per tenant (Unleash) + rate limiting</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 17 — DEMO START GUIDE
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s17">
+    <div class="slide-header">
+      <h2>🚀 Running the POC Demo — Quick Start</h2>
+      <p>Everything you need to run the full stack locally in 3 steps</p>
+    </div>
+    <div class="slide-body">
+      <div class="cols">
+        <div class="col">
+          <div class="card accent-blue">
+            <h4>Step 1 — Start the Backend Stack</h4>
+            <pre style="background:#0f172a;color:#93c5fd;padding:12px;border-radius:8px;font-size:.75rem;line-height:1.6">cd CLP/backend/infra
+docker compose up -d --build
+# Wait for all 6 services to report UP
+# Health: localhost:808{1..6}/actuator/health</pre>
+          </div>
+          <div class="card accent-teal">
+            <h4>Step 2 — Seed Demo Data</h4>
+            <pre style="background:#0f172a;color:#6ee7b7;padding:12px;border-radius:8px;font-size:.75rem;line-height:1.6">cd CLP/backend
+node infra/seed.mjs
+# Creates employees + ingest batches
+# for tenant: tenant_acme_corp</pre>
+          </div>
+          <div class="card accent-green">
+            <h4>Step 3 — Start the Frontend</h4>
+            <pre style="background:#0f172a;color:#bbf7d0;padding:12px;border-radius:8px;font-size:.75rem;line-height:1.6">cd CLP/ld-insights
+npm install
+npm run dev
+# Open http://localhost:5173
+# Login: Acme Corp + LD_ADMIN</pre>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card accent-indigo">
+            <h4>Frontend Pages Available</h4>
+            <table>
+              <thead><tr><th>Page</th><th>URL</th></tr></thead>
+              <tbody>
+                <tr><td>📊 Dashboard</td><td>/dashboard</td></tr>
+                <tr><td>⚠️ At-Risk Monitor</td><td>/at-risk</td></tr>
+                <tr><td>👤 Employee Profile</td><td>/employees/:id</td></tr>
+                <tr><td>🎯 Interventions</td><td>/interventions</td></tr>
+                <tr><td>📋 Session Planner</td><td>/sessions</td></tr>
+                <tr><td>📊 Reporting</td><td>/reporting</td></tr>
+                <tr><td>⚙️ Rules Management</td><td>/rules</td></tr>
+                <tr><td>🔒 Settings / Consent</td><td>/settings</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card" style="background:#fef9c3;border:1px solid #fde68a;margin-top:4px">
+            <h4 style="color:#854d0e">💡 Demo Tip</h4>
+            <p style="font-size:.76rem;color:#78350f">Use the top-right tenant switcher to show data isolation between <strong>Acme Corp</strong> (seeded) and <strong>Globex Ltd</strong> (empty). This proves multi-tenancy in 10 seconds.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 18 — CLOSING / Q&A
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s18">
+    <div style="font-size:3.5rem;margin-bottom:16px">🎯</div>
+    <h2>Thank You &amp; <span>Questions?</span></h2>
+    <p>LearnTrack CLP — Turning fragmented L&amp;D data into proactive, compliant, measurable action.<br/>The POC is live. All architecture patterns are proven. Ready for Phase 1.</p>
+    <div class="contact-grid">
+      <div class="contact-box">
+        <h6>Platform</h6>
+        LearnTrack CLP v2.0<br/>Multi-tenant SaaS
+      </div>
+      <div class="contact-box">
+        <h6>POC Status</h6>
+        6 Services Live<br/>Docker · React · Kafka
+      </div>
+      <div class="contact-box">
+        <h6>Architecture</h6>
+        <code>architecture/</code> directory<br/>11 detailed documents
+      </div>
+      <div class="contact-box">
+        <h6>Next Step</h6>
+        SME Review<br/>Phase 1 Kickoff
+      </div>
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- ══════════════════════════════════════════
+     CONTROLS
+══════════════════════════════════════════ -->
+<div id="controls">
+  <button class="ctrl-btn" id="prevBtn" onclick="navigate(-1)" disabled>← Prev</button>
+  <span id="slide-counter">1 / 18</span>
+  <button class="ctrl-btn" id="nextBtn" onclick="navigate(1)">Next →</button>
+</div>
+<div id="progress-strip"><div id="progress-fill" style="width:5.6%"></div></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total   = slides.length;
+  let current   = 0;
+
+  function navigate(dir) {
+    const next = current + dir;
+    if (next < 0 || next >= total) return;
+
+    slides[current].classList.remove('active','enter');
+    slides[current].classList.add('exit');
+    setTimeout(() => { slides[current].classList.remove('exit'); }, 350);
+
+    current = next;
+    slides[current].classList.add('active','enter');
+    setTimeout(() => { slides[current].classList.remove('enter'); }, 350);
+
+    document.getElementById('slide-counter').textContent = (current+1) + ' / ' + total;
+    document.getElementById('prevBtn').disabled = current === 0;
+    document.getElementById('nextBtn').disabled = current === total - 1;
+    document.getElementById('progress-fill').style.width = (((current+1)/total)*100).toFixed(1) + '%';
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown')  navigate(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')    navigate(-1);
+  });
+</script>
+</body>
+</html>
