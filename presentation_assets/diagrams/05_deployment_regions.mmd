@@ -1,0 +1,28 @@
+flowchart TB
+    DNS["Route 53 Global DNS"] --> CDN["CloudFront + WAF"] --> GW["Kong Gateway"]
+
+    subgraph US["us-east-1 Primary"]
+        US_EKS["EKS Cluster\nPlatform + Shared + Enterprise"]
+        US_MSK["Amazon MSK"]
+        US_RDS["RDS PostgreSQL Multi-AZ"]
+    end
+
+    subgraph EU["eu-west-1 EU Tenants"]
+        EU_SVC["All services replicated"]
+        EU_DB["EU data residency\nGDPR enforced"]
+    end
+
+    subgraph IN["ap-south-1 India Tenants"]
+        IN_SVC["All services replicated"]
+        IN_DB["India data residency\nDPDP enforced"]
+    end
+
+    subgraph DR["us-west-2 DR Standby"]
+        DR_EKS["Warm standby EKS"]
+        DR_DB["Cross-region read replica"]
+    end
+
+    GW --> US
+    US -.->|"No EU/India replication"| EU
+    US -.-> IN
+    US --> DR

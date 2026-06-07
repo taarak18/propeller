@@ -1,0 +1,23 @@
+sequenceDiagram
+    actor Emp as Employee
+    participant CON as Consent Service
+    participant TEMP as Temporal
+    participant PROF as Profile Service
+    participant RISK as Risk Engine
+    participant INT as Intervention
+    participant RPT as Reporting
+    participant AUD as Audit Service
+    participant S3 as S3 Storage
+
+    Emp->>CON: POST erasure-request
+    CON->>TEMP: Start ErasureWorkflow
+    CON-->>Emp: 202 Accepted — target 72h
+
+    TEMP->>PROF: Anonymise PII
+    TEMP->>RISK: Pseudonymise risk data
+    TEMP->>INT: Anonymise trainer notes
+    TEMP->>RPT: Redact from reports
+    TEMP->>AUD: Record erasure event
+    TEMP->>S3: Generate deletion certificate
+    TEMP->>CON: status = COMPLETED
+    CON-->>Emp: Certificate download link

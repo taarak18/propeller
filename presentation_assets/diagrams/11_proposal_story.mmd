@@ -1,0 +1,24 @@
+flowchart TB
+    subgraph WHY["Business Layer"]
+        PROB["Fragmented L&D data\nReactive compliance\nManual reporting"]
+        VAL["Proactive at-risk detection\nTracked interventions\nAudit-ready reports"]
+    end
+
+    subgraph HOW["Platform Layer — Production v2.0"]
+        EDGE["Edge: CloudFront · WAF · Kong Gateway"]
+        BFF["BFF: Web + Mobile API aggregation"]
+        PLAT["Platform: Auth · Tenant Mgmt · Temporal · Notification · Audit · Consent"]
+        DOM["Domain: Ingest · Profile · Risk · Rules · Intervention · Reporting"]
+        MSG["Kafka + Outbox/CDC"]
+    end
+
+    subgraph PROOF["Validation Layer — POC Live Today"]
+        POC["6 Services · Kafka · React UI\nEnd-to-end value chain proven"]
+    end
+
+    PROB --> HOW
+    HOW --> VAL
+    POC -.->|"de-risks delivery"| DOM
+
+    style PROOF fill:#059669,color:#fff
+    style VAL fill:#1d4ed8,color:#fff

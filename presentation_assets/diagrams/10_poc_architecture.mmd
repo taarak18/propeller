@@ -1,0 +1,24 @@
+flowchart TB
+    FE["React Frontend\nld-insights app\nlocalhost:5173"]
+
+    subgraph Kafka["Apache Kafka Event Bus"]
+        K["Tenant-Scoped Topics"]
+    end
+
+    subgraph Services["POC — 6 Microservices"]
+        ING["Ingestion :8081"]
+        PROF["Profile :8082"]
+        RISK["Risk Engine :8083"]
+        INT["Intervention :8084"]
+        CON["Consent :8085"]
+        RPT["Reporting :8086"]
+    end
+
+    subgraph Infra["Infrastructure"]
+        PG["PostgreSQL\nschema-per-service"]
+        RD["Redis Cache"]
+    end
+
+    FE --> Services
+    ING & PROF & RISK & INT & CON & RPT --> K
+    Services --> PG & RD

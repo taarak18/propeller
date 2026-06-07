@@ -1,0 +1,18 @@
+flowchart LR
+    A["External\nLMS / HRIS"] -->|"REST + Idempotency-Key"| B["Ingestion\nRaw staging"]
+    B -->|"data.ingested"| C["Profile\nCurated metrics"]
+    C -->|"profile.updated"| D["Risk Engine\nRules + review gate"]
+    D -->|"risk.detected"| E["Intervention\nLifecycle + SLA"]
+    D --> F["Reporting\nLive KPIs"]
+    E --> F
+    G["Consent\nOpt-out"] -.->|"suppresses"| D
+    F --> H["L&D Dashboards\nCompliance exports"]
+
+    style A fill:#64748b,color:#fff
+    style B fill:#1d4ed8,color:#fff
+    style C fill:#059669,color:#fff
+    style D fill:#d97706,color:#fff
+    style E fill:#7c3aed,color:#fff
+    style F fill:#0891b2,color:#fff
+    style G fill:#dc2626,color:#fff
+    style H fill:#1e3a5f,color:#fff

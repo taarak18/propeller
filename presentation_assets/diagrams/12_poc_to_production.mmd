@@ -1,0 +1,29 @@
+flowchart LR
+    subgraph PROD["Production Target — 11 Services"]
+        direction TB
+        P1["Platform: Auth · TMS · Notification · Audit"]
+        P2["Domain: Ingest · Profile · Risk · Rules · Int · Report · Consent"]
+        P3["Infra: Kong · Temporal · Debezium · Istio · Vault"]
+    end
+
+    subgraph POC["POC Validated — 6 Services"]
+        direction TB
+        C1["Ingestion :8081"]
+        C2["Profile :8082"]
+        C3["Risk+Rules :8083"]
+        C4["Intervention :8084"]
+        C5["Consent :8085"]
+        C6["Reporting :8086"]
+    end
+
+    C1 -->|"proven"| P2
+    C2 -->|"proven"| P2
+    C3 -->|"proven"| P2
+    C4 -->|"proven"| P2
+    C5 -->|"proven"| P2
+    C6 -->|"proven"| P2
+
+    P3 -->|"Phase 1-2 build"| PROD
+
+    style POC fill:#ecfdf5,stroke:#059669
+    style PROD fill:#eff6ff,stroke:#1d4ed8

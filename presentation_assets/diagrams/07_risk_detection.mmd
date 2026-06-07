@@ -1,0 +1,21 @@
+flowchart TD
+    A["profile.updated event"] --> B["Risk Engine Consumer"]
+    B --> C{"Opted out of\nrisk profiling?"}
+    C -->|Yes| S["Skip — log to audit"]
+    C -->|No| D["Load active rules\nRedis cache"]
+    D --> E["Execute rules on snapshot"]
+    E --> F{"Rules matched?"}
+    F -->|None| G["Risk = NONE"]
+    F -->|Yes| H["Compute weighted score"]
+    H --> I{"Classify"}
+    I -->|85+| J["CRITICAL"]
+    I -->|65-84| K["HIGH"]
+    I -->|40-64| L["MEDIUM"]
+    I -->|below 40| M["LOW"]
+    J & K --> N["Human-review gate\nrequiresHumanReview = true"]
+    N --> O["Notify Trainer + L&D Manager\nNOT employee yet"]
+    O --> P{"Review in 48h?"}
+    P -->|Confirmed| Q["Full notifications"]
+    P -->|Dismissed| R["False positive"]
+    P -->|Timeout| U["Escalate to L&D Admin"]
+    L & M --> V["Standard alert flow"]

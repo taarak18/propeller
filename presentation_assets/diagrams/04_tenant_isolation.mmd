@@ -1,0 +1,22 @@
+flowchart TB
+    GW["Kong API Gateway\nResolves tenant tier"]
+
+    subgraph Starter["Starter Tier"]
+        S1["Shared Namespace"]
+        S2["Shared DB + RLS\ntenant_id filter"]
+        S3["Shared Kafka\nfiltered by tenant_id"]
+    end
+
+    subgraph Pro["Pro Tier"]
+        P1["Shared Namespace"]
+        P2["Schema-per-tenant\ntenant_acme_corp"]
+        P3["Shared Kafka\npartitioned by tenant_id"]
+    end
+
+    subgraph Enterprise["Enterprise Tier"]
+        E1["Dedicated Namespace"]
+        E2["Dedicated PostgreSQL"]
+        E3["Dedicated Kafka topics"]
+    end
+
+    GW --> Starter & Pro & Enterprise

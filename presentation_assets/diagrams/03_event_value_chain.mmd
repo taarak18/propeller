@@ -1,0 +1,15 @@
+flowchart LR
+    A["LMS / HRIS\nTraining Data"] -->|"POST /ingest"| B["Ingestion\nValidate & Stage"]
+    B -->|"data.ingested"| C["Employee Profile\nAggregate Metrics"]
+    C -->|"profile.updated"| D["Risk Engine\nRun Rules"]
+    D -->|"risk.detected"| E["Intervention\nAuto-Recommend"]
+    E -->|"intervention.*"| F["Reporting\nCDC Aggregates"]
+    D --> G["Notification"]
+    D --> H["Audit"]
+
+    style A fill:#1e3a5f,color:#fff
+    style B fill:#1d4ed8,color:#fff
+    style C fill:#059669,color:#fff
+    style D fill:#d97706,color:#fff
+    style E fill:#7c3aed,color:#fff
+    style F fill:#0891b2,color:#fff

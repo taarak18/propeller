@@ -1,0 +1,11 @@
+stateDiagram-v2
+    [*] --> Recommended: risk.detected
+    Recommended --> PendingApproval: Trainer submits
+    PendingApproval --> Active: L&D Manager approves
+    PendingApproval --> Rejected: L&D Manager rejects
+    Active --> Completed: All sessions done
+    Active --> Cancelled: Admin cancels
+    Completed --> Evaluated: Outcomes recorded
+    Evaluated --> [*]
+    PendingApproval --> Escalated: SLA breach 48h
+    Escalated --> Active: Manager acknowledges

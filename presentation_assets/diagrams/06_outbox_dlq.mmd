@@ -1,0 +1,25 @@
+sequenceDiagram
+    participant SVC as Domain Service
+    participant DB as Service DB
+    participant OBX as Outbox Table
+    participant DBZ as Debezium CDC
+    participant K as Kafka
+    participant CON as Consumer
+    participant RT as Retry Topic
+    participant DLQ as Dead Letter Queue
+
+    SVC->>DB: BEGIN TRANSACTION
+    SVC->>DB: Write domain entity
+    SVC->>OBX: INSERT outbox event
+    SVC->>DB: COMMIT
+    DBZ->>OBX: Poll committed rows
+    DBZ->>K: Publish exactly-once
+    K->>CON: Deliver event
+    alt Success
+        CON->>DB: Idempotent upsert
+    else Transient failure
+        CON->>RT: Republish with backoff
+    else Poison message
+        CON->>DLQ: Park after 3 attempts
+        Note over DLQ: PagerDuty alert within 5 min
+    end

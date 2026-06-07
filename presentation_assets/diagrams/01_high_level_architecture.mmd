@@ -1,0 +1,59 @@
+flowchart TB
+    subgraph Clients["Client Layer"]
+        WEB["Web App\nReact 18"]
+        MOB["Mobile PWA"]
+        EXT["LMS / HRIS APIs"]
+    end
+
+    subgraph Edge["Edge Layer"]
+        CDN["CloudFront CDN"]
+        WAF["AWS WAF"]
+        GW["Kong API Gateway\nJWKS JWT Validation"]
+    end
+
+    subgraph BFF["BFF Layer"]
+        BFFW["Web BFF"]
+        BFFM["Mobile BFF"]
+    end
+
+    subgraph Platform["Platform Services"]
+        AUTH["Auth Service"]
+        TMS["Tenant Management"]
+        NOTIF["Notification"]
+        AUDIT["Audit Service"]
+        CONSENT["Consent Service"]
+        TEMP["Temporal Server"]
+    end
+
+    subgraph Domain["Domain Microservices"]
+        ING["Ingestion"]
+        PROF["Employee Profile"]
+        RISK["Risk Engine"]
+        RULE["Rule Management"]
+        INT["Intervention"]
+        RPT["Reporting"]
+    end
+
+    subgraph Messaging["Event Bus"]
+        KAFKA["Apache Kafka / MSK"]
+        OBX["Outbox + Debezium CDC"]
+    end
+
+    subgraph Data["Data Layer"]
+        PG["PostgreSQL per service"]
+        REDIS["Redis Cache"]
+        S3["S3 Object Lock"]
+    end
+
+    WEB & MOB --> CDN --> WAF --> GW
+    EXT --> GW
+    GW --> BFFW & BFFM
+    GW --> Platform
+    GW --> Domain
+    BFFW & BFFM --> Domain
+    Domain --> OBX --> KAFKA
+    KAFKA --> Domain
+    Platform --> PG
+    Domain --> PG & REDIS
+    RPT & AUDIT --> S3
+    TEMP --> TMS & INT & CONSENT

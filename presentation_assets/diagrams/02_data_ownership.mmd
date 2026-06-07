@@ -1,0 +1,22 @@
+flowchart LR
+    subgraph Sources["Source Systems"]
+        LMS["LMS / xAPI"]
+        HRIS["HRIS"]
+        CSV["CSV Upload"]
+    end
+
+    subgraph IngestionDb["ingestion-db OWNS"]
+        STAGE["Raw Staging Tables\nattendance · assessments · milestones\ningestion_jobs"]
+    end
+
+    subgraph ProfileDb["profile-db OWNS"]
+        CURATED["Curated Read Model\ntraining_attendance · assessment_records\ncompetency_milestones · snapshots"]
+    end
+
+    subgraph Downstream["Downstream"]
+        RISK["Risk Engine"]
+    end
+
+    Sources -->|"Idempotent REST"| IngestionDb
+    IngestionDb -->|"outbox: data.ingested"| ProfileDb
+    ProfileDb -->|"outbox: profile.updated"| RISK
